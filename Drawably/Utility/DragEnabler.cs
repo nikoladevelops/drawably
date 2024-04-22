@@ -50,6 +50,8 @@ namespace Drawably.Utility
         {
             lastMouseLocation = e.Location;
             isDragging = true;
+            draggableControls[(Control)sender].BringToFront();
+
         }
         /// <summary>
         /// When the mouse hovers the controlToTouch and the left mouse stops being held pressed
@@ -71,7 +73,7 @@ namespace Drawably.Utility
             {
                 return;
             }
-            int offsetX = e.X - lastMouseLocation.X;
+            int offsetX = e.Location.X - lastMouseLocation.X;
             int offsetY = e.Y - lastMouseLocation.Y;
 
             Control currentlyDraggedControl = draggableControls[(Control)sender];

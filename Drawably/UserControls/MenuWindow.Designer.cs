@@ -30,7 +30,8 @@
         {
             dragPanel = new Panel();
             topPanel = new Panel();
-            label1 = new Label();
+            closeButton = new UserControls.HoverButton();
+            menuTextLabel = new Label();
             contentPanel = new Panel();
             dragPanel.SuspendLayout();
             topPanel.SuspendLayout();
@@ -46,28 +47,46 @@
             dragPanel.Name = "dragPanel";
             dragPanel.Size = new Size(504, 321);
             dragPanel.TabIndex = 1;
-            dragPanel.Paint += dragPanel_Paint;
             // 
             // topPanel
             // 
-            topPanel.BackColor = Color.Gainsboro;
-            topPanel.Controls.Add(label1);
+            topPanel.BackColor = Color.Black;
+            topPanel.Controls.Add(closeButton);
+            topPanel.Controls.Add(menuTextLabel);
             topPanel.Dock = DockStyle.Top;
             topPanel.Location = new Point(0, 0);
             topPanel.Name = "topPanel";
-            topPanel.Size = new Size(504, 22);
+            topPanel.Size = new Size(504, 23);
             topPanel.TabIndex = 3;
             // 
-            // label1
+            // closeButton
             // 
-            label1.BackColor = Color.LightCoral;
-            label1.Dock = DockStyle.Right;
-            label1.Location = new Point(479, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(25, 22);
-            label1.TabIndex = 2;
-            label1.Text = "X";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            closeButton.BackColor = Color.LightCoral;
+            closeButton.Dock = DockStyle.Right;
+            closeButton.FlatAppearance.BorderSize = 0;
+            closeButton.FlatStyle = FlatStyle.Flat;
+            closeButton.IsMouseEnterColorEnabled = false;
+            closeButton.Location = new Point(478, 0);
+            closeButton.Margin = new Padding(0);
+            closeButton.MouseEnterColor = Color.Salmon;
+            closeButton.Name = "closeButton";
+            closeButton.Size = new Size(26, 23);
+            closeButton.TabIndex = 4;
+            closeButton.Text = "X";
+            closeButton.UseVisualStyleBackColor = false;
+            // 
+            // menuTextLabel
+            // 
+            menuTextLabel.AutoEllipsis = true;
+            menuTextLabel.Dock = DockStyle.Left;
+            menuTextLabel.ForeColor = SystemColors.Control;
+            menuTextLabel.Location = new Point(0, 0);
+            menuTextLabel.Name = "menuTextLabel";
+            menuTextLabel.Padding = new Padding(10, 1, 0, 0);
+            menuTextLabel.Size = new Size(143, 23);
+            menuTextLabel.TabIndex = 3;
+            menuTextLabel.Text = "MenuTextGoesHere";
+            menuTextLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // contentPanel
             // 
@@ -95,8 +114,9 @@
         #endregion
 
         private Panel dragPanel;
-        private Label label1;
         private Panel contentPanel;
         private Panel topPanel;
+        private Label menuTextLabel;
+        private UserControls.HoverButton closeButton;
     }
 }

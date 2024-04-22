@@ -5,7 +5,6 @@ namespace Drawably
         public MainForm()
         {
             InitializeComponent();
-            //dragPanel.Draggable(true);
 
         }
 
