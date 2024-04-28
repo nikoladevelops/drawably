@@ -65,9 +65,11 @@
             closeButton.Dock = DockStyle.Right;
             closeButton.FlatAppearance.BorderSize = 0;
             closeButton.FlatStyle = FlatStyle.Flat;
-            closeButton.IsMouseEnterColorEnabled = false;
+            closeButton.IsMouseEnterBorderColorEnabled = false;
+            closeButton.IsMouseEnterColorEnabled = true;
             closeButton.Location = new Point(478, 0);
             closeButton.Margin = new Padding(0);
+            closeButton.MouseEnterBorderColor = Color.Empty;
             closeButton.MouseEnterColor = Color.Salmon;
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(26, 23);

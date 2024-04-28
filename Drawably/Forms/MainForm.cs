@@ -13,12 +13,17 @@ namespace Drawably
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void tesetToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void test2_Load(object sender, EventArgs e)
+        private void colorsMenuWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void testingToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
