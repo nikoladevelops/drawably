@@ -6,13 +6,17 @@ namespace Drawably.UserControls
     {
         private bool firstTimePainting = true;
 
-        private Color originalColorCached;
         private Color mouseEnterColor;
 
         private Color originalBorderColorCached;
         private Color mouseEnterBorderColor;
 
-        // Background color
+        [
+            Browsable(false) // I don't want it to be visible in the designer, because this property is rarely changed
+        ]
+        public Color OriginalColorCached { get; set; } // I want it to be accessed from outside
+
+        // Background color when mouse enters
         [
            Category("All Custom Props"),
            Description("Enables/Disables whether the MouseEnterColor is used")
@@ -32,7 +36,7 @@ namespace Drawably.UserControls
             }
         }
 
-        // Border
+        // Border when mouse enters
         [
            Category("All Custom Props"),
            Description("Enables/Disables whether the MouseEnterBorderColor is used")
@@ -62,7 +66,7 @@ namespace Drawably.UserControls
         {
             if (firstTimePainting) 
             {
-                this.originalColorCached = this.BackColor;
+                this.OriginalColorCached = this.BackColor;
                 this.originalBorderColorCached = this.FlatAppearance.BorderColor;
                 firstTimePainting = false;
             }
@@ -89,7 +93,7 @@ namespace Drawably.UserControls
         {
             if (IsMouseEnterColorEnabled) 
             {
-                this.BackColor = originalColorCached;
+                this.BackColor = OriginalColorCached;
             }
 
             if (IsMouseEnterBorderColorEnabled) 
