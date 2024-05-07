@@ -10,27 +10,18 @@ namespace Drawably
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            this.KeyPreview = true; // Makes it possible to process keydown events no matter which control is focused, basically the form processes the events first / my other choice was using win32 API to set up hotkeys, but decided that this approach is easier
         }
 
-        private void tesetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MainForm_MouseWheel(object? sender, MouseEventArgs e)
         {
-
         }
+
 
         private void colorsMenuWindow_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void testingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

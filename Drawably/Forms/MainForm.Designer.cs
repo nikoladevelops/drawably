@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             layersMenuWindow = new MenuWindow();
             colorsMenuWindow = new MenuWindow();
             toolsMenuWindow = new MenuWindow();
@@ -40,10 +41,14 @@
             dxfhdsafhToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             adsfhfdshToolStripMenuItem = new ToolStripMenuItem();
+            canvasContainer = new UserControls.CanvasContainer();
+            canvas = new PictureBox();
             topMainPanel.SuspendLayout();
             topRightPanel.SuspendLayout();
             topLeftPanel.SuspendLayout();
             customMenuStrip1.SuspendLayout();
+            canvasContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
             // 
             // layersMenuWindow
@@ -52,7 +57,6 @@
             layersMenuWindow.Location = new Point(1119, 427);
             layersMenuWindow.MenuText = "Layers";
             layersMenuWindow.Name = "layersMenuWindow";
-            layersMenuWindow.OnCloseBtnClicked = null;
             layersMenuWindow.Size = new Size(162, 179);
             layersMenuWindow.TabIndex = 2;
             // 
@@ -62,7 +66,6 @@
             colorsMenuWindow.Location = new Point(12, 397);
             colorsMenuWindow.MenuText = "Colors";
             colorsMenuWindow.Name = "colorsMenuWindow";
-            colorsMenuWindow.OnCloseBtnClicked = null;
             colorsMenuWindow.Size = new Size(168, 220);
             colorsMenuWindow.TabIndex = 3;
             colorsMenuWindow.Load += colorsMenuWindow_Load;
@@ -73,7 +76,6 @@
             toolsMenuWindow.Location = new Point(12, 56);
             toolsMenuWindow.MenuText = "Tools";
             toolsMenuWindow.Name = "toolsMenuWindow";
-            toolsMenuWindow.OnCloseBtnClicked = null;
             toolsMenuWindow.Size = new Size(75, 267);
             toolsMenuWindow.TabIndex = 4;
             // 
@@ -156,6 +158,39 @@
             adsfhfdshToolStripMenuItem.Size = new Size(114, 22);
             adsfhfdshToolStripMenuItem.Text = "Save As";
             // 
+            // canvasContainer
+            // 
+            canvasContainer.AutoScroll = true;
+            canvasContainer.AutoScrollMinSize = new Size(2200, 2500);
+            canvasContainer.BackColor = SystemColors.AppWorkspace;
+            canvasContainer.BackgroundImageLayout = ImageLayout.Zoom;
+            canvasContainer.Canvas = canvas;
+            canvasContainer.ColumnCount = 1;
+            canvasContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            canvasContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            canvasContainer.Controls.Add(canvas, 0, 0);
+            canvasContainer.Location = new Point(0, 0);
+            canvasContainer.Name = "canvasContainer";
+            canvasContainer.RowCount = 1;
+            canvasContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            canvasContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            canvasContainer.Size = new Size(1302, 629);
+            canvasContainer.TabIndex = 17;
+            // 
+            // canvas
+            // 
+            canvas.Anchor = AnchorStyles.None;
+            canvas.BackColor = SystemColors.ActiveCaption;
+            canvas.Image = Properties.Resources.hammer;
+            canvas.Location = new Point(901, 1157);
+            canvas.MaximumSize = new Size(1508, 1508);
+            canvas.MinimumSize = new Size(32, 32);
+            canvas.Name = "canvas";
+            canvas.Size = new Size(397, 185);
+            canvas.SizeMode = PictureBoxSizeMode.Zoom;
+            canvas.TabIndex = 16;
+            canvas.TabStop = false;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -165,6 +200,8 @@
             Controls.Add(toolsMenuWindow);
             Controls.Add(layersMenuWindow);
             Controls.Add(colorsMenuWindow);
+            Controls.Add(canvasContainer);
+            KeyPreview = true;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Drawably";
@@ -175,6 +212,8 @@
             topLeftPanel.PerformLayout();
             customMenuStrip1.ResumeLayout(false);
             customMenuStrip1.PerformLayout();
+            canvasContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)canvas).EndInit();
             ResumeLayout(false);
         }
 
@@ -191,5 +230,7 @@
         private ToolStripMenuItem adsfhfdshToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem1;
         private UserControls.CustomMenuStrip.MainToolsPanel mainToolsPanel1;
+        private UserControls.CanvasContainer canvasContainer;
+        private PictureBox canvas;
     }
 }
