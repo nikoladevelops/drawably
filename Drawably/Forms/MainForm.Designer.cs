@@ -169,6 +169,7 @@
             canvasContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             canvasContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             canvasContainer.Controls.Add(canvas, 0, 0);
+            canvasContainer.Dock = DockStyle.Fill;
             canvasContainer.Location = new Point(0, 0);
             canvasContainer.Name = "canvasContainer";
             canvasContainer.RowCount = 1;

@@ -10,7 +10,8 @@ namespace Drawably
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.KeyPreview = true; // Makes it possible to process keydown events no matter which control is focused, basically the form processes the events first / my other choice was using win32 API to set up hotkeys, but decided that this approach is easier
+            this.WindowState = FormWindowState.Maximized;
+            this.canvasContainer.ScrollToMiddle();
         }
 
         private void MainForm_MouseWheel(object? sender, MouseEventArgs e)
