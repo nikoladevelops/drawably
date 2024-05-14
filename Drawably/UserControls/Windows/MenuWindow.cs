@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Drawably
+namespace Drawably.UserControls.Windows
 {
     public partial class MenuWindow : UserControl
     {

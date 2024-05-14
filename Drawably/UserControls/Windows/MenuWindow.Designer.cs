@@ -1,4 +1,4 @@
-﻿namespace Drawably
+﻿namespace Drawably.UserControls.Windows
 {
     partial class MenuWindow
     {
@@ -72,6 +72,7 @@
             closeButton.MouseEnterBorderColor = Color.Empty;
             closeButton.MouseEnterColor = Color.Salmon;
             closeButton.Name = "closeButton";
+            closeButton.OriginalColorCached = Color.LightCoral;
             closeButton.Size = new Size(26, 23);
             closeButton.TabIndex = 4;
             closeButton.Text = "X";
@@ -116,9 +117,9 @@
         #endregion
 
         private Panel dragPanel;
-        private Panel contentPanel;
-        private Panel topPanel;
-        private Label menuTextLabel;
-        private UserControls.HoverButton closeButton;
+        protected Panel contentPanel;
+        protected Panel topPanel;
+        protected Label menuTextLabel;
+        protected UserControls.HoverButton closeButton;
     }
 }

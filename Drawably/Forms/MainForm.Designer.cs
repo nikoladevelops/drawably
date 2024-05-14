@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            layersMenuWindow = new MenuWindow();
-            colorsMenuWindow = new MenuWindow();
-            toolsMenuWindow = new MenuWindow();
             topMainPanel = new Panel();
             topRightPanel = new Panel();
             mainToolsPanel1 = new UserControls.CustomMenuStrip.MainToolsPanel();
@@ -41,43 +37,18 @@
             dxfhdsafhToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             adsfhfdshToolStripMenuItem = new ToolStripMenuItem();
-            canvasContainer = new UserControls.CanvasContainer();
             canvas = new PictureBox();
+            canvasContainer = new UserControls.CanvasContainer();
+            colorsWindow1 = new UserControls.Windows.ColorsWindow();
+            toolsWindow1 = new UserControls.Windows.ToolsWindow();
+            layersWindow1 = new UserControls.Windows.LayersWindow();
             topMainPanel.SuspendLayout();
             topRightPanel.SuspendLayout();
             topLeftPanel.SuspendLayout();
             customMenuStrip1.SuspendLayout();
-            canvasContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
+            canvasContainer.SuspendLayout();
             SuspendLayout();
-            // 
-            // layersMenuWindow
-            // 
-            layersMenuWindow.BackColor = SystemColors.ActiveCaption;
-            layersMenuWindow.Location = new Point(1119, 427);
-            layersMenuWindow.MenuText = "Layers";
-            layersMenuWindow.Name = "layersMenuWindow";
-            layersMenuWindow.Size = new Size(162, 179);
-            layersMenuWindow.TabIndex = 2;
-            // 
-            // colorsMenuWindow
-            // 
-            colorsMenuWindow.BackColor = SystemColors.ActiveCaption;
-            colorsMenuWindow.Location = new Point(12, 397);
-            colorsMenuWindow.MenuText = "Colors";
-            colorsMenuWindow.Name = "colorsMenuWindow";
-            colorsMenuWindow.Size = new Size(168, 220);
-            colorsMenuWindow.TabIndex = 3;
-            colorsMenuWindow.Load += colorsMenuWindow_Load;
-            // 
-            // toolsMenuWindow
-            // 
-            toolsMenuWindow.BackColor = SystemColors.ActiveCaption;
-            toolsMenuWindow.Location = new Point(12, 56);
-            toolsMenuWindow.MenuText = "Tools";
-            toolsMenuWindow.Name = "toolsMenuWindow";
-            toolsMenuWindow.Size = new Size(75, 267);
-            toolsMenuWindow.TabIndex = 4;
             // 
             // topMainPanel
             // 
@@ -101,13 +72,13 @@
             // 
             // mainToolsPanel1
             // 
-            mainToolsPanel1.ColorsWindow = colorsMenuWindow;
-            mainToolsPanel1.LayersWindow = layersMenuWindow;
+            mainToolsPanel1.ColorsWindow = colorsWindow1;
+            mainToolsPanel1.LayersWindow = layersWindow1;
             mainToolsPanel1.Location = new Point(3, 0);
             mainToolsPanel1.Name = "mainToolsPanel1";
             mainToolsPanel1.Size = new Size(95, 31);
             mainToolsPanel1.TabIndex = 14;
-            mainToolsPanel1.ToolsWindow = toolsMenuWindow;
+            mainToolsPanel1.ToolsWindow = toolsWindow1;
             // 
             // topLeftPanel
             // 
@@ -158,6 +129,20 @@
             adsfhfdshToolStripMenuItem.Size = new Size(114, 22);
             adsfhfdshToolStripMenuItem.Text = "Save As";
             // 
+            // canvas
+            // 
+            canvas.Anchor = AnchorStyles.None;
+            canvas.BackColor = SystemColors.ActiveCaption;
+            canvas.Image = Properties.Resources.hammer;
+            canvas.Location = new Point(901, 1157);
+            canvas.MaximumSize = new Size(1508, 1508);
+            canvas.MinimumSize = new Size(32, 32);
+            canvas.Name = "canvas";
+            canvas.Size = new Size(397, 185);
+            canvas.SizeMode = PictureBoxSizeMode.Zoom;
+            canvas.TabIndex = 16;
+            canvas.TabStop = false;
+            // 
             // canvasContainer
             // 
             canvasContainer.AutoScroll = true;
@@ -178,29 +163,45 @@
             canvasContainer.Size = new Size(1302, 629);
             canvasContainer.TabIndex = 17;
             // 
-            // canvas
+            // colorsWindow1
             // 
-            canvas.Anchor = AnchorStyles.None;
-            canvas.BackColor = SystemColors.ActiveCaption;
-            canvas.Image = Properties.Resources.hammer;
-            canvas.Location = new Point(901, 1157);
-            canvas.MaximumSize = new Size(1508, 1508);
-            canvas.MinimumSize = new Size(32, 32);
-            canvas.Name = "canvas";
-            canvas.Size = new Size(397, 185);
-            canvas.SizeMode = PictureBoxSizeMode.Zoom;
-            canvas.TabIndex = 16;
-            canvas.TabStop = false;
+            colorsWindow1.BackColor = SystemColors.ActiveCaption;
+            colorsWindow1.Location = new Point(526, 0);
+            colorsWindow1.MenuText = "Colors";
+            colorsWindow1.Name = "colorsWindow1";
+            colorsWindow1.OnCloseBtnClicked = null;
+            colorsWindow1.Size = new Size(168, 220);
+            colorsWindow1.TabIndex = 19;
+            // 
+            // toolsWindow1
+            // 
+            toolsWindow1.BackColor = SystemColors.ActiveCaption;
+            toolsWindow1.Location = new Point(814, 0);
+            toolsWindow1.MenuText = "Tools";
+            toolsWindow1.Name = "toolsWindow1";
+            toolsWindow1.OnCloseBtnClicked = null;
+            toolsWindow1.Size = new Size(71, 321);
+            toolsWindow1.TabIndex = 0;
+            // 
+            // layersWindow1
+            // 
+            layersWindow1.BackColor = SystemColors.ActiveCaption;
+            layersWindow1.Location = new Point(226, 0);
+            layersWindow1.MenuText = "Layers";
+            layersWindow1.Name = "layersWindow1";
+            layersWindow1.OnCloseBtnClicked = null;
+            layersWindow1.Size = new Size(162, 179);
+            layersWindow1.TabIndex = 20;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1302, 629);
+            Controls.Add(layersWindow1);
+            Controls.Add(toolsWindow1);
+            Controls.Add(colorsWindow1);
             Controls.Add(topMainPanel);
-            Controls.Add(toolsMenuWindow);
-            Controls.Add(layersMenuWindow);
-            Controls.Add(colorsMenuWindow);
             Controls.Add(canvasContainer);
             KeyPreview = true;
             Name = "MainForm";
@@ -213,15 +214,12 @@
             topLeftPanel.PerformLayout();
             customMenuStrip1.ResumeLayout(false);
             customMenuStrip1.PerformLayout();
-            canvasContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)canvas).EndInit();
+            canvasContainer.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-        private MenuWindow layersMenuWindow;
-        private MenuWindow colorsMenuWindow;
-        private MenuWindow toolsMenuWindow;
         private Panel topMainPanel;
         private Panel topRightPanel;
         private Panel topLeftPanel;
@@ -231,7 +229,13 @@
         private ToolStripMenuItem adsfhfdshToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem1;
         private UserControls.CustomMenuStrip.MainToolsPanel mainToolsPanel1;
-        private UserControls.CanvasContainer canvasContainer;
+        private UserControls.Windows.ToolsWindow toolsWindow;
         private PictureBox canvas;
+        private UserControls.CanvasContainer canvasContainer;
+        private UserControls.Windows.LayersWindow layersWindow;
+        private UserControls.Windows.ColorsWindow colorsWindow;
+        private UserControls.Windows.ColorsWindow colorsWindow1;
+        private UserControls.Windows.LayersWindow layersWindow1;
+        private UserControls.Windows.ToolsWindow toolsWindow1;
     }
 }

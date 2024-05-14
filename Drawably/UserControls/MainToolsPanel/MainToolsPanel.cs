@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Drawably.UserControls.Windows;
 using System.ComponentModel;
-using System.Data;
-using System.DirectoryServices.ActiveDirectory;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Drawably.UserControls.CustomMenuStrip
 {
