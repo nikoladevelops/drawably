@@ -28,9 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             topMainPanel = new Panel();
             topRightPanel = new Panel();
             mainToolsPanel1 = new UserControls.CustomMenuStrip.MainToolsPanel();
+            colorsWindow1 = new UserControls.Windows.ColorsWindow();
+            layersWindow1 = new UserControls.Windows.LayersWindow();
+            toolsWindow1 = new UserControls.Windows.ToolsWindow();
             topLeftPanel = new Panel();
             customMenuStrip1 = new UserControls.CustomMenuStrip.CustomMenuStrip();
             testingggToolStripMenuItem = new ToolStripMenuItem();
@@ -39,9 +43,6 @@
             adsfhfdshToolStripMenuItem = new ToolStripMenuItem();
             canvas = new PictureBox();
             canvasContainer = new UserControls.CanvasContainer();
-            colorsWindow1 = new UserControls.Windows.ColorsWindow();
-            toolsWindow1 = new UserControls.Windows.ToolsWindow();
-            layersWindow1 = new UserControls.Windows.LayersWindow();
             topMainPanel.SuspendLayout();
             topRightPanel.SuspendLayout();
             topLeftPanel.SuspendLayout();
@@ -79,6 +80,33 @@
             mainToolsPanel1.Size = new Size(95, 31);
             mainToolsPanel1.TabIndex = 14;
             mainToolsPanel1.ToolsWindow = toolsWindow1;
+            // 
+            // colorsWindow1
+            // 
+            colorsWindow1.BackColor = SystemColors.ActiveCaption;
+            colorsWindow1.Location = new Point(20, 370);
+            colorsWindow1.MenuText = "Colors";
+            colorsWindow1.Name = "colorsWindow1";
+            colorsWindow1.Size = new Size(168, 220);
+            colorsWindow1.TabIndex = 19;
+            // 
+            // layersWindow1
+            // 
+            layersWindow1.BackColor = SystemColors.ActiveCaption;
+            layersWindow1.Location = new Point(980, 400);
+            layersWindow1.MenuText = "Layers";
+            layersWindow1.Name = "layersWindow1";
+            layersWindow1.Size = new Size(162, 179);
+            layersWindow1.TabIndex = 20;
+            // 
+            // toolsWindow1
+            // 
+            toolsWindow1.BackColor = SystemColors.ActiveCaption;
+            toolsWindow1.Location = new Point(20, 35);
+            toolsWindow1.MenuText = "Tools";
+            toolsWindow1.Name = "toolsWindow1";
+            toolsWindow1.Size = new Size(71, 321);
+            toolsWindow1.TabIndex = 0;
             // 
             // topLeftPanel
             // 
@@ -132,8 +160,7 @@
             // canvas
             // 
             canvas.Anchor = AnchorStyles.None;
-            canvas.BackColor = SystemColors.ActiveCaption;
-            canvas.Image = Properties.Resources.hammer;
+            canvas.BackColor = SystemColors.Control;
             canvas.Location = new Point(901, 1157);
             canvas.MaximumSize = new Size(1508, 1508);
             canvas.MinimumSize = new Size(32, 32);
@@ -162,36 +189,6 @@
             canvasContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             canvasContainer.Size = new Size(1302, 629);
             canvasContainer.TabIndex = 17;
-            // 
-            // colorsWindow1
-            // 
-            colorsWindow1.BackColor = SystemColors.ActiveCaption;
-            colorsWindow1.Location = new Point(526, 0);
-            colorsWindow1.MenuText = "Colors";
-            colorsWindow1.Name = "colorsWindow1";
-            colorsWindow1.OnCloseBtnClicked = null;
-            colorsWindow1.Size = new Size(168, 220);
-            colorsWindow1.TabIndex = 19;
-            // 
-            // toolsWindow1
-            // 
-            toolsWindow1.BackColor = SystemColors.ActiveCaption;
-            toolsWindow1.Location = new Point(814, 0);
-            toolsWindow1.MenuText = "Tools";
-            toolsWindow1.Name = "toolsWindow1";
-            toolsWindow1.OnCloseBtnClicked = null;
-            toolsWindow1.Size = new Size(71, 321);
-            toolsWindow1.TabIndex = 0;
-            // 
-            // layersWindow1
-            // 
-            layersWindow1.BackColor = SystemColors.ActiveCaption;
-            layersWindow1.Location = new Point(226, 0);
-            layersWindow1.MenuText = "Layers";
-            layersWindow1.Name = "layersWindow1";
-            layersWindow1.OnCloseBtnClicked = null;
-            layersWindow1.Size = new Size(162, 179);
-            layersWindow1.TabIndex = 20;
             // 
             // MainForm
             // 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Drawably.UserControls
 {
@@ -20,6 +21,8 @@ namespace Drawably.UserControls
         // It's important to keep separate variables of type double for the width and height of the canvas. This is because when doing operations such as multiplication or division with a real number we get another real number. If I would've used the Canvas.Width and Canvas.Height to store the result of the operations, I would have data loss which brings bugs (it would work perfectly with int numbers but not so well with numbers such as 1.3 1.5 and so on..).
         private double canvasWidth;
         private double canvasHeight;
+
+        private Graphics g;
 
         [
            Category("All Custom Props"),
@@ -57,6 +60,25 @@ namespace Drawably.UserControls
             form.KeyPreview = true;
             form.KeyDown += Form_KeyDown;
             form.KeyUp += Form_KeyUp;
+
+
+            Bitmap bmp = new Bitmap(this.Canvas.Width, this.Canvas.Height);
+            g = Graphics.FromImage(bmp);
+            g.Clear(Color.Transparent);
+
+
+            this.Canvas.MouseClick += Canvas_MouseClick;
+
+        }
+
+        private void Canvas_MouseClick(object? sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Print<T>(T message) 
+        {
+            MessageBox.Show(message.ToString());
         }
 
         private void Form_KeyUp(object? sender, KeyEventArgs e)
