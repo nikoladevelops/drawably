@@ -19,6 +19,8 @@ namespace Drawably.UserControls
         private Size minimumZoomSize = new Size(32, 32);
         private Size maximumZoomSize = new Size(1508, 1508);
 
+        private Size originalSize;
+
         // It's important to keep separate variables of type double for the width and height of the canvas. This is because when doing operations such as multiplication or division with a real number we get another real number. If I would've used the Canvas.Width and Canvas.Height to store the result of the operations, I would have data loss which brings bugs (it would work perfectly with int numbers but not so well with numbers such as 1.3 1.5 and so on..).
         private double canvasWidth;
         private double canvasHeight;
@@ -71,6 +73,7 @@ namespace Drawably.UserControls
 
 
             this.CurrentTool = new PenTool();
+            originalSize = this.Canvas.Size;
             this.Canvas.MouseClick += Canvas_MouseClick;
 
 
@@ -80,7 +83,11 @@ namespace Drawably.UserControls
         {
             if (e.Button == MouseButtons.Left) 
             {
-                CurrentTool.OnMouseLeftClick(g, e.Location.X, e.Location.Y);
+                // Because the Canvas was resized, the click event coordinates don't match the coordinates of the Canvas.Image that is held internally
+                float newX = e.Location.X * (float)(originalSize.Width / canvasWidth);
+                float newY = e.Location.Y * (float)(originalSize.Height / canvasHeight);
+
+                CurrentTool.OnMouseLeftClick(g, newX, newY);
                 this.Canvas.Invalidate();
             }
         }
