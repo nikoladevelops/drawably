@@ -8,9 +8,13 @@ namespace Drawably.Tools
 {
     public interface IToolable
     {
-        void OnMouseLeftClick(Graphics g, float locationX, float locationY);
+        void OnMouseMove(float x, float y);
+        void OnMouseLeftClick(float x, float y);
 
-        void OnMouseRightClick(Graphics g, float locationX, float locationY);
+        void OnMouseRightClick(float x, float y);
+
+        void OnMouseDown(float x, float y);
+        void OnMouseUp(float x, float y);
 
     }
 }

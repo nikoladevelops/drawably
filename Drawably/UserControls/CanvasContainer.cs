@@ -14,7 +14,7 @@ namespace Drawably.UserControls
         private const int WM_MOUSEWHEEL = 0x020A;
         private bool isCtrlClicked = false;
 
-        private double zoomFactor = 1.4;
+        private float zoomFactor = 1.4f;
 
         private Size minimumZoomSize = new Size(32, 32);
         private Size maximumZoomSize = new Size(1508, 1508);
@@ -22,8 +22,12 @@ namespace Drawably.UserControls
         private Size originalSize;
 
         // It's important to keep separate variables of type double for the width and height of the canvas. This is because when doing operations such as multiplication or division with a real number we get another real number. If I would've used the Canvas.Width and Canvas.Height to store the result of the operations, I would have data loss which brings bugs (it would work perfectly with int numbers but not so well with numbers such as 1.3 1.5 and so on..).
-        private double canvasWidth;
-        private double canvasHeight;
+        private float canvasWidth;
+        private float canvasHeight;
+
+        // Caching both of these so I don't have to calculate them over and over again each time a mouse event occurs
+        private float cacheWidthRatio;
+        private float cacheHeightRatio;
 
         private Graphics g;
 
@@ -34,7 +38,7 @@ namespace Drawably.UserControls
         public PictureBox Canvas { get; set; }
         public IToolable CurrentTool { get; set; }
 
-        public CanvasContainer() 
+        public CanvasContainer()
         {
             this.ColumnCount = 1;
             this.RowCount = 1;
@@ -68,29 +72,63 @@ namespace Drawably.UserControls
 
             Bitmap bmp = new Bitmap(this.Canvas.Width, this.Canvas.Height);
             g = Graphics.FromImage(bmp);
+            //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             g.Clear(Color.Transparent);
             this.Canvas.Image = bmp;
 
 
-            this.CurrentTool = new PenTool();
+            this.CurrentTool = new PenTool(g, this.Canvas);
             originalSize = this.Canvas.Size;
-            this.Canvas.MouseClick += Canvas_MouseClick;
 
+            // Connect event handlers
+            this.Canvas.MouseMove += Canvas_MouseMove;
+            this.Canvas.MouseDown += Canvas_MouseDown;
+            this.Canvas.MouseUp += Canvas_MouseUp;
+            this.Canvas.MouseClick += Canvas_MouseClick;
 
         }
 
         private void Canvas_MouseClick(object? sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left) 
-            {
-                // Because the Canvas was resized, the click event coordinates don't match the coordinates of the Canvas.Image that is held internally
-                float newX = e.Location.X * (float)(originalSize.Width / canvasWidth);
-                float newY = e.Location.Y * (float)(originalSize.Height / canvasHeight);
+            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
 
-                CurrentTool.OnMouseLeftClick(g, newX, newY);
-                this.Canvas.Invalidate();
-            }
+            float newX = mousePos.X * (originalSize.Width / canvasWidth);
+            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+
+            CurrentTool.OnMouseLeftClick(newX, newY);
         }
+
+        private void Canvas_MouseUp(object? sender, MouseEventArgs e)
+        {
+            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
+
+            float newX = mousePos.X * (originalSize.Width / canvasWidth);
+            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+
+            CurrentTool.OnMouseUp(newX, newY);
+        }
+
+        private void Canvas_MouseDown(object? sender, MouseEventArgs e)
+        {
+            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
+
+            float newX = mousePos.X * (originalSize.Width / canvasWidth);
+            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+
+            CurrentTool.OnMouseDown(newX, newY);
+        }
+
+        private void Canvas_MouseMove(object? sender, EventArgs e)
+        {
+            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
+
+            float newX = mousePos.X * (originalSize.Width / canvasWidth);
+            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+
+            CurrentTool.OnMouseMove(newX, newY);
+           // this.Canvas.Invalidate();
+        } 
 
         private void Print<T>(T message) 
         {
@@ -137,35 +175,40 @@ namespace Drawably.UserControls
         // When scrolling up
         private void ZoomIn()
         {
-            double newWidth = canvasWidth * zoomFactor;
-            double newHeight = canvasHeight * zoomFactor;
+            float newWidth = canvasWidth * zoomFactor;
+            float newHeight = canvasHeight * zoomFactor;
 
             if (newWidth > Canvas.MaximumSize.Width || newHeight > Canvas.MaximumSize.Height)
             {
                 return;
             }
 
-            canvasWidth = newWidth;
-            canvasHeight = newHeight;
-
-            Canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
+            SetNewCanvasSize(newWidth, newHeight);
         }
 
         // When scrolling down
         private void ZoomOut()
         {
-            double newWidth = canvasWidth / zoomFactor;
-            double newHeight = canvasHeight / zoomFactor;
+            float newWidth = canvasWidth / zoomFactor;
+            float newHeight = canvasHeight / zoomFactor;
 
             if (newWidth < Canvas.MinimumSize.Width || newHeight < Canvas.MinimumSize.Height)
             {
                 return;
             }
 
-            canvasWidth = newWidth;
-            canvasHeight = newHeight;
+            SetNewCanvasSize(newWidth, newHeight);
+        }
+
+        private void SetNewCanvasSize(float newCanvasWidth, float newCanvasHeight) 
+        {
+            canvasWidth = newCanvasWidth;
+            canvasHeight = newCanvasHeight;
 
             Canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
+
+            cacheWidthRatio = originalSize.Width / canvasWidth;
+            cacheHeightRatio = originalSize.Height / canvasHeight;
         }
 
         /// <summary>
