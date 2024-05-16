@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Drawably.Tools;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace Drawably.UserControls
            Description("This is the Canvas. It HAS TO be set in order for everything to work.")
         ]
         public PictureBox Canvas { get; set; }
+        public IToolable CurrentTool { get; set; }
 
         public CanvasContainer() 
         {
@@ -65,15 +67,22 @@ namespace Drawably.UserControls
             Bitmap bmp = new Bitmap(this.Canvas.Width, this.Canvas.Height);
             g = Graphics.FromImage(bmp);
             g.Clear(Color.Transparent);
+            this.Canvas.Image = bmp;
 
 
+            this.CurrentTool = new PenTool();
             this.Canvas.MouseClick += Canvas_MouseClick;
+
 
         }
 
         private void Canvas_MouseClick(object? sender, MouseEventArgs e)
         {
-
+            if (e.Button == MouseButtons.Left) 
+            {
+                CurrentTool.OnMouseLeftClick(g, e.Location.X, e.Location.Y);
+                this.Canvas.Invalidate();
+            }
         }
 
         private void Print<T>(T message) 
