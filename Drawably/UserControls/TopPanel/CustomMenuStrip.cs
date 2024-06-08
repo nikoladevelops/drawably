@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Drawably.UserControls.CustomMenuStrip
 {
-    public class CustomMenuStrip: MenuStrip
+    public class CustomMenuStrip : MenuStrip
     {
         public CustomMenuStrip() 
         {

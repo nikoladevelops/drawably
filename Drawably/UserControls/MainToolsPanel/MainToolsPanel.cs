@@ -52,6 +52,11 @@ namespace Drawably.UserControls.CustomMenuStrip
         {
             // Note that all these menus have to be set from the outside before trying to put them inside the dictionary.
 
+            if (ToolsWindow == null || ColorsWindow == null || LayersWindow == null) 
+            {
+                return;
+            }
+
             // Initial state, all windows are visible TODO this should probably get loaded from a settings json file
             windowsOpenedState[ToolsWindow] = new ToolsButtonData(this.toolsButton, true);
             windowsOpenedState[ColorsWindow] = new ToolsButtonData(this.colorsButton, true);

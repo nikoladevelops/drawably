@@ -75,9 +75,9 @@
             // 
             mainToolsPanel1.ColorsWindow = colorsWindow;
             mainToolsPanel1.LayersWindow = layersWindow;
-            mainToolsPanel1.Location = new Point(3, 0);
+            mainToolsPanel1.Location = new Point(0, 0);
             mainToolsPanel1.Name = "mainToolsPanel1";
-            mainToolsPanel1.Size = new Size(95, 31);
+            mainToolsPanel1.Size = new Size(98, 31);
             mainToolsPanel1.TabIndex = 14;
             mainToolsPanel1.ToolsWindow = toolsWindow;
             // 
