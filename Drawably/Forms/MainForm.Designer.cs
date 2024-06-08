@@ -32,23 +32,23 @@
             topMainPanel = new Panel();
             topRightPanel = new Panel();
             mainToolsPanel1 = new UserControls.CustomMenuStrip.MainToolsPanel();
-            colorsWindow1 = new UserControls.Windows.ColorsWindow();
-            layersWindow1 = new UserControls.Windows.LayersWindow();
-            toolsWindow1 = new UserControls.Windows.ToolsWindow();
+            colorsWindow = new UserControls.Windows.ColorsWindow();
+            layersWindow = new UserControls.Windows.LayersWindow();
+            toolsWindow = new UserControls.Windows.ToolsWindow();
             topLeftPanel = new Panel();
             customMenuStrip1 = new UserControls.CustomMenuStrip.CustomMenuStrip();
             testingggToolStripMenuItem = new ToolStripMenuItem();
             dxfhdsafhToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             adsfhfdshToolStripMenuItem = new ToolStripMenuItem();
-            canvas = new PictureBox();
             canvasContainer = new UserControls.CanvasContainer();
+            canvas = new PictureBox();
             topMainPanel.SuspendLayout();
             topRightPanel.SuspendLayout();
             topLeftPanel.SuspendLayout();
             customMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             canvasContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
             // 
             // topMainPanel
@@ -66,47 +66,47 @@
             topRightPanel.BackColor = Color.Black;
             topRightPanel.Controls.Add(mainToolsPanel1);
             topRightPanel.Dock = DockStyle.Right;
-            topRightPanel.Location = new Point(1198, 0);
+            topRightPanel.Location = new Point(1200, 0);
             topRightPanel.Name = "topRightPanel";
-            topRightPanel.Size = new Size(104, 31);
+            topRightPanel.Size = new Size(102, 31);
             topRightPanel.TabIndex = 15;
             // 
             // mainToolsPanel1
             // 
-            mainToolsPanel1.ColorsWindow = colorsWindow1;
-            mainToolsPanel1.LayersWindow = layersWindow1;
+            mainToolsPanel1.ColorsWindow = colorsWindow;
+            mainToolsPanel1.LayersWindow = layersWindow;
             mainToolsPanel1.Location = new Point(3, 0);
             mainToolsPanel1.Name = "mainToolsPanel1";
             mainToolsPanel1.Size = new Size(95, 31);
             mainToolsPanel1.TabIndex = 14;
-            mainToolsPanel1.ToolsWindow = toolsWindow1;
+            mainToolsPanel1.ToolsWindow = toolsWindow;
             // 
-            // colorsWindow1
+            // colorsWindow
             // 
-            colorsWindow1.BackColor = SystemColors.ActiveCaption;
-            colorsWindow1.Location = new Point(20, 370);
-            colorsWindow1.MenuText = "Colors";
-            colorsWindow1.Name = "colorsWindow1";
-            colorsWindow1.Size = new Size(168, 220);
-            colorsWindow1.TabIndex = 19;
+            colorsWindow.BackColor = SystemColors.ActiveCaption;
+            colorsWindow.Location = new Point(20, 370);
+            colorsWindow.MenuText = "Colors";
+            colorsWindow.Name = "colorsWindow";
+            colorsWindow.Size = new Size(168, 220);
+            colorsWindow.TabIndex = 19;
             // 
-            // layersWindow1
+            // layersWindow
             // 
-            layersWindow1.BackColor = SystemColors.ActiveCaption;
-            layersWindow1.Location = new Point(980, 400);
-            layersWindow1.MenuText = "Layers";
-            layersWindow1.Name = "layersWindow1";
-            layersWindow1.Size = new Size(162, 179);
-            layersWindow1.TabIndex = 20;
+            layersWindow.BackColor = SystemColors.ActiveCaption;
+            layersWindow.Location = new Point(980, 400);
+            layersWindow.MenuText = "Layers";
+            layersWindow.Name = "layersWindow";
+            layersWindow.Size = new Size(162, 179);
+            layersWindow.TabIndex = 20;
             // 
-            // toolsWindow1
+            // toolsWindow
             // 
-            toolsWindow1.BackColor = SystemColors.ActiveCaption;
-            toolsWindow1.Location = new Point(20, 35);
-            toolsWindow1.MenuText = "Tools";
-            toolsWindow1.Name = "toolsWindow1";
-            toolsWindow1.Size = new Size(71, 321);
-            toolsWindow1.TabIndex = 0;
+            toolsWindow.BackColor = SystemColors.ActiveCaption;
+            toolsWindow.Location = new Point(20, 35);
+            toolsWindow.MenuText = "Tools";
+            toolsWindow.Name = "toolsWindow";
+            toolsWindow.Size = new Size(71, 321);
+            toolsWindow.TabIndex = 0;
             // 
             // topLeftPanel
             // 
@@ -157,19 +157,6 @@
             adsfhfdshToolStripMenuItem.Size = new Size(114, 22);
             adsfhfdshToolStripMenuItem.Text = "Save As";
             // 
-            // canvas
-            // 
-            canvas.Anchor = AnchorStyles.None;
-            canvas.BackColor = SystemColors.Control;
-            canvas.Location = new Point(901, 1157);
-            canvas.MaximumSize = new Size(1508, 1508);
-            canvas.MinimumSize = new Size(32, 32);
-            canvas.Name = "canvas";
-            canvas.Size = new Size(397, 185);
-            canvas.SizeMode = PictureBoxSizeMode.Zoom;
-            canvas.TabIndex = 16;
-            canvas.TabStop = false;
-            // 
             // canvasContainer
             // 
             canvasContainer.AutoScroll = true;
@@ -181,6 +168,7 @@
             canvasContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             canvasContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             canvasContainer.Controls.Add(canvas, 0, 0);
+            canvasContainer.CurrentTool = null;
             canvasContainer.Dock = DockStyle.Fill;
             canvasContainer.Location = new Point(0, 0);
             canvasContainer.Name = "canvasContainer";
@@ -190,14 +178,29 @@
             canvasContainer.Size = new Size(1302, 629);
             canvasContainer.TabIndex = 17;
             // 
+            // canvas
+            // 
+            canvas.Anchor = AnchorStyles.None;
+            canvas.BackColor = SystemColors.Control;
+            canvas.Image = (Image)resources.GetObject("canvas.Image");
+            canvas.Location = new Point(901, 1157);
+            canvas.MaximumSize = new Size(1508, 1508);
+            canvas.MinimumSize = new Size(32, 32);
+            canvas.Name = "canvas";
+            canvas.Size = new Size(397, 185);
+            canvas.SizeMode = PictureBoxSizeMode.Zoom;
+            canvas.TabIndex = 16;
+            canvas.TabStop = false;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Black;
             ClientSize = new Size(1302, 629);
-            Controls.Add(layersWindow1);
-            Controls.Add(toolsWindow1);
-            Controls.Add(colorsWindow1);
+            Controls.Add(layersWindow);
+            Controls.Add(toolsWindow);
+            Controls.Add(colorsWindow);
             Controls.Add(topMainPanel);
             Controls.Add(canvasContainer);
             KeyPreview = true;
@@ -211,8 +214,8 @@
             topLeftPanel.PerformLayout();
             customMenuStrip1.ResumeLayout(false);
             customMenuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)canvas).EndInit();
             canvasContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)canvas).EndInit();
             ResumeLayout(false);
         }
 
@@ -226,13 +229,10 @@
         private ToolStripMenuItem adsfhfdshToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem1;
         private UserControls.CustomMenuStrip.MainToolsPanel mainToolsPanel1;
-        private UserControls.Windows.ToolsWindow toolsWindow;
         private PictureBox canvas;
         private UserControls.CanvasContainer canvasContainer;
-        private UserControls.Windows.LayersWindow layersWindow;
         private UserControls.Windows.ColorsWindow colorsWindow;
-        private UserControls.Windows.ColorsWindow colorsWindow1;
-        private UserControls.Windows.LayersWindow layersWindow1;
-        private UserControls.Windows.ToolsWindow toolsWindow1;
+        private UserControls.Windows.LayersWindow layersWindow;
+        private UserControls.Windows.ToolsWindow toolsWindow;
     }
 }

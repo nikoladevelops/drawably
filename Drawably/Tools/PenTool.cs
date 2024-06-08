@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Drawably.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -25,7 +26,7 @@ namespace Drawably.Tools
         float cacheX;
         float cacheY;
 
-        public PenTool(Graphics g, PictureBox canvas)
+        public PenTool(CanvasContainer cc)
         {
             pen = new Pen(CurrentColor, Size);
             pen.EndCap = LineCap.Round;
@@ -33,8 +34,8 @@ namespace Drawably.Tools
 
             brush = new SolidBrush(CurrentColor);
 
-            this.g = g;
-            this.canvas = canvas;
+            this.g = cc.g;
+            this.canvas = cc.Canvas;
         }
         public void OnMouseMove(float x, float y)
         {

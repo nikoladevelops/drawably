@@ -12,6 +12,8 @@ namespace Drawably
         {
             this.WindowState = FormWindowState.Maximized;
             this.canvasContainer.ScrollToMiddle();
+
+            this.toolsWindow.SetUp(this.canvasContainer);
         }
 
         private void MainForm_MouseWheel(object? sender, MouseEventArgs e)

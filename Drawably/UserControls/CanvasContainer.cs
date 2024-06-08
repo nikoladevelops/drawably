@@ -25,18 +25,14 @@ namespace Drawably.UserControls
         private float canvasWidth;
         private float canvasHeight;
 
-        // Caching both of these so I don't have to calculate them over and over again each time a mouse event occurs
-        private float cacheWidthRatio;
-        private float cacheHeightRatio;
-
-        private Graphics g;
+        public Graphics g;
 
         [
            Category("All Custom Props"),
            Description("This is the Canvas. It HAS TO be set in order for everything to work.")
         ]
         public PictureBox Canvas { get; set; }
-        public IToolable CurrentTool { get; set; }
+        public IToolable? CurrentTool { get; set; }
 
         public CanvasContainer()
         {
@@ -72,13 +68,12 @@ namespace Drawably.UserControls
 
             Bitmap bmp = new Bitmap(this.Canvas.Width, this.Canvas.Height);
             g = Graphics.FromImage(bmp);
-            //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
             g.Clear(Color.Transparent);
             this.Canvas.Image = bmp;
 
 
-            this.CurrentTool = new PenTool(g, this.Canvas);
+            //this.CurrentTool = new PenTool(g, this.Canvas);
             originalSize = this.Canvas.Size;
 
             // Connect event handlers
@@ -91,6 +86,11 @@ namespace Drawably.UserControls
 
         private void Canvas_MouseClick(object? sender, MouseEventArgs e)
         {
+            if (CurrentTool == null) 
+            {
+                return;
+            }
+
             Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
@@ -101,6 +101,11 @@ namespace Drawably.UserControls
 
         private void Canvas_MouseUp(object? sender, MouseEventArgs e)
         {
+            if (CurrentTool == null)
+            {
+                return;
+            }
+
             Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
@@ -111,6 +116,11 @@ namespace Drawably.UserControls
 
         private void Canvas_MouseDown(object? sender, MouseEventArgs e)
         {
+            if (CurrentTool == null)
+            {
+                return;
+            }
+
             Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
@@ -121,6 +131,11 @@ namespace Drawably.UserControls
 
         private void Canvas_MouseMove(object? sender, EventArgs e)
         {
+            if (CurrentTool == null)
+            {
+                return;
+            }
+
             Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
@@ -206,9 +221,6 @@ namespace Drawably.UserControls
             canvasHeight = newCanvasHeight;
 
             Canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
-
-            cacheWidthRatio = originalSize.Width / canvasWidth;
-            cacheHeightRatio = originalSize.Height / canvasHeight;
         }
 
         /// <summary>
