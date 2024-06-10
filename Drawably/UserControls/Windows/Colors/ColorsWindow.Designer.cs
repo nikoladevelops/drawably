@@ -1,6 +1,6 @@
-﻿namespace Drawably.UserControls.Windows
+﻿namespace Drawably.UserControls.Windows.Colors
 {
-    partial class LayersWindow
+    partial class ColorsWindow
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,34 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            topPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // contentPanel
-            // 
-            contentPanel.Location = new Point(0, -123);
-            contentPanel.Size = new Size(162, 302);
-            // 
-            // topPanel
-            // 
-            topPanel.Size = new Size(162, 23);
-            // 
-            // menuTextLabel
-            // 
-            menuTextLabel.Size = new Size(136, 23);
-            // 
-            // closeButton
-            // 
-            closeButton.FlatAppearance.BorderSize = 0;
-            closeButton.Location = new Point(136, 0);
-            // 
-            // LayersWindow
+            // ColorsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Name = "LayersWindow";
-            Size = new Size(162, 179);
-            topPanel.ResumeLayout(false);
+            Name = "ColorsWindow";
+            Size = new Size(168, 220);
             ResumeLayout(false);
         }
 

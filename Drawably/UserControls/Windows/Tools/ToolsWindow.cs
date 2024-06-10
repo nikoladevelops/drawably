@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Drawably.UserControls.Windows
+namespace Drawably.UserControls.Windows.Tools
 {
     public partial class ToolsWindow : MenuWindow
     {

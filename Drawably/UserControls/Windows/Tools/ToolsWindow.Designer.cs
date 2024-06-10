@@ -1,4 +1,4 @@
-﻿namespace Drawably.UserControls.Windows
+﻿namespace Drawably.UserControls.Windows.Tools
 {
     partial class ToolsWindow
     {

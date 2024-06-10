@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            colorsWindow = new UserControls.Windows.ColorsWindow();
-            layersWindow = new UserControls.Windows.LayersWindow();
-            toolsWindow = new UserControls.Windows.ToolsWindow();
+            colorsWindow = new UserControls.Windows.Colors.ColorsWindow();
+            layersWindow = new UserControls.Windows.Layers.LayersWindow();
+            toolsWindow = new UserControls.Windows.Tools.ToolsWindow();
             topPanel = new UserControls.TopPanel.TopPanel();
             canvas = new PictureBox();
             canvasContainer = new UserControls.CanvasContainer();
@@ -126,9 +126,9 @@
         }
 
         #endregion
-        private UserControls.Windows.ColorsWindow colorsWindow;
-        private UserControls.Windows.LayersWindow layersWindow;
-        private UserControls.Windows.ToolsWindow toolsWindow;
+        private UserControls.Windows.Colors.ColorsWindow colorsWindow;
+        private UserControls.Windows.Layers.LayersWindow layersWindow;
+        private UserControls.Windows.Tools.ToolsWindow toolsWindow;
         private PictureBox canvas;
         private UserControls.CanvasContainer canvasContainer;
         public UserControls.TopPanel.TopPanel topPanel;
