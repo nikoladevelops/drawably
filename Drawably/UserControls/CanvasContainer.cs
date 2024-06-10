@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Drawably.UserControls
 {
-    public class CanvasContainer : TableLayoutPanel
+    public class CanvasContainer : UserControl
     {
         private const int WM_MOUSEWHEEL = 0x020A;
         private bool isCtrlClicked = false;
@@ -25,23 +25,25 @@ namespace Drawably.UserControls
         private float canvasWidth;
         private float canvasHeight;
 
+        private TableLayoutPanel tableLayoutPanel;
+        private PictureBox canvas;
+
         public Graphics g;
 
         [
            Category("All Custom Props"),
-           Description("This is the Canvas. It HAS TO be set in order for everything to work.")
+           Description("This is the Canvas, where drawing happens")
         ]
-        public PictureBox Canvas { get; set; }
+        public PictureBox Canvas { get => this.canvas; }
+
         public IToolable? CurrentTool { get; set; }
 
         public CanvasContainer()
         {
-            this.ColumnCount = 1;
-            this.RowCount = 1;
+            this.InitializeComponent();
 
             this.AutoScroll = true;
             this.AutoScrollMinSize = new Size(2200, 2500);
-
 
             this.HandleCreated += CanvasContainer_HandleCreated;
         }
@@ -53,6 +55,7 @@ namespace Drawably.UserControls
                 return;
             };
 
+            Canvas.SizeMode = PictureBoxSizeMode.Zoom; // Important
             Canvas.MinimumSize = minimumZoomSize;
             Canvas.MaximumSize = maximumZoomSize;
 
@@ -86,7 +89,7 @@ namespace Drawably.UserControls
 
         private void Canvas_MouseClick(object? sender, MouseEventArgs e)
         {
-            if (CurrentTool == null) 
+            if (CurrentTool == null)
             {
                 return;
             }
@@ -142,10 +145,10 @@ namespace Drawably.UserControls
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
 
             CurrentTool.OnMouseMove(newX, newY);
-           // this.Canvas.Invalidate();
-        } 
+            // this.Canvas.Invalidate();
+        }
 
-        private void Print<T>(T message) 
+        private void Print<T>(T message)
         {
             MessageBox.Show(message.ToString());
         }
@@ -215,7 +218,7 @@ namespace Drawably.UserControls
             SetNewCanvasSize(newWidth, newHeight);
         }
 
-        private void SetNewCanvasSize(float newCanvasWidth, float newCanvasHeight) 
+        private void SetNewCanvasSize(float newCanvasWidth, float newCanvasHeight)
         {
             canvasWidth = newCanvasWidth;
             canvasHeight = newCanvasHeight;
@@ -223,10 +226,55 @@ namespace Drawably.UserControls
             Canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
         }
 
+        private void InitializeComponent()
+        {
+            tableLayoutPanel = new TableLayoutPanel();
+            canvas = new PictureBox();
+            tableLayoutPanel.SuspendLayout();
+            ((ISupportInitialize)canvas).BeginInit();
+            SuspendLayout();
+            // 
+            // tableLayoutPanel
+            // 
+            tableLayoutPanel.BackColor = Color.Transparent;
+            tableLayoutPanel.ColumnCount = 1;
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.Controls.Add(canvas, 0, 0);
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.Location = new Point(0, 0);
+            tableLayoutPanel.Name = "tableLayoutPanel";
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.Size = new Size(623, 418);
+            tableLayoutPanel.TabIndex = 0;
+            // 
+            // canvas
+            // 
+            canvas.Anchor = AnchorStyles.None;
+            canvas.BackColor = Color.White;
+            canvas.Location = new Point(113, 96);
+            canvas.Name = "canvas";
+            canvas.Size = new Size(396, 226);
+            canvas.TabIndex = 0;
+            canvas.TabStop = false;
+            // 
+            // CanvasContainer
+            // 
+            BackColor = Color.DarkGray;
+            Controls.Add(tableLayoutPanel);
+            Name = "CanvasContainer";
+            Size = new Size(623, 418);
+            tableLayoutPanel.ResumeLayout(false);
+            ((ISupportInitialize)canvas).EndInit();
+            ResumeLayout(false);
+        }
+
         /// <summary>
         /// Scrolls the scroll bars to the middle. Should be called after the form is fully loaded
         /// </summary>
-        public void ScrollToMiddle() 
+        public void ScrollToMiddle()
         {
             int x = Math.Max(0, (this.HorizontalScroll.Maximum - this.HorizontalScroll.LargeChange) / 2);
             int y = Math.Max(0, (this.VerticalScroll.Maximum - this.VerticalScroll.LargeChange) / 2);
