@@ -28,28 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel = new TableLayoutPanel();
             layerNameLabel = new Label();
             isLayerVisibleCheckBox = new CheckBox();
-            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // tableLayoutPanel
             // 
-            tableLayoutPanel1.BackColor = Color.Transparent;
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 82.1212158F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.878788F));
-            tableLayoutPanel1.Controls.Add(layerNameLabel, 0, 0);
-            tableLayoutPanel1.Controls.Add(isLayerVisibleCheckBox, 1, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(151, 21);
-            tableLayoutPanel1.TabIndex = 0;
+            tableLayoutPanel.BackColor = Color.Transparent;
+            tableLayoutPanel.ColumnCount = 2;
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 82.1212158F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.878788F));
+            tableLayoutPanel.Controls.Add(layerNameLabel, 0, 0);
+            tableLayoutPanel.Controls.Add(isLayerVisibleCheckBox, 1, 0);
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.Location = new Point(0, 0);
+            tableLayoutPanel.Name = "tableLayoutPanel";
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.Size = new Size(151, 21);
+            tableLayoutPanel.TabIndex = 0;
             // 
             // layerNameLabel
             // 
@@ -81,17 +81,17 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
-            Controls.Add(tableLayoutPanel1);
+            Controls.Add(tableLayoutPanel);
             Name = "LayerLabel";
             Size = new Size(151, 21);
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
+            tableLayoutPanel.ResumeLayout(false);
+            tableLayoutPanel.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel;
         private Label layerNameLabel;
         private CheckBox isLayerVisibleCheckBox;
     }

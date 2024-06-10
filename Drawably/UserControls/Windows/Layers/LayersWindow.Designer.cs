@@ -35,18 +35,9 @@
             moveUpLayerBtn = new Button();
             moveDownLayerBtn = new Button();
             allLayersPanel = new FlowLayoutPanel();
-            layerLabel6 = new LayerLabel();
-            layerLabel7 = new LayerLabel();
-            layerLabel8 = new LayerLabel();
-            layerLabel9 = new LayerLabel();
-            layerLabel10 = new LayerLabel();
-            layerLabel11 = new LayerLabel();
-            layerLabel1 = new LayerLabel();
-            layerLabel2 = new LayerLabel();
             contentPanel.SuspendLayout();
             topPanel.SuspendLayout();
             layerControlPanel.SuspendLayout();
-            allLayersPanel.SuspendLayout();
             SuspendLayout();
             // 
             // contentPanel
@@ -89,6 +80,8 @@
             createLayerBtn.BackColor = Color.Transparent;
             createLayerBtn.BackgroundImage = Properties.Resources.add_layer;
             createLayerBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            createLayerBtn.FlatAppearance.MouseDownBackColor = Color.Silver;
+            createLayerBtn.FlatAppearance.MouseOverBackColor = Color.FromArgb(224, 224, 224);
             createLayerBtn.FlatStyle = FlatStyle.Flat;
             createLayerBtn.ForeColor = Color.Transparent;
             createLayerBtn.Location = new Point(3, 3);
@@ -103,6 +96,8 @@
             deleteLayerBtn.BackColor = Color.Transparent;
             deleteLayerBtn.BackgroundImage = Properties.Resources.delete_layer;
             deleteLayerBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            deleteLayerBtn.FlatAppearance.MouseDownBackColor = Color.Silver;
+            deleteLayerBtn.FlatAppearance.MouseOverBackColor = Color.FromArgb(224, 224, 224);
             deleteLayerBtn.FlatStyle = FlatStyle.Flat;
             deleteLayerBtn.ForeColor = Color.Transparent;
             deleteLayerBtn.Location = new Point(36, 3);
@@ -117,6 +112,8 @@
             duplicateLayerBtn.BackColor = Color.Transparent;
             duplicateLayerBtn.BackgroundImage = Properties.Resources.duplicate;
             duplicateLayerBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            duplicateLayerBtn.FlatAppearance.MouseDownBackColor = Color.Silver;
+            duplicateLayerBtn.FlatAppearance.MouseOverBackColor = Color.FromArgb(224, 224, 224);
             duplicateLayerBtn.FlatStyle = FlatStyle.Flat;
             duplicateLayerBtn.ForeColor = Color.Transparent;
             duplicateLayerBtn.Location = new Point(69, 3);
@@ -131,6 +128,8 @@
             moveUpLayerBtn.BackColor = Color.Transparent;
             moveUpLayerBtn.BackgroundImage = Properties.Resources.up_arrow;
             moveUpLayerBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            moveUpLayerBtn.FlatAppearance.MouseDownBackColor = Color.Silver;
+            moveUpLayerBtn.FlatAppearance.MouseOverBackColor = Color.FromArgb(224, 224, 224);
             moveUpLayerBtn.FlatStyle = FlatStyle.Flat;
             moveUpLayerBtn.ForeColor = Color.Transparent;
             moveUpLayerBtn.Location = new Point(102, 3);
@@ -145,6 +144,8 @@
             moveDownLayerBtn.BackColor = Color.Transparent;
             moveDownLayerBtn.BackgroundImage = Properties.Resources.down_arrow;
             moveDownLayerBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            moveDownLayerBtn.FlatAppearance.MouseDownBackColor = Color.Silver;
+            moveDownLayerBtn.FlatAppearance.MouseOverBackColor = Color.FromArgb(224, 224, 224);
             moveDownLayerBtn.FlatStyle = FlatStyle.Flat;
             moveDownLayerBtn.ForeColor = Color.Transparent;
             moveDownLayerBtn.Location = new Point(135, 3);
@@ -156,109 +157,13 @@
             // allLayersPanel
             // 
             allLayersPanel.AutoScroll = true;
-            allLayersPanel.Controls.Add(layerLabel6);
-            allLayersPanel.Controls.Add(layerLabel7);
-            allLayersPanel.Controls.Add(layerLabel8);
-            allLayersPanel.Controls.Add(layerLabel9);
-            allLayersPanel.Controls.Add(layerLabel10);
-            allLayersPanel.Controls.Add(layerLabel11);
-            allLayersPanel.Controls.Add(layerLabel1);
-            allLayersPanel.Controls.Add(layerLabel2);
             allLayersPanel.Dock = DockStyle.Bottom;
             allLayersPanel.FlowDirection = FlowDirection.BottomUp;
-            allLayersPanel.Location = new Point(0, 98);
+            allLayersPanel.Location = new Point(0, 95);
             allLayersPanel.Name = "allLayersPanel";
-            allLayersPanel.Size = new Size(175, 177);
+            allLayersPanel.Size = new Size(175, 180);
             allLayersPanel.TabIndex = 2;
             allLayersPanel.WrapContents = false;
-            // 
-            // layerLabel6
-            // 
-            layerLabel6.BackColor = Color.Transparent;
-            layerLabel6.IsLayerSelected = false;
-            layerLabel6.IsLayerVisible = false;
-            layerLabel6.LayerName = "LayerNameGoesHere";
-            layerLabel6.Location = new Point(3, 192);
-            layerLabel6.Name = "layerLabel6";
-            layerLabel6.Size = new Size(151, 21);
-            layerLabel6.TabIndex = 26;
-            // 
-            // layerLabel7
-            // 
-            layerLabel7.BackColor = Color.Transparent;
-            layerLabel7.IsLayerSelected = false;
-            layerLabel7.IsLayerVisible = false;
-            layerLabel7.LayerName = "LayerNameGoesHere";
-            layerLabel7.Location = new Point(3, 165);
-            layerLabel7.Name = "layerLabel7";
-            layerLabel7.Size = new Size(151, 21);
-            layerLabel7.TabIndex = 27;
-            // 
-            // layerLabel8
-            // 
-            layerLabel8.BackColor = Color.Transparent;
-            layerLabel8.IsLayerSelected = false;
-            layerLabel8.IsLayerVisible = false;
-            layerLabel8.LayerName = "LayerNameGoesHere";
-            layerLabel8.Location = new Point(3, 138);
-            layerLabel8.Name = "layerLabel8";
-            layerLabel8.Size = new Size(151, 21);
-            layerLabel8.TabIndex = 28;
-            // 
-            // layerLabel9
-            // 
-            layerLabel9.BackColor = Color.Transparent;
-            layerLabel9.IsLayerSelected = false;
-            layerLabel9.IsLayerVisible = false;
-            layerLabel9.LayerName = "LayerNameGoesHere";
-            layerLabel9.Location = new Point(3, 111);
-            layerLabel9.Name = "layerLabel9";
-            layerLabel9.Size = new Size(151, 21);
-            layerLabel9.TabIndex = 29;
-            // 
-            // layerLabel10
-            // 
-            layerLabel10.BackColor = Color.Transparent;
-            layerLabel10.IsLayerSelected = false;
-            layerLabel10.IsLayerVisible = false;
-            layerLabel10.LayerName = "LayerNameGoesHere";
-            layerLabel10.Location = new Point(3, 84);
-            layerLabel10.Name = "layerLabel10";
-            layerLabel10.Size = new Size(151, 21);
-            layerLabel10.TabIndex = 30;
-            // 
-            // layerLabel11
-            // 
-            layerLabel11.BackColor = Color.Transparent;
-            layerLabel11.IsLayerSelected = false;
-            layerLabel11.IsLayerVisible = false;
-            layerLabel11.LayerName = "LayerNameGoesHere";
-            layerLabel11.Location = new Point(3, 57);
-            layerLabel11.Name = "layerLabel11";
-            layerLabel11.Size = new Size(151, 21);
-            layerLabel11.TabIndex = 31;
-            // 
-            // layerLabel1
-            // 
-            layerLabel1.BackColor = Color.Transparent;
-            layerLabel1.IsLayerSelected = false;
-            layerLabel1.IsLayerVisible = false;
-            layerLabel1.LayerName = "LayerNameGoesHere";
-            layerLabel1.Location = new Point(3, 30);
-            layerLabel1.Name = "layerLabel1";
-            layerLabel1.Size = new Size(151, 21);
-            layerLabel1.TabIndex = 32;
-            // 
-            // layerLabel2
-            // 
-            layerLabel2.BackColor = Color.Transparent;
-            layerLabel2.IsLayerSelected = false;
-            layerLabel2.IsLayerVisible = false;
-            layerLabel2.LayerName = "LayerNameGoesHere";
-            layerLabel2.Location = new Point(3, 3);
-            layerLabel2.Name = "layerLabel2";
-            layerLabel2.Size = new Size(151, 21);
-            layerLabel2.TabIndex = 33;
             // 
             // LayersWindow
             // 
@@ -271,7 +176,6 @@
             contentPanel.ResumeLayout(false);
             topPanel.ResumeLayout(false);
             layerControlPanel.ResumeLayout(false);
-            allLayersPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -283,13 +187,5 @@
         private Button duplicateLayerBtn;
         private Button moveUpLayerBtn;
         private Button moveDownLayerBtn;
-        private LayerLabel layerLabel6;
-        private LayerLabel layerLabel7;
-        private LayerLabel layerLabel8;
-        private LayerLabel layerLabel9;
-        private LayerLabel layerLabel10;
-        private LayerLabel layerLabel11;
-        private LayerLabel layerLabel1;
-        private LayerLabel layerLabel2;
     }
 }

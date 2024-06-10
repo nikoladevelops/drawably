@@ -58,6 +58,23 @@ namespace Drawably.UserControls.Windows.Layers
             }
         }
 
+        // This is so that the click event handler of the user control gets called even when clicking the layerNameLabel/tableLayoutPanel
+        public new event EventHandler Click
+        {
+            add
+            {
+                base.Click += value;
+                this.tableLayoutPanel.Click += value;
+                this.layerNameLabel.Click += value;
+            }
+            remove
+            {
+                base.Click -= value;
+                this.tableLayoutPanel.Click -= value;
+                this.layerNameLabel.Click -= value;
+            }
+        }
+
         public LayerLabel()
         {
             InitializeComponent();
