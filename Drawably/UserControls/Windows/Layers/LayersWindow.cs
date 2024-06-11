@@ -16,6 +16,8 @@ namespace Drawably.UserControls.Windows.Layers
         // Note that there should ALWAYS be a selected layer lable
         private LayerLabel selectedLayerLabel;
 
+        private Dictionary<LayerLabel, LayerData> allLayersData;
+
         public LayersWindow()
         {
             InitializeComponent();
@@ -24,6 +26,7 @@ namespace Drawably.UserControls.Windows.Layers
             // Create the very first layer
             CreateLayerLabel();
 
+            // just testing
             CreateLayerLabel();
             CreateLayerLabel();
             CreateLayerLabel();
@@ -32,6 +35,7 @@ namespace Drawably.UserControls.Windows.Layers
             CreateLayerLabel();
             CreateLayerLabel();
             this.deleteLayerBtn.Enabled = true;
+            //
 
             this.createLayerBtn.Click += (o, e) =>
             {
@@ -50,6 +54,21 @@ namespace Drawably.UserControls.Windows.Layers
                     this.deleteLayerBtn.Enabled = false;
                 }
             };
+
+            this.duplicateLayerBtn.Click += (o, e) =>
+            {
+                MessageBox.Show("Not implemented");
+            };
+
+            this.moveUpLayerBtn.Click += (o, e) =>
+            {
+                MoveLayerUp();
+            };
+
+            this.moveDownLayerBtn.Click += (o, e) =>
+            {
+                MoveLayerDown();
+            };
         }
 
         private void SelectNewLayerLabel(LayerLabel newLbl) 
@@ -61,7 +80,7 @@ namespace Drawably.UserControls.Windows.Layers
 
         private void CreateLayerLabel() 
         {
-            LayerLabel newLbl = new LayerLabel($"layer{allLayersPanel.Controls.Count + 1}", true, true);
+            LayerLabel newLbl = new LayerLabel($"Layer {allLayersPanel.Controls.Count + 1}", true, true);
 
             // Select layer label when it's clicked
             newLbl.Click += (o, e) =>
@@ -95,6 +114,7 @@ namespace Drawably.UserControls.Windows.Layers
 
             // Also always deselect the old layer and select the new layer
             SelectNewLayerLabel(newLbl);
+            //allLayersData[newLbl] = new LayerData();
         }
 
         private void DeleteLayerLabel(LayerLabel lblToRemove) 
@@ -120,6 +140,7 @@ namespace Drawably.UserControls.Windows.Layers
 
         private void DuplicateLayerLabel(LayerLabel lblToDuplicate) 
         {
+            // TODO should duplicate the bitmap
             LayerLabel newLbl = new LayerLabel
             (
                 lblToDuplicate.LayerName,
@@ -132,12 +153,28 @@ namespace Drawably.UserControls.Windows.Layers
 
         private void MoveLayerUp()
         {
+            int indexOfSelected = this.allLayersPanel.Controls.GetChildIndex(selectedLayerLabel);
 
+            // If it's the last layer you can't move it up anymore, its already at the top
+            if (indexOfSelected == this.allLayersPanel.Controls.Count - 1) 
+            {
+                return;
+            }
+
+            this.allLayersPanel.Controls.SetChildIndex(selectedLayerLabel, indexOfSelected + 1);
         }
 
         private void MoveLayerDown() 
         {
+            int indexOfSelected = this.allLayersPanel.Controls.GetChildIndex(selectedLayerLabel);
 
+            // If it's the first layer you can't move it down anymore, its already at the bottom
+            if (indexOfSelected == 0) 
+            {
+                return;
+            }
+
+            this.allLayersPanel.Controls.SetChildIndex(selectedLayerLabel, indexOfSelected - 1);
         }
     }
 }

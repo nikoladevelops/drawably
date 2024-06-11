@@ -26,7 +26,7 @@ namespace Drawably.UserControls
         private float canvasHeight;
 
         private TableLayoutPanel tableLayoutPanel;
-        private PictureBox canvas;
+        private Canvas canvas;
 
         public Graphics g;
 
@@ -34,7 +34,7 @@ namespace Drawably.UserControls
            Category("All Custom Props"),
            Description("This is the Canvas, where drawing happens")
         ]
-        public PictureBox Canvas { get => this.canvas; }
+        public PictureBox CanvasPictureBox { get => this.canvas.CanvasPictureBox; }
 
         public IToolable? CurrentTool { get; set; }
 
@@ -50,17 +50,12 @@ namespace Drawably.UserControls
 
         private void CanvasContainer_HandleCreated(object? sender, EventArgs e)
         {
-            if (Canvas == null)
-            {
-                return;
-            };
+            CanvasPictureBox.SizeMode = PictureBoxSizeMode.Zoom; // Important
+            CanvasPictureBox.MinimumSize = minimumZoomSize;
+            CanvasPictureBox.MaximumSize = maximumZoomSize;
 
-            Canvas.SizeMode = PictureBoxSizeMode.Zoom; // Important
-            Canvas.MinimumSize = minimumZoomSize;
-            Canvas.MaximumSize = maximumZoomSize;
-
-            canvasWidth = Canvas.Width;
-            canvasHeight = Canvas.Height;
+            canvasWidth = CanvasPictureBox.Width;
+            canvasHeight = CanvasPictureBox.Height;
 
             // I could've made an additional property for the main form, but I feel like this is good enough. I need the form's KeyPreview to be true in order to always capture events no matter which control is focused. I'm basically using it as a global event catcher instead of playing around with the win32 API, this is easier for setting hotkeys.
             Form form = this.FindForm();
@@ -69,21 +64,21 @@ namespace Drawably.UserControls
             form.KeyUp += Form_KeyUp;
 
 
-            Bitmap bmp = new Bitmap(this.Canvas.Width, this.Canvas.Height);
+            Bitmap bmp = new Bitmap(this.CanvasPictureBox.Width, this.CanvasPictureBox.Height);
             g = Graphics.FromImage(bmp);
 
             g.Clear(Color.Transparent);
-            this.Canvas.Image = bmp;
+            this.CanvasPictureBox.Image = bmp;
 
 
             //this.CurrentTool = new PenTool(g, this.Canvas);
-            originalSize = this.Canvas.Size;
+            originalSize = this.CanvasPictureBox.Size;
 
             // Connect event handlers
-            this.Canvas.MouseMove += Canvas_MouseMove;
-            this.Canvas.MouseDown += Canvas_MouseDown;
-            this.Canvas.MouseUp += Canvas_MouseUp;
-            this.Canvas.MouseClick += Canvas_MouseClick;
+            this.CanvasPictureBox.MouseMove += Canvas_MouseMove;
+            this.CanvasPictureBox.MouseDown += Canvas_MouseDown;
+            this.CanvasPictureBox.MouseUp += Canvas_MouseUp;
+            this.CanvasPictureBox.MouseClick += Canvas_MouseClick;
 
         }
 
@@ -94,7 +89,7 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
+            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
@@ -109,7 +104,7 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
+            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
@@ -124,7 +119,7 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
+            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
@@ -139,18 +134,12 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.Canvas.PointToClient(Control.MousePosition);
+            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
 
             CurrentTool.OnMouseMove(newX, newY);
-            // this.Canvas.Invalidate();
-        }
-
-        private void Print<T>(T message)
-        {
-            MessageBox.Show(message.ToString());
         }
 
         private void Form_KeyUp(object? sender, KeyEventArgs e)
@@ -196,7 +185,7 @@ namespace Drawably.UserControls
             float newWidth = canvasWidth * zoomFactor;
             float newHeight = canvasHeight * zoomFactor;
 
-            if (newWidth > Canvas.MaximumSize.Width || newHeight > Canvas.MaximumSize.Height)
+            if (newWidth > CanvasPictureBox.MaximumSize.Width || newHeight > CanvasPictureBox.MaximumSize.Height)
             {
                 return;
             }
@@ -210,7 +199,7 @@ namespace Drawably.UserControls
             float newWidth = canvasWidth / zoomFactor;
             float newHeight = canvasHeight / zoomFactor;
 
-            if (newWidth < Canvas.MinimumSize.Width || newHeight < Canvas.MinimumSize.Height)
+            if (newWidth < CanvasPictureBox.MinimumSize.Width || newHeight < CanvasPictureBox.MinimumSize.Height)
             {
                 return;
             }
@@ -223,15 +212,15 @@ namespace Drawably.UserControls
             canvasWidth = newCanvasWidth;
             canvasHeight = newCanvasHeight;
 
-            Canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
+            this.canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
         }
 
         private void InitializeComponent()
         {
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(CanvasContainer));
             tableLayoutPanel = new TableLayoutPanel();
-            canvas = new PictureBox();
+            canvas = new Canvas();
             tableLayoutPanel.SuspendLayout();
-            ((ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel
@@ -253,12 +242,12 @@ namespace Drawably.UserControls
             // canvas
             // 
             canvas.Anchor = AnchorStyles.None;
-            canvas.BackColor = Color.White;
-            canvas.Location = new Point(113, 96);
+            canvas.BackColor = Color.Transparent;
+            canvas.BackgroundImage = (Image)resources.GetObject("canvas.BackgroundImage");
+            canvas.Location = new Point(87, 95);
             canvas.Name = "canvas";
-            canvas.Size = new Size(396, 226);
+            canvas.Size = new Size(449, 227);
             canvas.TabIndex = 0;
-            canvas.TabStop = false;
             // 
             // CanvasContainer
             // 
@@ -267,7 +256,6 @@ namespace Drawably.UserControls
             Name = "CanvasContainer";
             Size = new Size(623, 418);
             tableLayoutPanel.ResumeLayout(false);
-            ((ISupportInitialize)canvas).EndInit();
             ResumeLayout(false);
         }
 

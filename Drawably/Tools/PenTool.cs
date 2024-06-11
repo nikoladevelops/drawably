@@ -35,7 +35,7 @@ namespace Drawably.Tools
             brush = new SolidBrush(CurrentColor);
 
             this.g = cc.g;
-            this.canvas = cc.Canvas;
+            this.canvas = cc.CanvasPictureBox;
         }
         public void OnMouseMove(float x, float y)
         {
