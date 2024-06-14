@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools;
+using Drawably.UserControls.Windows.Layers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Drawably.UserControls
+namespace Drawably.UserControls.CanvasRelated
 {
     public class CanvasContainer : UserControl
     {
@@ -30,26 +31,32 @@ namespace Drawably.UserControls
 
         public Graphics g;
 
+        // Accessed by other windows, but not really set up from outside/ something like a shortcut
+        public PictureBox CanvasPictureBox { get => canvas.CanvasPictureBox; }        
+        public Canvas Canvas { get => canvas; }
+        public Bitmap SelectedLayerBitmap { get => this.LayersWindow.GetSelectedLayerBitmap; }
+
+        public Bitmap CanvasVisualizedImage { get => (Bitmap)this.canvas.CanvasPictureBox.Image; set => this.canvas.CanvasPictureBox.Image = value; }
+        public int GetCanvasBitmapWidth { get => this.canvas.CanvasPictureBox.Image.Width; }
+        public int GetCanvasBitmapHeight { get => this.canvas.CanvasPictureBox.Image.Height; }
+        //
+
         [
            Category("All Custom Props"),
-           Description("This is the Canvas, where drawing happens")
+           Description("The layers window is needed in order for everything to work correctly.")
         ]
-        public PictureBox CanvasPictureBox { get => this.canvas.CanvasPictureBox; }
+        public LayersWindow LayersWindow { get; set; }
 
         public IToolable? CurrentTool { get; set; }
 
         public CanvasContainer()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.AutoScroll = true;
-            this.AutoScrollMinSize = new Size(2200, 2500);
+            AutoScroll = true;
+            AutoScrollMinSize = new Size(2200, 2500);
 
-            this.HandleCreated += CanvasContainer_HandleCreated;
-        }
 
-        private void CanvasContainer_HandleCreated(object? sender, EventArgs e)
-        {
             CanvasPictureBox.SizeMode = PictureBoxSizeMode.Zoom; // Important
             CanvasPictureBox.MinimumSize = minimumZoomSize;
             CanvasPictureBox.MaximumSize = maximumZoomSize;
@@ -57,28 +64,32 @@ namespace Drawably.UserControls
             canvasWidth = CanvasPictureBox.Width;
             canvasHeight = CanvasPictureBox.Height;
 
+            Bitmap bmp = new Bitmap(CanvasPictureBox.Width, CanvasPictureBox.Height);
+            g = Graphics.FromImage(bmp);
+
+            g.Clear(Color.Transparent);
+            CanvasPictureBox.Image = bmp;
+
+            HandleCreated += CanvasContainer_HandleCreated;
+            
+        }
+
+        private void CanvasContainer_HandleCreated(object? sender, EventArgs e)
+        {
             // I could've made an additional property for the main form, but I feel like this is good enough. I need the form's KeyPreview to be true in order to always capture events no matter which control is focused. I'm basically using it as a global event catcher instead of playing around with the win32 API, this is easier for setting hotkeys.
-            Form form = this.FindForm();
+            Form form = FindForm();
             form.KeyPreview = true;
             form.KeyDown += Form_KeyDown;
             form.KeyUp += Form_KeyUp;
 
 
-            Bitmap bmp = new Bitmap(this.CanvasPictureBox.Width, this.CanvasPictureBox.Height);
-            g = Graphics.FromImage(bmp);
-
-            g.Clear(Color.Transparent);
-            this.CanvasPictureBox.Image = bmp;
-
-
-            //this.CurrentTool = new PenTool(g, this.Canvas);
-            originalSize = this.CanvasPictureBox.Size;
+            originalSize = CanvasPictureBox.Size;
 
             // Connect event handlers
-            this.CanvasPictureBox.MouseMove += Canvas_MouseMove;
-            this.CanvasPictureBox.MouseDown += Canvas_MouseDown;
-            this.CanvasPictureBox.MouseUp += Canvas_MouseUp;
-            this.CanvasPictureBox.MouseClick += Canvas_MouseClick;
+            CanvasPictureBox.MouseMove += Canvas_MouseMove;
+            CanvasPictureBox.MouseDown += Canvas_MouseDown;
+            CanvasPictureBox.MouseUp += Canvas_MouseUp;
+            CanvasPictureBox.MouseClick += Canvas_MouseClick;
 
         }
 
@@ -89,7 +100,7 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
+            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
@@ -104,7 +115,7 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
+            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
@@ -119,7 +130,7 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
+            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
@@ -134,7 +145,7 @@ namespace Drawably.UserControls
                 return;
             }
 
-            Point mousePos = this.CanvasPictureBox.PointToClient(Control.MousePosition);
+            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
 
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
@@ -163,14 +174,14 @@ namespace Drawably.UserControls
             if (m.Msg == WM_MOUSEWHEEL && isCtrlClicked)
             {
                 // Prevent the base class from processing the mouse wheel event, this will disable the default scroll behaviour
-                int delta = (int)(m.WParam.ToInt64()); // Extract delta value
+                int delta = (int)m.WParam.ToInt64(); // Extract delta value
                 if (delta > 0)
                 {
-                    this.ZoomIn();
+                    ZoomIn();
                 }
                 else
                 {
-                    this.ZoomOut();
+                    ZoomOut();
                 }
 
                 return;
@@ -212,7 +223,7 @@ namespace Drawably.UserControls
             canvasWidth = newCanvasWidth;
             canvasHeight = newCanvasHeight;
 
-            this.canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
+            canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
         }
 
         private void InitializeComponent()
@@ -264,11 +275,22 @@ namespace Drawably.UserControls
         /// </summary>
         public void ScrollToMiddle()
         {
-            int x = Math.Max(0, (this.HorizontalScroll.Maximum - this.HorizontalScroll.LargeChange) / 2);
-            int y = Math.Max(0, (this.VerticalScroll.Maximum - this.VerticalScroll.LargeChange) / 2);
+            int x = Math.Max(0, (HorizontalScroll.Maximum - HorizontalScroll.LargeChange) / 2);
+            int y = Math.Max(0, (VerticalScroll.Maximum - VerticalScroll.LargeChange) / 2);
 
-            this.HorizontalScroll.Value = x;
-            this.VerticalScroll.Value = y;
+            HorizontalScroll.Value = x;
+            VerticalScroll.Value = y;
+        }
+
+        public void UpdateVisualizedCanvasToAllLayersMerged() 
+        {
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+        }
+
+        // Should always be called when you finish drawing a selected tool
+        public void FinishedDrawingWithSelectedTool() 
+        {
+            UpdateVisualizedCanvasToAllLayersMerged();
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Drawably.Tools
 {
     public interface IToolable
     {
+        void OnToolSelected();
+        void OnToolUnselected();
         void OnMouseMove(float x, float y);
         void OnMouseLeftClick(float x, float y);
 
@@ -15,6 +17,8 @@ namespace Drawably.Tools
 
         void OnMouseDown(float x, float y);
         void OnMouseUp(float x, float y);
+
+        void OnNewLayerSelected();
 
     }
 }

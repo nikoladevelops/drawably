@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools;
+using Drawably.UserControls.CanvasRelated;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,27 +64,40 @@ namespace Drawably.UserControls.Windows.Tools
             {
                 kvp.Key.Click += (o, e) =>
                 {
-                    if (selectedBtn != null) 
-                    {
-                        selectedBtn.BackColor = Color.Black;
-                        selectedBtn.ForeColor = Color.White;
-                    }
-
                     if (selectedBtn == kvp.Key)
                     {
-                        // In case the same tool was selected, deselect it
-                        selectedBtn = null;
-                        canvContainer.CurrentTool = null;
+                        DeselectCurrentTool(kvp);
                         return;
                     }
 
-                    // Otherwise select the new tool
-                    selectedBtn = kvp.Key;
-                    selectedBtn.BackColor = Color.Yellow;
-                    selectedBtn.ForeColor = Color.Black;
-                    canvContainer.CurrentTool = kvp.Value;
+                    DeselectCurrentTool(kvp);
+                    SelectNewTool(kvp);
                 };
             }
+        }
+
+        private void SelectNewTool(KeyValuePair<Button, IToolable> kvp) 
+        {
+            selectedBtn = kvp.Key;
+            selectedBtn.BackColor = Color.Yellow;
+            selectedBtn.ForeColor = Color.Black;
+            kvp.Value.OnToolSelected();
+            canvContainer.CurrentTool = kvp.Value;
+        }
+
+        private void DeselectCurrentTool(KeyValuePair<Button, IToolable> kvp) 
+        {
+            // Deselect only if there is a tool to deselect
+            if (selectedBtn == null) 
+            {
+                return;
+            }
+
+            selectedBtn.BackColor = Color.Black;
+            selectedBtn.ForeColor = Color.White;
+            canvContainer.CurrentTool.OnToolUnselected();
+            selectedBtn = null;
+            canvContainer.CurrentTool = null;
         }
 
     }

@@ -1,4 +1,4 @@
-﻿using Drawably.UserControls;
+﻿using Drawably.UserControls.CanvasRelated;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,16 +17,20 @@ namespace Drawably.Tools
         public int Size { get; set; } = 25; // Todo when changing size, change both the brush's size and the pen's size
         private bool isDrawingEnabled;
 
+
+        private PictureBox canvas;
+        private CanvasContainer canvasContainer;
+
         private Pen pen;
         private Brush brush;
 
-        private Graphics g;
-        private PictureBox canvas;
-
+        private Graphics canvasGraphics;
+        private Graphics selectedLayerGraphics;
+        
         float cacheX;
         float cacheY;
 
-        public PenTool(CanvasContainer cc)
+        public PenTool(CanvasContainer newCanvasContainer)
         {
             pen = new Pen(CurrentColor, Size);
             pen.EndCap = LineCap.Round;
@@ -34,8 +38,8 @@ namespace Drawably.Tools
 
             brush = new SolidBrush(CurrentColor);
 
-            this.g = cc.g;
-            this.canvas = cc.CanvasPictureBox;
+            this.canvasContainer = newCanvasContainer;
+            this.canvas = newCanvasContainer.CanvasPictureBox;
         }
         public void OnMouseMove(float x, float y)
         {
@@ -60,24 +64,44 @@ namespace Drawably.Tools
             cacheY = y;
 
             // This is so I can place the initial dot when a click occurs
-            g.FillEllipse(brush, x - Size/2, y - Size/2, Size, Size);
+            canvasGraphics.FillEllipse(brush, x - Size/2, y - Size/2, Size, Size);
             canvas.Invalidate();
         }
 
         public void OnMouseUp(float x, float y)
         {
             isDrawingEnabled = false;
+            canvasContainer.UpdateVisualizedCanvasToAllLayersMerged();
+            canvasGraphics = Graphics.FromImage(canvas.Image); // important because after refresh we work with brand new merged bitmap
         }
 
         // Keeps drawing lines that are connected
         private void KeepDrawing(float x, float y) 
         {
-            g.DrawLine(pen, cacheX, cacheY, x, y);
+            canvasGraphics.DrawLine(pen, cacheX, cacheY, x, y);
 
             cacheX = x;
             cacheY = y;
 
             canvas.Invalidate();
+        }
+
+        public void OnToolSelected()
+        {
+            canvasGraphics = Graphics.FromImage(canvas.Image);
+            selectedLayerGraphics = Graphics.FromImage(canvasContainer.SelectedLayerBitmap);
+        }
+
+        public void OnToolUnselected()
+        {
+            canvasGraphics.Dispose();
+            selectedLayerGraphics.Dispose();
+        }
+
+        public void OnNewLayerSelected()
+        {
+            // TODO THIS
+            throw new NotImplementedException();
         }
     }
 }

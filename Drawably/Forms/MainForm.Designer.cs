@@ -34,7 +34,7 @@
             toolsWindow = new UserControls.Windows.Tools.ToolsWindow();
             topPanel = new UserControls.TopPanel.TopPanel();
             canvas = new PictureBox();
-            canvasContainer = new UserControls.CanvasContainer();
+            canvasContainer = new UserControls.CanvasRelated.CanvasContainer();
             ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
             // 
@@ -44,18 +44,19 @@
             colorsWindow.Location = new Point(12, 400);
             colorsWindow.MenuText = "Colors";
             colorsWindow.Name = "colorsWindow";
-            colorsWindow.OnCloseBtnClicked = null;
             colorsWindow.Size = new Size(168, 220);
             colorsWindow.TabIndex = 19;
             // 
             // layersWindow
             // 
             layersWindow.BackColor = SystemColors.ActiveCaption;
+            layersWindow.CanvasContainer = canvasContainer;
             layersWindow.Location = new Point(980, 400);
+            layersWindow.MaximumSize = new Size(175, 225);
             layersWindow.MenuText = "Layers";
+            layersWindow.MinimumSize = new Size(175, 225);
             layersWindow.Name = "layersWindow";
-            layersWindow.OnCloseBtnClicked = null;
-            layersWindow.Size = new Size(162, 179);
+            layersWindow.Size = new Size(175, 225);
             layersWindow.TabIndex = 20;
             // 
             // toolsWindow
@@ -64,7 +65,6 @@
             toolsWindow.Location = new Point(12, 73);
             toolsWindow.MenuText = "Tools";
             toolsWindow.Name = "toolsWindow";
-            toolsWindow.OnCloseBtnClicked = null;
             toolsWindow.Size = new Size(71, 321);
             toolsWindow.TabIndex = 0;
             // 
@@ -100,6 +100,7 @@
             canvasContainer.BackColor = Color.DarkGray;
             canvasContainer.CurrentTool = null;
             canvasContainer.Dock = DockStyle.Fill;
+            canvasContainer.LayersWindow = layersWindow;
             canvasContainer.Location = new Point(0, 67);
             canvasContainer.Name = "canvasContainer";
             canvasContainer.Size = new Size(1302, 562);
@@ -130,7 +131,7 @@
         private UserControls.Windows.Layers.LayersWindow layersWindow;
         private UserControls.Windows.Tools.ToolsWindow toolsWindow;
         private PictureBox canvas;
-        private UserControls.CanvasContainer canvasContainer;
+        private UserControls.CanvasRelated.CanvasContainer canvasContainer;
         public UserControls.TopPanel.TopPanel topPanel;
     }
 }

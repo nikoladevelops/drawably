@@ -8,24 +8,17 @@ namespace Drawably.UserControls.Windows.Layers
 {
     public class LayerData
     {
-        private PictureBox layerPictureBox;
-        public LayerData(PictureBox canvas)
+        private Bitmap layerImage;
+        public LayerData(int newWidth, int newHeight)
         {
-            this.layerPictureBox = new PictureBox();
-
-            layerPictureBox.SizeMode = canvas.SizeMode;
-            layerPictureBox.MinimumSize = canvas.MinimumSize;
-            layerPictureBox.MaximumSize = canvas.MaximumSize;
-
-            // Create a brand new empty layer, that is the same size as the canvas
-            Bitmap bmp = new Bitmap(canvas.Width, canvas.Height);
-            using (Graphics g = Graphics.FromImage(bmp))
+            layerImage = new Bitmap(newWidth, newHeight);
+            
+            using (Graphics g = Graphics.FromImage(layerImage))
             {
                 g.Clear(Color.Transparent);
-                this.layerPictureBox.Image = bmp;
             }
-
         }
-        public PictureBox LayerPictureBox { get => layerPictureBox; }
+
+        public Bitmap LayerImage { get => this.layerImage; }
     }
 }
