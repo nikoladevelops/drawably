@@ -83,6 +83,7 @@ namespace Drawably.UserControls.Windows.Layers
             // Create the very first layer
             CreateLayerLabel();
 
+
             // just testing
             //CreateLayerLabel();
             //CreateLayerLabel();
@@ -91,11 +92,15 @@ namespace Drawably.UserControls.Windows.Layers
             //CreateLayerLabel();
             //CreateLayerLabel();
             //CreateLayerLabel();
-            this.deleteLayerBtn.Enabled = true;
+            //this.deleteLayerBtn.Enabled = true;
             //
         }
 
-        private void SelectNewLayerLabel(LayerLabel newLbl)
+        /// <summary>
+        /// Marks the newly selected layer. Should always be called first when a new layer label is selected
+        /// </summary>
+        /// <param name="newLbl"></param>
+        private void MarkNewSelectedLabel(LayerLabel newLbl)
         {
             if (selectedLayerLabel != null)
             {
@@ -106,7 +111,21 @@ namespace Drawably.UserControls.Windows.Layers
             newLbl.IsLayerSelected = true;
         }
 
-        // Note : When creating a brand new layer, it will always be the newly selected one
+        /// <summary>
+        /// When the user clicks with the mouse and selects a brand new layer label
+        /// </summary>
+        private void SelectNewLayerLabelByUserClick(LayerLabel newLbl) 
+        {
+            MarkNewSelectedLabel(newLbl);
+            this.CanvasContainer.OnNewLayerSelectedByUserClick();
+        }
+
+
+        /// <summary>
+        /// Creates a brand new layer label. 
+        /// Called when the user clicks the add new layer button. 
+        /// Note that when a new layer is created it is automatically marked as selected as well.
+        /// </summary>
         private void CreateLayerLabel()
         {
             LayerLabel newLbl = new LayerLabel($"Layer {allLayersPanel.Controls.Count + 1}", true, true);
@@ -124,6 +143,7 @@ namespace Drawably.UserControls.Windows.Layers
 
                 newLbl.IsLayerSelected = true;
                 selectedLayerLabel = newLbl;
+                SelectNewLayerLabelByUserClick(newLbl);
             };
 
             // Ensure the layer has a layer data and is added to the dictionary that tracks all layers
@@ -144,10 +164,16 @@ namespace Drawably.UserControls.Windows.Layers
             this.allLayersPanel.Controls.Add(newLbl);
             this.allLayersPanel.Controls.SetChildIndex(newLbl, indexOfSelected + 1);
 
-            SelectNewLayerLabel(newLbl);
+            MarkNewSelectedLabel(newLbl);
 
+            // Ensure the Canvas container is informed about the newly created layer. Note that the canvas container should know that by creating a new layer, the new layer is being marked as selected automatically.
+            this.CanvasContainer.OnLayerCreated();
         }
 
+        /// <summary>
+        /// Delets a selected layer. Note that when deleting a layer label, another label will get marked automatically as the newly selected layer label
+        /// </summary>
+        /// <param name="lblToRemove"></param>
         private void DeleteLayerLabel(LayerLabel lblToRemove)
         {
             int indexOfSelected = this.allLayersPanel.Controls.GetChildIndex(lblToRemove);
@@ -162,7 +188,7 @@ namespace Drawably.UserControls.Windows.Layers
 
             // Select the appropriate new LayerLabel
             LayerLabel lblToSelectNext = (LayerLabel)this.allLayersPanel.Controls[newSelectedIndex];
-            SelectNewLayerLabel(lblToSelectNext);
+            MarkNewSelectedLabel(lblToSelectNext);
 
             // Delete the layer from being tracked
             this.allLayersData.Remove(lblToRemove);
@@ -170,10 +196,14 @@ namespace Drawably.UserControls.Windows.Layers
             // Delete the layer label itself
             this.allLayersPanel.Controls.Remove(lblToRemove);
 
-            // Ensure the canvas is informed about the layer being deleted so it can refresh the visualized canvas
-            this.CanvasContainer.UpdateVisualizedCanvasToAllLayersMerged();
+            // Ensure the Canvas container is informed about the user deleting a selected layer. Note that the canvas container should know that by deleting a layer, another one will be selected automatically.
+            this.CanvasContainer.OnLayerDeleted();
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="lblToDuplicate"></param>
         private void DuplicateLayerLabel(LayerLabel lblToDuplicate)
         {
             // TODO should duplicate the bitmap
@@ -185,8 +215,12 @@ namespace Drawably.UserControls.Windows.Layers
             );
 
             this.allLayersPanel.Controls.Add(newLbl);
+            this.CanvasContainer.OnLayerDuplicated();
         }
 
+        /// <summary>
+        /// Moves a layer label up. Note that this should affect Z index when merging layers
+        /// </summary>
         private void MoveLayerUp()
         {
             int indexOfSelected = this.allLayersPanel.Controls.GetChildIndex(selectedLayerLabel);
@@ -200,10 +234,14 @@ namespace Drawably.UserControls.Windows.Layers
             // Move the label up
             this.allLayersPanel.Controls.SetChildIndex(selectedLayerLabel, indexOfSelected + 1);
 
-            // Ensure the canvas is refreshed due to the changes (the Z index got changed, so some things should be displayed on top, while others behind)
-            this.CanvasContainer.UpdateVisualizedCanvasToAllLayersMerged();
+            // Inform the Canvas container that the selected layer was moved up
+            this.CanvasContainer.OnMoveLayerUp();
+
         }
 
+        /// <summary>
+        /// Moves layer down. Note that this should affect Z index when merging layers
+        /// </summary>
         private void MoveLayerDown()
         {
             int indexOfSelected = this.allLayersPanel.Controls.GetChildIndex(selectedLayerLabel);
@@ -217,19 +255,19 @@ namespace Drawably.UserControls.Windows.Layers
             // Move the label down
             this.allLayersPanel.Controls.SetChildIndex(selectedLayerLabel, indexOfSelected - 1);
 
-            // Ensure the canvas is refreshed due to the changes (the Z index got changed, so some things should be displayed on top, while others behind)
-            this.CanvasContainer.UpdateVisualizedCanvasToAllLayersMerged();
+            // Inform the Canvas container that the selected layer was moved down
+            this.CanvasContainer.OnMoveLayerDown();
         }
 
         /// <summary>
         /// Merges all layers into one Bitmap
         /// </summary>
-        /// <returns>The bitmap containing all layers merged</returns>
+        /// <returns>The bitmap containing all layers merged.</returns>
         public Bitmap GetAllLayersMergedBitmap()
         {
             Bitmap allLayersMerged = new Bitmap(this.CanvasContainer.GetCanvasBitmapWidth, this.CanvasContainer.GetCanvasBitmapHeight);
 
-            // TODO fix all of this 
+            // TODO fix it so it matches the Z index
             foreach (var kvp in allLayersData)
             {
                 LayerData layerData = kvp.Value;

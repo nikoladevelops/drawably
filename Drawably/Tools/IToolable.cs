@@ -18,7 +18,11 @@ namespace Drawably.Tools
         void OnMouseDown(float x, float y);
         void OnMouseUp(float x, float y);
 
-        void OnNewLayerSelected();
+        void GetNewCanvasGraphics();
+
+        void GetNewSelectedLayerGraphics();
+
+        void OnToolFinishedDrawing();
 
     }
 }

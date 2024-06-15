@@ -65,13 +65,17 @@ namespace Drawably.Tools
 
             // This is so I can place the initial dot when a click occurs
             canvasGraphics.FillEllipse(brush, x - Size/2, y - Size/2, Size, Size);
+            // Do the same on top of the selected layer
+            selectedLayerGraphics.FillEllipse(brush, x - Size / 2, y - Size / 2, Size, Size);
+
             canvas.Invalidate();
         }
 
         public void OnMouseUp(float x, float y)
         {
             isDrawingEnabled = false;
-            canvasContainer.UpdateVisualizedCanvasToAllLayersMerged();
+            canvasContainer.OnSelectedToolFinishedDrawing();
+
             canvasGraphics = Graphics.FromImage(canvas.Image); // important because after refresh we work with brand new merged bitmap
         }
 
@@ -79,6 +83,8 @@ namespace Drawably.Tools
         private void KeepDrawing(float x, float y) 
         {
             canvasGraphics.DrawLine(pen, cacheX, cacheY, x, y);
+            // Do the drawing inside the selected layer as well
+            selectedLayerGraphics.DrawLine(pen, cacheX, cacheY, x, y);
 
             cacheX = x;
             cacheY = y;
@@ -86,22 +92,54 @@ namespace Drawably.Tools
             canvas.Invalidate();
         }
 
+        /// <summary>
+        /// When the tool is selected create brand new graphics objects. Canvas graphics is for the visualized canvas. Selected layer graphics is for the selected layer's bitmap
+        /// </summary>
         public void OnToolSelected()
         {
             canvasGraphics = Graphics.FromImage(canvas.Image);
             selectedLayerGraphics = Graphics.FromImage(canvasContainer.SelectedLayerBitmap);
         }
 
+        /// <summary>
+        /// When a tool is unselected, dispose of previous graphics objects
+        /// </summary>
         public void OnToolUnselected()
         {
             canvasGraphics.Dispose();
             selectedLayerGraphics.Dispose();
         }
 
-        public void OnNewLayerSelected()
+        /// <summary>
+        /// Update the canvas graphics that you draw on. Happens when the canvas container gets updated Bitmap with all merged layers.
+        /// </summary>
+        public void GetNewCanvasGraphics()
         {
-            // TODO THIS
-            throw new NotImplementedException();
+            if (canvasGraphics != null) 
+            {
+                canvasGraphics.Dispose();
+            }
+            canvasGraphics = Graphics.FromImage(canvas.Image);
+        }
+
+        /// <summary>
+        /// Update the selected layer graphics. Happens when a new layer is selected.
+        /// </summary>
+        public void GetNewSelectedLayerGraphics()
+        {
+            if (selectedLayerGraphics != null)
+            {
+                selectedLayerGraphics.Dispose();
+            }
+            selectedLayerGraphics = Graphics.FromImage(canvasContainer.SelectedLayerBitmap);
+        }
+
+        /// <summary>
+        ///  When the tool finishes drawing, tell the canvas container to apply the necessary changes (merging all layers -> telling the tool to update the graphics etc..)
+        /// </summary>
+        public void OnToolFinishedDrawing()
+        {
+            this.canvasContainer.OnSelectedToolFinishedDrawing();
         }
     }
 }

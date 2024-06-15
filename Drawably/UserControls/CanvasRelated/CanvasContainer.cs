@@ -282,15 +282,107 @@ namespace Drawably.UserControls.CanvasRelated
             VerticalScroll.Value = y;
         }
 
-        public void UpdateVisualizedCanvasToAllLayersMerged() 
+        /// <summary>
+        /// Called when a new layer was selected by the user (the user clicks on a layer label, this means seletion of the layer)
+        /// </summary>
+        public void OnNewLayerSelectedByUserClick() 
         {
-            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+            if (this.CurrentTool != null) 
+            {
+                // Inform the current tool that a new layer has been selected, so it should get the newly selected layer's graphics so that it can draw on the correct layer
+                this.CurrentTool.GetNewSelectedLayerGraphics();
+            }
         }
 
-        // Should always be called when you finish drawing a selected tool
-        public void FinishedDrawingWithSelectedTool() 
+        /// <summary>
+        /// Called when a new layer was created by the user
+        /// </summary>
+        public void OnLayerCreated() 
         {
-            UpdateVisualizedCanvasToAllLayersMerged();
+            if (this.CurrentTool != null)
+            {
+                // BY RULES I MADE, when a new layer is created, it will automatically be marked as selected, so I still need to tell the current tool to get the newly selected layer's graphics
+                this.CurrentTool.GetNewSelectedLayerGraphics();
+            }
+        }
+
+        /// <summary>
+        /// Called when the selected layer was deleted
+        /// </summary>
+        public void OnLayerDeleted() 
+        {
+            // When a layer is deleted, that means I should update the visualized canvas image so some drawn elements can dissapear because they no longer exist (the layer was deleted)
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+            if (this.CurrentTool != null)
+            {
+                // Because the previous canvas image was replaced by another one (the merged layers Bitmap), I have to tell the current tool to acquire the new canvas graphics object from the newly visualized image
+                this.CurrentTool.GetNewCanvasGraphics();
+                // BY RULES I MADE, when a layer is deleted, it will automatically mark another layer as selected, so I still need to tell the current tool to get the newly selected layer's graphics
+                this.CurrentTool.GetNewSelectedLayerGraphics();
+            }
+        }
+
+        /// <summary>
+        /// Called when the selected layer was duplicated
+        /// </summary>
+        public void OnLayerDuplicated() 
+        {
+            // When a layer is duplicated, that means I should update the visualized canvas image (right now it may be pointless, but in the future when adding thing such as layer opacity and other things like that, it may have an effect whether the visualized image was refreshed or not)
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+
+            if (this.CurrentTool != null)
+            {
+                // Because I updated the visualized image, acquire the new graphics object for that image
+                this.CurrentTool.GetNewCanvasGraphics();
+                // BY RULES I MADE, when a layer is duplicated, it will automatically mark the duplicated layer as selected, so I still need to tell the current tool to get the newly selected layer's graphics
+                this.CurrentTool.GetNewSelectedLayerGraphics();
+            }
+        }
+
+        /// <summary>
+        /// Called when the selected layer was moved up
+        /// </summary>
+        public void OnMoveLayerUp() 
+        {
+            // When the selected layer is moved up, this will change the Z index, so I need to visualize that by merging all layers into a Bitmap and then giving this bitmap to the Canvas's visualized image
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+            if (this.CurrentTool != null)
+            {
+                // Because the canvas's visualized image was changed, I have to inform the tool that it needs to get a new canvas graphics so that when the user draws it can be visualized again
+                // Note that I don't call GetNewSelectedLayerGraphics, because by RULES, when a layer is moved up, that doesn't deselect it, so the graphics for the selected layer is still same, only the canvas's graphics needs to change because of layer merging
+                this.CurrentTool.GetNewCanvasGraphics();
+            }
+        }
+
+        /// <summary>
+        /// Called when the selected layer was moved down
+        /// </summary>
+        public void OnMoveLayerDown() 
+        {
+            // When the selected layer is moved down, this will change the Z index, so I need to visualize that by merging all layers into a Bitmap and then giving this bitmap to the Canvas's visualized image
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+            if (this.CurrentTool != null)
+            {
+                // Because the canvas's visualized image was changed, I have to inform the tool that it needs to get a new canvas graphics so that when the user draws it can be visualized again
+                // Note that I don't call GetNewSelectedLayerGraphics, because by RULES, when a layer is moved down, that doesn't deselect it, so the graphics for the selected layer is still same, only the canvas's graphics needs to change because of layer merging
+                this.CurrentTool.GetNewCanvasGraphics();
+            }
+        }
+
+        /// <summary>
+        /// This method should be called by the CurrentTool ALWAYS when the user has finished drawing on the canvas, so that the layers can be merged correctly and visualized to the canvas based on their Z index. In simple terms -> user always draws on top of every layer by drawing on the visualized canvas, user stops drawing on the canvas -> merge layers and display the merged bitmap so that the Z indexes are correct
+        /// </summary>
+        public void OnSelectedToolFinishedDrawing() 
+        {
+            // When user finishes drawing with the tool, I should visualize the image correctly based on the Z indexes of all layers
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+
+            if (this.CurrentTool != null)
+            {
+                // Again, inform the current tool that because the layers have been merged, the canvas has a brand new bitmap, so the tool has to acquire the brand new graphics object for the canvas
+                // Also note that when the user finises drawing, that doesn't mean that he changed the selected layer, that means I shouldn't tell the tool to update the selected layer graphics object, it should only update the canvas graphics object
+                this.CurrentTool.GetNewCanvasGraphics();
+            }
         }
     }
 }
