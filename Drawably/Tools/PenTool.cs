@@ -13,10 +13,8 @@ namespace Drawably.Tools
 {
     public class PenTool : IToolable
     {
-        public Color CurrentColor { get; set; } = Color.Black; // todo when changing color change both the brush and the pen's
         public int Size { get; set; } = 25; // Todo when changing size, change both the brush's size and the pen's size
         private bool isDrawingEnabled;
-
 
         private PictureBox canvas;
         private CanvasContainer canvasContainer;
@@ -32,12 +30,13 @@ namespace Drawably.Tools
 
         public PenTool(CanvasContainer newCanvasContainer)
         {
-            pen = new Pen(CurrentColor, Size);
+            pen = new Pen(newCanvasContainer.CurrentLeftColor, Size);
+            
             pen.EndCap = LineCap.Round;
             pen.StartCap = LineCap.Round;
 
-            brush = new SolidBrush(CurrentColor);
-
+            brush = new SolidBrush(newCanvasContainer.CurrentLeftColor);
+            
             this.canvasContainer = newCanvasContainer;
             this.canvas = newCanvasContainer.CanvasPictureBox;
         }
@@ -140,6 +139,19 @@ namespace Drawably.Tools
         public void OnToolFinishedDrawing()
         {
             this.canvasContainer.OnSelectedToolFinishedDrawing();
+        }
+
+        public void OnChangedLeftColor()
+        {
+            brush.Dispose();
+            brush = new SolidBrush(canvasContainer.CurrentLeftColor);
+            pen.Color = canvasContainer.CurrentLeftColor;
+        }
+
+        public void OnChangedRightColor()
+        {
+            // TODO new brush / pen
+            throw new NotImplementedException();
         }
     }
 }

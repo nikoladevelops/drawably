@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools;
+using Drawably.UserControls.Windows.Colors;
 using Drawably.UserControls.Windows.Layers;
 using System;
 using System.Collections.Generic;
@@ -39,13 +40,24 @@ namespace Drawably.UserControls.CanvasRelated
         public Bitmap CanvasVisualizedImage { get => (Bitmap)this.canvas.CanvasPictureBox.Image; set => this.canvas.CanvasPictureBox.Image = value; }
         public int GetCanvasBitmapWidth { get => this.canvas.CanvasPictureBox.Image.Width; }
         public int GetCanvasBitmapHeight { get => this.canvas.CanvasPictureBox.Image.Height; }
+
+        // Colors
+
+        public Color CurrentLeftColor { get => this.ColorsWindow.LeftColor; }
+        public Color CurrentRightColor { get => this.ColorsWindow.RightColor; }
         //
 
         [
            Category("All Custom Props"),
-           Description("The layers window is needed in order for everything to work correctly.")
+           Description("The Layers window is needed in order for everything to work correctly.")
         ]
         public LayersWindow LayersWindow { get; set; }
+
+        [
+           Category("All Custom Props"),
+           Description("The Colors window is needed in order for everything to work correctly.")
+        ]
+        public ColorsWindow ColorsWindow { get; set; }
 
         public IToolable? CurrentTool { get; set; }
 
@@ -396,6 +408,29 @@ namespace Drawably.UserControls.CanvasRelated
                 // Because the visualized canvas's image changed, I need to tell the current tool to select the new graphics object
                 this.CurrentTool.GetNewCanvasGraphics();
 
+            }
+        }
+
+
+        /// <summary>
+        /// Called when a brand new left color was selected from the colors window
+        /// </summary>
+        public void OnLeftColorChanged() 
+        {
+            if (this.CurrentTool != null) 
+            {
+                this.CurrentTool.OnChangedLeftColor();
+            }
+        }
+
+        /// <summary>
+        /// Called when a brand new right color was selected from the colors window
+        /// </summary>
+        public void OnRightColorChanged() 
+        {
+            if (this.CurrentTool != null)
+            {
+                this.CurrentTool.OnChangedRightColor();
             }
         }
     }

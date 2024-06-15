@@ -24,5 +24,8 @@ namespace Drawably.Tools
 
         void OnToolFinishedDrawing();
 
+        void OnChangedLeftColor();
+        void OnChangedRightColor();
+
     }
 }
