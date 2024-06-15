@@ -96,6 +96,7 @@ namespace Drawably.Tools
         /// </summary>
         public void OnToolSelected()
         {
+            // TODO update new selected colors.
             canvasGraphics = Graphics.FromImage(canvas.Image);
             selectedLayerGraphics = Graphics.FromImage(canvasContainer.SelectedLayerBitmap);
         }

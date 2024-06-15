@@ -327,40 +327,24 @@ namespace Drawably.UserControls.Windows.Layers
         {
             Bitmap allLayersMerged = new Bitmap(this.CanvasContainer.GetCanvasBitmapWidth, this.CanvasContainer.GetCanvasBitmapHeight);
 
-            // TODO fix it so it matches the Z index
-            foreach (var kvp in allLayersData)
+            // The Z index is automatically achieved by looping all layer labels inside the allLayersPanel, they are already ordered in the way I want them to be
+            // This is done, because I used this.allLayersPanel.Controls.SetChildIndex and this.allLayersPanel.Controls.GetChildIndex to rely on ordering
+            // In other words it will merge layers one after another starting from index 0 all the way to max index (last layer label), pretty cool
+            foreach (LayerLabel layerLabel in this.allLayersPanel.Controls)
             {
-                LayerLabel layerLabel = kvp.Key;
                 // Ignore merging a layer if it's marked as NOT visible
-                if (layerLabel.IsLayerVisible == false) 
+                if (layerLabel.IsLayerVisible == false)
                 {
                     continue;
                 }
 
-                LayerData layerData = kvp.Value;
+                LayerData layerData = allLayersData[layerLabel];
 
                 using (Graphics mergedG = Graphics.FromImage(allLayersMerged))
                 {
                     mergedG.DrawImage(layerData.LayerImage, new Point(0, 0));
                 }
             }
-
-            //foreach (LayerLabel layerLabel in this.allLayersPanel.Controls)
-            //{
-            //    //MessageBox.Show(layerLabel.GetHashCode().ToString());
-
-            //    //foreach (var item in allLayersData)
-            //    //{
-            //    //    MessageBox.Show(item.GetHashCode().ToString());
-            //    //}
-
-            //    LayerData layerData = allLayersData[layerLabel];
-
-            //    using (Graphics mergedG = Graphics.FromImage(allLayersMerged))
-            //    {
-            //        mergedG.DrawImage(layerData.LayerImage, new Point(0,0));
-            //    }
-            //}
 
             return allLayersMerged;
         }

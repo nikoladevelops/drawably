@@ -48,7 +48,7 @@
             // 
             // menuTextLabel
             // 
-            menuTextLabel.Size = new Size(142, 23);
+            menuTextLabel.Size = new Size(168, 23);
             // 
             // closeButton
             // 
