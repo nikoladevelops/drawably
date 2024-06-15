@@ -44,7 +44,7 @@ namespace Drawably.UserControls.Windows.Layers
 
             this.deleteLayerBtn.Click += (o, e) =>
             {
-                DeleteLayerLabel(selectedLayerLabel);
+                DeleteLayerLabel(this.selectedLayerLabel);
 
                 // Disable the delete button if only a single layer was left
                 if (allLayersPanel.Controls.Count == 1)
@@ -55,7 +55,8 @@ namespace Drawably.UserControls.Windows.Layers
 
             this.duplicateLayerBtn.Click += (o, e) =>
             {
-                MessageBox.Show("Not implemented");
+                this.deleteLayerBtn.Enabled = true;
+                DuplicateLayerLabel(this.selectedLayerLabel);
             };
 
             this.moveUpLayerBtn.Click += (o, e) =>
@@ -120,16 +121,22 @@ namespace Drawably.UserControls.Windows.Layers
             this.CanvasContainer.OnNewLayerSelectedByUserClick();
         }
 
+        /// <summary>
+        /// Helper method to re-use logic that creates a label and places it exactly after the selected label
+        /// </summary>
+        private void PlaceNewLayerLableAfterCurrentlySelectedLayerLable(LayerLabel newLbl) 
+        {
+            int indexOfSelected = this.allLayersPanel.Controls.GetChildIndex(this.selectedLayerLabel);
+            this.allLayersPanel.Controls.Add(newLbl);
+            this.allLayersPanel.Controls.SetChildIndex(newLbl, indexOfSelected + 1);
+        }
 
         /// <summary>
-        /// Creates a brand new layer label. 
-        /// Called when the user clicks the add new layer button. 
-        /// Note that when a new layer is created it is automatically marked as selected as well.
+        /// Helper method to re-use logic that registers click event for the newly created layer label
         /// </summary>
-        private void CreateLayerLabel()
+        /// <param name="newLbl"></param>
+        private void ConfigureNewLayerLabelClickEvent(LayerLabel newLbl) 
         {
-            LayerLabel newLbl = new LayerLabel($"Layer {allLayersPanel.Controls.Count + 1}", true, true);
-
             // Select layer label when it's clicked
             newLbl.Click += (o, e) =>
             {
@@ -145,6 +152,19 @@ namespace Drawably.UserControls.Windows.Layers
                 selectedLayerLabel = newLbl;
                 SelectNewLayerLabelByUserClick(newLbl);
             };
+        }
+
+        /// <summary>
+        /// Creates a brand new layer label. 
+        /// Called when the user clicks the add new layer button. 
+        /// Note that when a new layer is created it is automatically marked as selected as well.
+        /// </summary>
+        private void CreateLayerLabel()
+        {
+            LayerLabel newLbl = new LayerLabel($"Layer {allLayersPanel.Controls.Count + 1}", true, true);
+
+            // Select layer label when it's clicked
+            ConfigureNewLayerLabelClickEvent(newLbl);
 
             // Ensure the layer has a layer data and is added to the dictionary that tracks all layers
             LayerData layerData = new LayerData(this.CanvasContainer.GetCanvasBitmapWidth, this.CanvasContainer.GetCanvasBitmapHeight);
@@ -160,9 +180,7 @@ namespace Drawably.UserControls.Windows.Layers
             }
 
             // Always add the new label after the selected one
-            int indexOfSelected = this.allLayersPanel.Controls.GetChildIndex(this.selectedLayerLabel);
-            this.allLayersPanel.Controls.Add(newLbl);
-            this.allLayersPanel.Controls.SetChildIndex(newLbl, indexOfSelected + 1);
+            PlaceNewLayerLableAfterCurrentlySelectedLayerLable(newLbl);
 
             MarkNewSelectedLabel(newLbl);
 
@@ -201,20 +219,43 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
-        /// TODO
+        /// Duplicates a layer and places the layer label exactly after the currently selected one. Also makes the duplicated label the newly selected label
         /// </summary>
         /// <param name="lblToDuplicate"></param>
         private void DuplicateLayerLabel(LayerLabel lblToDuplicate)
         {
-            // TODO should duplicate the bitmap
+            LayerData lblToDuplicateData = allLayersData[lblToDuplicate];
+
             LayerLabel newLbl = new LayerLabel
             (
-                lblToDuplicate.LayerName,
+                // If already contains "- Copy" inside the name, no need to stack Copy infinitely..
+                lblToDuplicate.LayerName.Contains("- Copy") ? $"{lblToDuplicate.LayerName}" : $"{lblToDuplicate.LayerName} - Copy",
                 lblToDuplicate.IsLayerVisible,
                 lblToDuplicate.IsLayerSelected
             );
 
-            this.allLayersPanel.Controls.Add(newLbl);
+            // Configure click event
+            ConfigureNewLayerLabelClickEvent(newLbl);
+
+            // Create brand new LayerData with the same size
+            LayerData newData = new LayerData(lblToDuplicateData.LayerImage.Width, lblToDuplicateData.LayerImage.Height);
+
+            // Draw the same image on to the new layer's bitmap
+            using (Graphics g = Graphics.FromImage(newData.LayerImage))
+            {
+                g.DrawImage(lblToDuplicateData.LayerImage, new Point(0,0));
+            }
+
+
+            // Add the brand new copied layer to the dictionary of layers
+            this.allLayersData.Add(newLbl, newData);
+
+            // Always add the duplicated layer after the selected layer label
+            PlaceNewLayerLableAfterCurrentlySelectedLayerLable(newLbl);
+
+            // Mark new selected label
+            MarkNewSelectedLabel(newLbl);
+
             this.CanvasContainer.OnLayerDuplicated();
         }
 
