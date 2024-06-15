@@ -228,7 +228,6 @@ namespace Drawably.UserControls.CanvasRelated
 
         private void InitializeComponent()
         {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(CanvasContainer));
             tableLayoutPanel = new TableLayoutPanel();
             canvas = new Canvas();
             tableLayoutPanel.SuspendLayout();
@@ -254,7 +253,6 @@ namespace Drawably.UserControls.CanvasRelated
             // 
             canvas.Anchor = AnchorStyles.None;
             canvas.BackColor = Color.Transparent;
-            canvas.BackgroundImage = (Image)resources.GetObject("canvas.BackgroundImage");
             canvas.Location = new Point(87, 95);
             canvas.Name = "canvas";
             canvas.Size = new Size(449, 227);

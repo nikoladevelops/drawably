@@ -16,6 +16,7 @@ namespace Drawably.UserControls
         public Canvas()
         {
             InitializeComponent();
+            this.backgroundPictureBox.Controls.Add(this.canvasPictureBox);
         }
     }
 }
