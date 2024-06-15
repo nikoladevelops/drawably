@@ -75,6 +75,7 @@ namespace Drawably.UserControls.Windows.Layers
             }
         }
 
+        public Action OnCheckBoxClicked { get; set; }
         public LayerLabel()
         {
             InitializeComponent();
@@ -87,6 +88,14 @@ namespace Drawably.UserControls.Windows.Layers
             this.LayerName = newLayerName;
             this.IsLayerVisible = newIsLayerVisible;
             this.IsLayerSelected = newIsLayerSelected;
+
+            this.isLayerVisibleCheckBox.Click += (o,e)=> 
+            {
+                if (OnCheckBoxClicked != null) 
+                {
+                    OnCheckBoxClicked();
+                }
+            };
         }
     }
 }

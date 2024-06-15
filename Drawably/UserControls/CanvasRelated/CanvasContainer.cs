@@ -382,5 +382,21 @@ namespace Drawably.UserControls.CanvasRelated
                 this.CurrentTool.GetNewCanvasGraphics();
             }
         }
+
+        /// <summary>
+        ///  Called when a layer has switched visibility - visible/hidden
+        /// </summary>
+        public void OnLayerChangedVisibility() 
+        {
+            // Because a layer has been hidden/shown I need to update the visualized canvas again
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+
+            if (this.CurrentTool != null) 
+            {
+                // Because the visualized canvas's image changed, I need to tell the current tool to select the new graphics object
+                this.CurrentTool.GetNewCanvasGraphics();
+
+            }
+        }
     }
 }

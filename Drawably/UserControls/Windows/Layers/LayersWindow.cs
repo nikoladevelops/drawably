@@ -155,6 +155,18 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
+        /// Helper method to re-use logic that registers checkbox clicked event for the newly created label.
+        /// </summary>
+        /// <param name="newLbl"></param>
+        private void ConfigureNewLayerLabelCheckBoxEvent(LayerLabel newLbl) 
+        {
+            newLbl.OnCheckBoxClicked = () =>
+            {
+                this.CanvasContainer.OnLayerChangedVisibility();
+            };
+        }
+
+        /// <summary>
         /// Creates a brand new layer label. 
         /// Called when the user clicks the add new layer button. 
         /// Note that when a new layer is created it is automatically marked as selected as well.
@@ -163,8 +175,11 @@ namespace Drawably.UserControls.Windows.Layers
         {
             LayerLabel newLbl = new LayerLabel($"Layer {allLayersPanel.Controls.Count + 1}", true, true);
 
-            // Select layer label when it's clicked
+            // Register select layer label click event
             ConfigureNewLayerLabelClickEvent(newLbl);
+
+            // Register checkbox click event
+            ConfigureNewLayerLabelCheckBoxEvent(newLbl);
 
             // Ensure the layer has a layer data and is added to the dictionary that tracks all layers
             LayerData layerData = new LayerData(this.CanvasContainer.GetCanvasBitmapWidth, this.CanvasContainer.GetCanvasBitmapHeight);
@@ -234,8 +249,11 @@ namespace Drawably.UserControls.Windows.Layers
                 lblToDuplicate.IsLayerSelected
             );
 
-            // Configure click event
+            // Register select layer label click event
             ConfigureNewLayerLabelClickEvent(newLbl);
+
+            // Register checkbox click event
+            ConfigureNewLayerLabelCheckBoxEvent(newLbl);
 
             // Create brand new LayerData with the same size
             LayerData newData = new LayerData(lblToDuplicateData.LayerImage.Width, lblToDuplicateData.LayerImage.Height);
@@ -256,6 +274,7 @@ namespace Drawably.UserControls.Windows.Layers
             // Mark new selected label
             MarkNewSelectedLabel(newLbl);
 
+            // Inform the canvas container that a layer has been duplicated
             this.CanvasContainer.OnLayerDuplicated();
         }
 
@@ -311,14 +330,21 @@ namespace Drawably.UserControls.Windows.Layers
             // TODO fix it so it matches the Z index
             foreach (var kvp in allLayersData)
             {
+                LayerLabel layerLabel = kvp.Key;
+                // Ignore merging a layer if it's marked as NOT visible
+                if (layerLabel.IsLayerVisible == false) 
+                {
+                    continue;
+                }
+
                 LayerData layerData = kvp.Value;
 
                 using (Graphics mergedG = Graphics.FromImage(allLayersMerged))
                 {
                     mergedG.DrawImage(layerData.LayerImage, new Point(0, 0));
                 }
-
             }
+
             //foreach (LayerLabel layerLabel in this.allLayersPanel.Controls)
             //{
             //    //MessageBox.Show(layerLabel.GetHashCode().ToString());

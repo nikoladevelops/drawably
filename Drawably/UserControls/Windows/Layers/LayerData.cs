@@ -12,7 +12,7 @@ namespace Drawably.UserControls.Windows.Layers
         public LayerData(int newWidth, int newHeight)
         {
             layerImage = new Bitmap(newWidth, newHeight);
-            
+
             using (Graphics g = Graphics.FromImage(layerImage))
             {
                 g.Clear(Color.Transparent);
