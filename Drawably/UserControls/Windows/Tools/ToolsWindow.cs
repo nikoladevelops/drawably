@@ -47,8 +47,13 @@ namespace Drawably.UserControls.Windows.Tools
 
             btnTools = new Dictionary<Button, IToolable>()
             {
-                { penBtn, new PenTool(canvContainer) },
-                { brushBtn, new PenTool(canvContainer) }
+                { this.selectShapeToolBtn, new PenTool(canvContainer) },
+                { this.moveImageToolBtn, new PenTool(canvContainer) },
+                { this.penToolBtn, new PenTool(canvContainer) },
+                { this.brushToolBtn, new PenTool(canvContainer) },
+                { this.drawShapesToolBtn, new PenTool(canvContainer) },
+                { this.zoomInToolBtn, new PenTool(canvContainer) },
+                { this.zoomOutToolBtn, new PenTool(canvContainer) }
             };
             
         }
@@ -80,7 +85,6 @@ namespace Drawably.UserControls.Windows.Tools
         {
             selectedBtn = kvp.Key;
             selectedBtn.BackColor = Color.Yellow;
-            selectedBtn.ForeColor = Color.Black;
             kvp.Value.OnToolSelected();
             canvContainer.CurrentTool = kvp.Value;
         }
@@ -93,8 +97,7 @@ namespace Drawably.UserControls.Windows.Tools
                 return;
             }
 
-            selectedBtn.BackColor = Color.Black;
-            selectedBtn.ForeColor = Color.White;
+            selectedBtn.BackColor = Color.White;
             canvContainer.CurrentTool.OnToolUnselected();
             selectedBtn = null;
             canvContainer.CurrentTool = null;
