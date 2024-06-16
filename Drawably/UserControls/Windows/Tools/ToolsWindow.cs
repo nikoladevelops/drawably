@@ -50,7 +50,7 @@ namespace Drawably.UserControls.Windows.Tools
             {
                 { this.selectShapeToolBtn, new BrushTool(canvContainer) },
                 { this.moveImageToolBtn, new BrushTool(canvContainer) },
-                { this.penToolBtn, new BrushTool(canvContainer) },
+                { this.penToolBtn, new PenTool(canvContainer) },
                 { this.brushToolBtn, new BrushTool(canvContainer) },
                 { this.drawShapesToolBtn, new BrushTool(canvContainer) },
                 { this.zoomInToolBtn, new BrushTool(canvContainer) },
