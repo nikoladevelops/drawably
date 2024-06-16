@@ -19,6 +19,15 @@ namespace Drawably.UserControls.Windows.Colors
             InitializeComponent();
             this.MenuText = "Colors";
             colorDialog = new ColorDialog();
+
+            this.leftColorOpacityTrackBar.ValueChanged += LeftColorOpacityTrackBar_ValueChanged;
+            this.rightColorOpacityTrackBar.ValueChanged += RightColorOpacityTrackBar_ValueChanged;
+
+            this.leftColorOpacityTrackBar.MouseUp += LeftColorOpacityTrackBar_MouseUp;
+            this.rightColorOpacityTrackBar.MouseUp += RightColorOpacityTrackBar_MouseUp;
+
+            this.cacheLeftColorNoOpacity = LeftColor;
+            this.cacheRightColorNoOpacity = RightColor;
         }
 
         [
@@ -29,6 +38,48 @@ namespace Drawably.UserControls.Windows.Colors
 
         public Color LeftColor { get => this.leftColorButton.BackColor; }
         public Color RightColor { get => this.rightColorButton.BackColor; }
+
+        private Color cacheLeftColorNoOpacity;
+        private Color cacheRightColorNoOpacity;
+
+
+        // For actual color alpha calculation
+        private Color ApplyAlphaToColor(Color color, int alpha) 
+        {
+            return Color.FromArgb(alpha, color.R, color.G, color.B);
+        }
+
+
+        private void LeftColorOpacityTrackBar_MouseUp(object? sender, MouseEventArgs e)
+        {
+            Color applyOpacityColor = ApplyAlphaToColor(cacheLeftColorNoOpacity, this.leftColorOpacityTrackBar.Value);
+
+            this.leftColorButton.BackColor = applyOpacityColor;
+            this.CanvasContainer.OnLeftColorChanged();
+
+        }
+        private void RightColorOpacityTrackBar_MouseUp(object? sender, MouseEventArgs e)
+        {
+            Color applyOpacityColor = ApplyAlphaToColor(cacheRightColorNoOpacity, this.rightColorOpacityTrackBar.Value);
+
+            this.rightColorButton.BackColor = applyOpacityColor;
+            this.CanvasContainer.OnRightColorChanged();
+        }
+
+        //
+
+        // For label opacity percentages
+        private void LeftColorOpacityTrackBar_ValueChanged(object? sender, EventArgs e)
+        {
+            int opacityPercentage = (int)(this.leftColorOpacityTrackBar.Value / 255.0f * 100);
+            this.leftColorOpacityPercentageLabel.Text = $"{opacityPercentage}%";
+        }
+        private void RightColorOpacityTrackBar_ValueChanged(object? sender, EventArgs e)
+        {
+            int opacityPercentage = (int)(this.rightColorOpacityTrackBar.Value / 255.0f * 100);
+            this.rightColorOpacityPercentageLabel.Text = $"{opacityPercentage}%";
+        }
+        //
 
         private void leftColorButton_Click(object sender, EventArgs e)
         {
@@ -44,7 +95,10 @@ namespace Drawably.UserControls.Windows.Colors
                 return;
             }
 
-            this.leftColorButton.BackColor = colorDialog.Color;
+            cacheLeftColorNoOpacity = colorDialog.Color;
+            Color applyOpacityColor = ApplyAlphaToColor(colorDialog.Color, this.leftColorOpacityTrackBar.Value);
+
+            this.leftColorButton.BackColor = applyOpacityColor;
             this.CanvasContainer.OnLeftColorChanged();
         }
 
@@ -62,7 +116,10 @@ namespace Drawably.UserControls.Windows.Colors
                 return;
             }
 
-            this.rightColorButton.BackColor = colorDialog.Color;
+            cacheRightColorNoOpacity = colorDialog.Color;
+            Color applyOpacityColor = ApplyAlphaToColor(colorDialog.Color, this.rightColorOpacityTrackBar.Value);
+
+            this.rightColorButton.BackColor = applyOpacityColor;
             this.CanvasContainer.OnRightColorChanged();
         }
 
