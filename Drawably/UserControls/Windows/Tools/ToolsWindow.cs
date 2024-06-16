@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools;
+using Drawably.Tools.PenToolRelated;
 using Drawably.UserControls.CanvasRelated;
 using System;
 using System.Collections.Generic;
@@ -85,6 +86,7 @@ namespace Drawably.UserControls.Windows.Tools
         {
             selectedBtn = kvp.Key;
             selectedBtn.BackColor = Color.Yellow;
+            selectedBtn.FlatAppearance.MouseOverBackColor = Color.Yellow;
             kvp.Value.OnToolSelected();
             canvContainer.CurrentTool = kvp.Value;
         }
@@ -98,6 +100,7 @@ namespace Drawably.UserControls.Windows.Tools
             }
 
             selectedBtn.BackColor = Color.White;
+            selectedBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             canvContainer.CurrentTool.OnToolUnselected();
             selectedBtn = null;
             canvContainer.CurrentTool = null;

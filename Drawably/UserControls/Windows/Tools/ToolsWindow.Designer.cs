@@ -52,7 +52,7 @@
             // 
             // menuTextLabel
             // 
-            menuTextLabel.Size = new Size(478, 23);
+            menuTextLabel.Size = new Size(45, 23);
             // 
             // closeButton
             // 
@@ -80,6 +80,7 @@
             selectShapeToolBtn.BackColor = Color.White;
             selectShapeToolBtn.BackgroundImage = Properties.Resources.select_shape;
             selectShapeToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            selectShapeToolBtn.FlatAppearance.BorderSize = 0;
             selectShapeToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
             selectShapeToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             selectShapeToolBtn.FlatStyle = FlatStyle.Flat;
@@ -95,6 +96,7 @@
             moveImageToolBtn.BackColor = Color.White;
             moveImageToolBtn.BackgroundImage = Properties.Resources.move;
             moveImageToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            moveImageToolBtn.FlatAppearance.BorderSize = 0;
             moveImageToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
             moveImageToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             moveImageToolBtn.FlatStyle = FlatStyle.Flat;
@@ -110,6 +112,7 @@
             penToolBtn.BackColor = Color.White;
             penToolBtn.BackgroundImage = Properties.Resources.pen;
             penToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            penToolBtn.FlatAppearance.BorderSize = 0;
             penToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
             penToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             penToolBtn.FlatStyle = FlatStyle.Flat;
@@ -125,6 +128,7 @@
             brushToolBtn.BackColor = Color.White;
             brushToolBtn.BackgroundImage = Properties.Resources.paint_brush;
             brushToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            brushToolBtn.FlatAppearance.BorderSize = 0;
             brushToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
             brushToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             brushToolBtn.FlatStyle = FlatStyle.Flat;
@@ -140,6 +144,7 @@
             drawShapesToolBtn.BackColor = Color.White;
             drawShapesToolBtn.BackgroundImage = Properties.Resources.draw_shapes;
             drawShapesToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            drawShapesToolBtn.FlatAppearance.BorderSize = 0;
             drawShapesToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
             drawShapesToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             drawShapesToolBtn.FlatStyle = FlatStyle.Flat;
@@ -155,6 +160,7 @@
             zoomInToolBtn.BackColor = Color.White;
             zoomInToolBtn.BackgroundImage = Properties.Resources.zoom_in;
             zoomInToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            zoomInToolBtn.FlatAppearance.BorderSize = 0;
             zoomInToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
             zoomInToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             zoomInToolBtn.FlatStyle = FlatStyle.Flat;
@@ -170,6 +176,7 @@
             zoomOutToolBtn.BackColor = Color.White;
             zoomOutToolBtn.BackgroundImage = Properties.Resources.zoom_out;
             zoomOutToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            zoomOutToolBtn.FlatAppearance.BorderSize = 0;
             zoomOutToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
             zoomOutToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             zoomOutToolBtn.FlatStyle = FlatStyle.Flat;

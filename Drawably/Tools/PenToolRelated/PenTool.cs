@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Drawably.Tools
+namespace Drawably.Tools.PenToolRelated
 {
     public class PenTool : IToolable
     {
@@ -24,21 +24,21 @@ namespace Drawably.Tools
 
         private Graphics canvasGraphics;
         private Graphics selectedLayerGraphics;
-        
+
         float cacheX;
         float cacheY;
 
         public PenTool(CanvasContainer newCanvasContainer)
         {
             pen = new Pen(newCanvasContainer.CurrentLeftColor, Size);
-            
+
             pen.EndCap = LineCap.Round;
             pen.StartCap = LineCap.Round;
 
             brush = new SolidBrush(newCanvasContainer.CurrentLeftColor);
-            
-            this.canvasContainer = newCanvasContainer;
-            this.canvas = newCanvasContainer.CanvasPictureBox;
+
+            canvasContainer = newCanvasContainer;
+            canvas = newCanvasContainer.CanvasPictureBox;
         }
         public void OnMouseMove(float x, float y)
         {
@@ -63,7 +63,7 @@ namespace Drawably.Tools
             cacheY = y;
 
             // This is so I can place the initial dot when a click occurs
-            canvasGraphics.FillEllipse(brush, x - Size/2, y - Size/2, Size, Size);
+            canvasGraphics.FillEllipse(brush, x - Size / 2, y - Size / 2, Size, Size);
             // Do the same on top of the selected layer
             selectedLayerGraphics.FillEllipse(brush, x - Size / 2, y - Size / 2, Size, Size);
 
@@ -79,7 +79,7 @@ namespace Drawably.Tools
         }
 
         // Keeps drawing lines that are connected
-        private void KeepDrawing(float x, float y) 
+        private void KeepDrawing(float x, float y)
         {
             canvasGraphics.DrawLine(pen, cacheX, cacheY, x, y);
             // Do the drawing inside the selected layer as well
@@ -115,7 +115,7 @@ namespace Drawably.Tools
         /// </summary>
         public void GetNewCanvasGraphics()
         {
-            if (canvasGraphics != null) 
+            if (canvasGraphics != null)
             {
                 canvasGraphics.Dispose();
             }
@@ -139,7 +139,7 @@ namespace Drawably.Tools
         /// </summary>
         public void OnToolFinishedDrawing()
         {
-            this.canvasContainer.OnSelectedToolFinishedDrawing();
+            canvasContainer.OnSelectedToolFinishedDrawing();
         }
 
         public void OnChangedLeftColor()
