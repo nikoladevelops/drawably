@@ -33,7 +33,7 @@
             canvasContainer = new UserControls.CanvasRelated.CanvasContainer();
             layersWindow = new UserControls.Windows.Layers.LayersWindow();
             toolsWindow = new UserControls.Windows.Tools.ToolsWindow();
-            topPanel = new UserControls.TopPanel.TopPanel();
+            topPanel = new UserControls.TopPanelRelated.TopPanel();
             canvas = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
@@ -62,6 +62,7 @@
             canvasContainer.Name = "canvasContainer";
             canvasContainer.Size = new Size(1302, 562);
             canvasContainer.TabIndex = 22;
+            canvasContainer.TopPanel = topPanel;
             // 
             // layersWindow
             // 
@@ -135,6 +136,6 @@
         private UserControls.Windows.Tools.ToolsWindow toolsWindow;
         private PictureBox canvas;
         private UserControls.CanvasRelated.CanvasContainer canvasContainer;
-        public UserControls.TopPanel.TopPanel topPanel;
+        public UserControls.TopPanelRelated.TopPanel topPanel;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Drawably.UserControls.Windows;
 using System.ComponentModel;
 
-namespace Drawably.UserControls.CustomMenuStrip
+namespace Drawably.UserControls.MainToolsPanelRelated
 {
     public partial class MainToolsPanel : UserControl
     {

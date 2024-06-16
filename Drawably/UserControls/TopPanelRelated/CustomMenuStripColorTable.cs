@@ -1,4 +1,4 @@
-﻿namespace Drawably.UserControls.CustomMenuStrip
+﻿namespace Drawably.UserControls.TopPanelRelated
 {
     public class CustomMenuStripColorTable : ProfessionalColorTable
     {

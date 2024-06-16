@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drawably.UserControls.CustomMenuStrip
+namespace Drawably.UserControls.TopPanelRelated
 {
     public class CustomMenuStripRenderer : ToolStripProfessionalRenderer
     {

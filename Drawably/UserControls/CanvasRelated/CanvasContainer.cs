@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools;
+using Drawably.UserControls.TopPanelRelated;
 using Drawably.UserControls.Windows.Colors;
 using Drawably.UserControls.Windows.Layers;
 using System;
@@ -58,6 +59,12 @@ namespace Drawably.UserControls.CanvasRelated
            Description("The Colors window is needed in order for everything to work correctly.")
         ]
         public ColorsWindow ColorsWindow { get; set; }
+
+        [
+           Category("All Custom Props"),
+           Description("The TopPanel window is needed in order for everything to work correctly.")
+        ]
+        public TopPanel TopPanel { get; set; }
 
         public Tool? CurrentTool { get; set; }
 
@@ -490,6 +497,18 @@ namespace Drawably.UserControls.CanvasRelated
             if (this.CurrentTool != null)
             {
                 this.CurrentTool.OnRightColorChangedWhileToolSelected();
+            }
+        }
+
+        /// <summary>
+        /// May be called by the current tool in order to display additional options for the selected tool. The options get displayed inside the top panel.
+        /// </summary>
+        /// <param name="control"></param>
+        public void PlaceToolControlInsideTopPanel(Control control) 
+        {
+            if (TopPanel != null) 
+            {
+                TopPanel.AddToolOptionsControlToTopPanel(control);
             }
         }
     }

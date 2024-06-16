@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drawably.UserControls.TopPanel
+namespace Drawably.UserControls.TopPanelRelated
 {
     public class TopPanel : UserControl
     {
@@ -47,15 +47,24 @@ namespace Drawably.UserControls.TopPanel
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Adds a tool options control to the top panel
+        /// </summary>
+        /// <param name="controlToAdd"></param>
+        public void AddToolOptionsControlToTopPanel(Control controlToAdd) 
+        {
+            this.additionalPanel.Controls.Add(controlToAdd);
+        }
+
         private void InitializeComponent()
         {
-            customMenuStrip = new CustomMenuStrip.CustomMenuStrip();
+            customMenuStrip = new Drawably.UserControls.TopPanelRelated.CustomMenuStrip();
             testingggToolStripMenuItem = new ToolStripMenuItem();
             dxfhdsafhToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             adsfhfdshToolStripMenuItem = new ToolStripMenuItem();
             mainControlsPanel = new TableLayoutPanel();
-            mainToolsPanel = new CustomMenuStrip.MainToolsPanel();
+            mainToolsPanel = new MainToolsPanelRelated.MainToolsPanel();
             additionalPanel = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             layersButton = new HoverButton();
@@ -209,7 +218,7 @@ namespace Drawably.UserControls.TopPanel
             ResumeLayout(false);
         }
 
-        private CustomMenuStrip.CustomMenuStrip customMenuStrip;
+        private TopPanelRelated.CustomMenuStrip customMenuStrip;
         private ToolStripMenuItem testingggToolStripMenuItem;
         private ToolStripMenuItem dxfhdsafhToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem1;
@@ -218,7 +227,7 @@ namespace Drawably.UserControls.TopPanel
         private TableLayoutPanel tableLayoutPanel1;
         private HoverButton layersButton;
         private HoverButton colorsButton;
-        public CustomMenuStrip.MainToolsPanel mainToolsPanel;
+        public MainToolsPanelRelated.MainToolsPanel mainToolsPanel;
         public TableLayoutPanel mainControlsPanel;
     }
 }

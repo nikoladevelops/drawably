@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drawably.UserControls.CustomMenuStrip
+namespace Drawably.UserControls.TopPanelRelated
 {
     public class CustomMenuStrip : MenuStrip
     {

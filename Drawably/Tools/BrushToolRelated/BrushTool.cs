@@ -1,11 +1,14 @@
-﻿using Drawably.UserControls.CanvasRelated;
+﻿using Drawably.Tools.BrushToolRelated;
+using Drawably.UserControls.CanvasRelated;
 using System.Drawing.Drawing2D;
 
 namespace Drawably.Tools.PenToolRelated
 {
     public class BrushTool : Tool
     {
-        public int Size { get; set; } = 15; // Todo when changing size, change both the brush's size and the pen's size
+        public BrushOptionsControl BrushControl { get; set; }
+        public int Size { get; set; } = 5; // Note: same as in BrushOptionsControl
+
         private bool isDrawingEnabled;
 
         private Pen leftPen;
@@ -22,6 +25,9 @@ namespace Drawably.Tools.PenToolRelated
 
         public BrushTool(CanvasContainer newCanvasContainer):base(newCanvasContainer)
         {
+            BrushControl = new BrushOptionsControl(this);
+            BrushControl.Visible = false;
+            newCanvasContainer.PlaceToolControlInsideTopPanel(BrushControl);
         }
 
         /// <summary>
@@ -138,16 +144,43 @@ namespace Drawably.Tools.PenToolRelated
         {
             base.OnToolSelected();
             CreateNecessaryTools();
+
+            BrushControl.Visible = true;
         }
 
         public override void OnToolUnselected()
         {
             base.OnToolUnselected();
+
+            DisposeOfOldTools();
+
+            BrushControl.Visible = false;
+        }
+
+        /// <summary>
+        /// Disposes of old tools
+        /// </summary>
+        private void DisposeOfOldTools() 
+        {
             leftPen.Dispose();
             leftBrush.Dispose();
 
             rightPen.Dispose();
             rightBrush.Dispose();
+        }
+
+        /// <summary>
+        /// Called by the BrushOptionsControl, whenever the brush size was changed
+        /// </summary>
+        /// <param name="newBrushSize"></param>
+        public void BrushSizeChanged(int newBrushSize) 
+        {
+            this.Size = newBrushSize;
+
+            DisposeOfOldTools();
+            CreateNecessaryTools();
+
+
         }
     }
 }
