@@ -59,7 +59,7 @@ namespace Drawably.UserControls.CanvasRelated
         ]
         public ColorsWindow ColorsWindow { get; set; }
 
-        public IToolable? CurrentTool { get; set; }
+        public Tool? CurrentTool { get; set; }
 
         public CanvasContainer()
         {
@@ -471,7 +471,6 @@ namespace Drawably.UserControls.CanvasRelated
             }
         }
 
-
         /// <summary>
         /// Called when a brand new left color was selected from the colors window
         /// </summary>
@@ -479,7 +478,7 @@ namespace Drawably.UserControls.CanvasRelated
         {
             if (this.CurrentTool != null) 
             {
-                this.CurrentTool.OnChangedLeftColor();
+                this.CurrentTool.OnLeftColorChangedWhileToolSelected();
             }
         }
 
@@ -490,7 +489,7 @@ namespace Drawably.UserControls.CanvasRelated
         {
             if (this.CurrentTool != null)
             {
-                this.CurrentTool.OnChangedRightColor();
+                this.CurrentTool.OnRightColorChangedWhileToolSelected();
             }
         }
     }

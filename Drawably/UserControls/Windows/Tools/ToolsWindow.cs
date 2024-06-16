@@ -16,7 +16,7 @@ namespace Drawably.UserControls.Windows.Tools
     public partial class ToolsWindow : MenuWindow
     {
         // Keeps track of each tool button and the actual tool it corresponds to
-        private Dictionary<Button, IToolable> btnTools;
+        private Dictionary<Button, Tool> btnTools;
 
         // Keeps track of the selected button
         private Button? selectedBtn;
@@ -46,15 +46,15 @@ namespace Drawably.UserControls.Windows.Tools
                 return;
             }
 
-            btnTools = new Dictionary<Button, IToolable>()
+            btnTools = new Dictionary<Button, Tool>()
             {
-                { this.selectShapeToolBtn, new PenTool(canvContainer) },
-                { this.moveImageToolBtn, new PenTool(canvContainer) },
-                { this.penToolBtn, new PenTool(canvContainer) },
-                { this.brushToolBtn, new PenTool(canvContainer) },
-                { this.drawShapesToolBtn, new PenTool(canvContainer) },
-                { this.zoomInToolBtn, new PenTool(canvContainer) },
-                { this.zoomOutToolBtn, new PenTool(canvContainer) }
+                { this.selectShapeToolBtn, new BrushTool(canvContainer) },
+                { this.moveImageToolBtn, new BrushTool(canvContainer) },
+                { this.penToolBtn, new BrushTool(canvContainer) },
+                { this.brushToolBtn, new BrushTool(canvContainer) },
+                { this.drawShapesToolBtn, new BrushTool(canvContainer) },
+                { this.zoomInToolBtn, new BrushTool(canvContainer) },
+                { this.zoomOutToolBtn, new BrushTool(canvContainer) }
             };
             
         }
@@ -82,7 +82,7 @@ namespace Drawably.UserControls.Windows.Tools
             }
         }
 
-        private void SelectNewTool(KeyValuePair<Button, IToolable> kvp) 
+        private void SelectNewTool(KeyValuePair<Button, Tool> kvp) 
         {
             selectedBtn = kvp.Key;
             selectedBtn.BackColor = Color.Yellow;
@@ -91,7 +91,7 @@ namespace Drawably.UserControls.Windows.Tools
             canvContainer.CurrentTool = kvp.Value;
         }
 
-        private void DeselectCurrentTool(KeyValuePair<Button, IToolable> kvp) 
+        private void DeselectCurrentTool(KeyValuePair<Button, Tool> kvp) 
         {
             // Deselect only if there is a tool to deselect
             if (selectedBtn == null) 
