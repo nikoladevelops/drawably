@@ -32,14 +32,14 @@ namespace Drawably.UserControls.Windows.Colors
 
         private void leftColorButton_Click(object sender, EventArgs e)
         {
-            if (CanvasContainer == null) 
+            if (CanvasContainer == null)
             {
                 MessageBox.Show("Error: Canvas Container was not set");
                 return;
             }
 
             DialogResult result = colorDialog.ShowDialog();
-            if (result != DialogResult.OK) 
+            if (result != DialogResult.OK)
             {
                 return;
             }
@@ -63,6 +63,17 @@ namespace Drawably.UserControls.Windows.Colors
             }
 
             this.rightColorButton.BackColor = colorDialog.Color;
+            this.CanvasContainer.OnRightColorChanged();
+        }
+
+        private void switchColorsButton_Click(object sender, EventArgs e)
+        {
+            Color temp = this.leftColorButton.BackColor;
+
+            this.leftColorButton.BackColor = this.rightColorButton.BackColor;
+            this.rightColorButton.BackColor = temp;
+
+            this.CanvasContainer.OnLeftColorChanged();
             this.CanvasContainer.OnRightColorChanged();
         }
     }
