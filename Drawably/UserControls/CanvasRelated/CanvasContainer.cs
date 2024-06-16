@@ -105,9 +105,33 @@ namespace Drawably.UserControls.CanvasRelated
 
         }
 
+        /// <summary>
+        /// Will return only a supported mouse button type (as of now -> left mouse button and right mouse button). If another button was pressed, it will return null.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private MouseButtons? GetTypeOfMouseButtonFromEvent(MouseEventArgs e) 
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                case MouseButtons.Right:
+                    return e.Button;
+                default:
+                    // If any other button besides these, was clicked
+                    return null;
+            }
+        } 
+
         private void Canvas_MouseClick(object? sender, MouseEventArgs e)
         {
             if (CurrentTool == null)
+            {
+                return;
+            }
+            // Ensure no other MouseButton besides the tracked ones was pressed
+            MouseButtons? typeOfButton = GetTypeOfMouseButtonFromEvent(e);
+            if (typeOfButton == null) 
             {
                 return;
             }
@@ -117,7 +141,14 @@ namespace Drawably.UserControls.CanvasRelated
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
 
-            CurrentTool.OnMouseLeftClick(newX, newY);
+            if (typeOfButton == MouseButtons.Left)
+            {
+                CurrentTool.OnMouseLeftClick(newX, newY);
+            }
+            else if (typeOfButton == MouseButtons.Right) 
+            {
+                CurrentTool.OnMouseRightClick(newX, newY);
+            }
         }
 
         private void Canvas_MouseUp(object? sender, MouseEventArgs e)
@@ -127,17 +158,9 @@ namespace Drawably.UserControls.CanvasRelated
                 return;
             }
 
-            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
-
-            float newX = mousePos.X * (originalSize.Width / canvasWidth);
-            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
-
-            CurrentTool.OnMouseUp(newX, newY);
-        }
-
-        private void Canvas_MouseDown(object? sender, MouseEventArgs e)
-        {
-            if (CurrentTool == null)
+            // Ensure no other MouseButton besides the tracked ones was pressed
+            MouseButtons? typeOfButton = GetTypeOfMouseButtonFromEvent(e);
+            if (typeOfButton == null)
             {
                 return;
             }
@@ -147,7 +170,44 @@ namespace Drawably.UserControls.CanvasRelated
             float newX = mousePos.X * (originalSize.Width / canvasWidth);
             float newY = mousePos.Y * (originalSize.Height / canvasHeight);
 
-            CurrentTool.OnMouseDown(newX, newY);
+
+            if (typeOfButton == MouseButtons.Left)
+            {
+                CurrentTool.OnMouseLeftClickUp(newX, newY);
+            }
+            else if (typeOfButton == MouseButtons.Right)
+            {
+                CurrentTool.OnMouseRightClickUp(newX, newY);
+            }
+        }
+
+        private void Canvas_MouseDown(object? sender, MouseEventArgs e)
+        {
+            if (CurrentTool == null)
+            {
+                return;
+            }
+
+            // Ensure no other MouseButton besides the tracked ones was pressed
+            MouseButtons? typeOfButton = GetTypeOfMouseButtonFromEvent(e);
+            if (typeOfButton == null)
+            {
+                return;
+            }
+
+            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
+
+            float newX = mousePos.X * (originalSize.Width / canvasWidth);
+            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+
+            if (typeOfButton == MouseButtons.Left)
+            {
+                CurrentTool.OnMouseLeftClickDown(newX, newY);
+            }
+            else if (typeOfButton == MouseButtons.Right)
+            {
+                CurrentTool.OnMouseRightClickDown(newX, newY);
+            }
         }
 
         private void Canvas_MouseMove(object? sender, EventArgs e)

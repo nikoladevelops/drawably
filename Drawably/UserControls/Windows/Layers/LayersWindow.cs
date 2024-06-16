@@ -83,18 +83,7 @@ namespace Drawably.UserControls.Windows.Layers
 
             // Create the very first layer
             CreateLayerLabel();
-
-
-            // just testing
-            //CreateLayerLabel();
-            //CreateLayerLabel();
-            //CreateLayerLabel();
-            //CreateLayerLabel();
-            //CreateLayerLabel();
-            //CreateLayerLabel();
-            //CreateLayerLabel();
-            //this.deleteLayerBtn.Enabled = true;
-            //
+            this.deleteLayerBtn.Enabled = false;
         }
 
         /// <summary>

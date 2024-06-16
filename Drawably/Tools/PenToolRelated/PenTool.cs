@@ -56,7 +56,7 @@ namespace Drawably.Tools.PenToolRelated
         {
         }
 
-        public void OnMouseDown(float x, float y)
+        public void OnMouseLeftClickDown(float x, float y)
         {
             isDrawingEnabled = true;
             cacheX = x;
@@ -70,7 +70,7 @@ namespace Drawably.Tools.PenToolRelated
             canvas.Invalidate();
         }
 
-        public void OnMouseUp(float x, float y)
+        public void OnMouseLeftClickUp(float x, float y)
         {
             isDrawingEnabled = false;
             canvasContainer.OnSelectedToolFinishedDrawing();
