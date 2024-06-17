@@ -17,11 +17,13 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public int BorderSize { get; set; }
+        public bool IsFilled { get; set; }
 
         /// <summary>
         /// Creates a copy of the shape, but with populated properties
         /// </summary>
-        public abstract Shape CopyShape(int newX, int newY, int newWidth, int newHeight);
+        public abstract Shape CopyShape(int newX, int newY, int newWidth, int newHeight, int newBorderSize, bool newIsFilled);
 
         /// <summary>
         /// Draws itself on a graphics object

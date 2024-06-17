@@ -31,11 +31,29 @@ namespace Drawably.Tools.DrawShapesToolRelated
 
             PopulateComboBoxWithNumbers(this.widthComboBox);
             PopulateComboBoxWithNumbers(this.heightComboBox);
+            PopulateComboBoxWithNumbers(this.borderSizeComboBox);
 
             this.widthComboBox.SelectedIndex = 0;
             this.heightComboBox.SelectedIndex = 0;
+            this.borderSizeComboBox.SelectedIndex = 0;
 
             this.Visible = false;
+        }
+
+        private void VerifyTypedTextExistsAsItemInComboBox(ComboBox box) 
+        {
+            int indexToSelect = 0;
+
+            for (int i = 0; i < box.Items.Count; i++)
+            {
+                if (box.GetItemText(i) == box.Text)
+                {
+                    indexToSelect = i;
+                    break;
+                }
+            }
+
+            box.SelectedIndex = indexToSelect;
         }
 
         /// <summary>
@@ -59,7 +77,11 @@ namespace Drawably.Tools.DrawShapesToolRelated
         /// <param name="e"></param>
         private void createShapeBtn_Click(object sender, EventArgs e)
         {
-            Shape shapeToDraw = this.shapeToDraw.CopyShape(0, 0, (int)this.widthComboBox.SelectedItem, (int)this.heightComboBox.SelectedItem);
+            VerifyTypedTextExistsAsItemInComboBox(this.widthComboBox);
+            VerifyTypedTextExistsAsItemInComboBox(this.heightComboBox);
+            VerifyTypedTextExistsAsItemInComboBox(this.borderSizeComboBox);
+
+            Shape shapeToDraw = this.shapeToDraw.CopyShape(50, 50, (int)this.widthComboBox.SelectedItem, (int)this.heightComboBox.SelectedItem, (int)this.borderSizeComboBox.SelectedItem, this.fillShapeCheckBox.Checked);
             this.canvasContainer.SpawnNewShapeInsideSelectedLayer(shapeToDraw);
             this.Visible = false;
         }
