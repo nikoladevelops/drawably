@@ -1,6 +1,7 @@
 ﻿using Drawably.Tools;
 using Drawably.Tools.DrawShapesToolRelated;
 using Drawably.Tools.PenToolRelated;
+using Drawably.Tools.SelectShapeToolRelated;
 using Drawably.UserControls.CanvasRelated;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace Drawably.UserControls.Windows.Tools
 
             btnTools = new Dictionary<Button, Tool>()
             {
-                { this.selectShapeToolBtn, new BrushTool(canvContainer) },
+                { this.selectShapeToolBtn, new SelectShapeTool(canvContainer) },
                 { this.moveImageToolBtn, new BrushTool(canvContainer) },
                 { this.penToolBtn, new PenTool(canvContainer) },
                 { this.brushToolBtn, new BrushTool(canvContainer) },

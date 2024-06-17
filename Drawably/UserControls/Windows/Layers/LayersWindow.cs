@@ -353,6 +353,25 @@ namespace Drawably.UserControls.Windows.Layers
 
         }
 
-        
+        /// <summary>
+        /// Gets the first shape it finds on the layer at the correct position, otherwise returns null if no shape found
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public Shape? GetShapeUnderneathMousePosition(float x, float y) 
+        {
+            foreach (var shape in this.allLayersData[this.selectedLayerLabel].AllLayerShapes)
+            {
+                if (shape.SelectionDimensions.Contains((int)x, (int)y)) 
+                {
+                    return shape;
+                }
+            }
+            return null;
+        }
+
+
+
     }
 }

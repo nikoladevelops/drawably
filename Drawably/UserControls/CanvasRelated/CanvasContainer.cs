@@ -547,5 +547,32 @@ namespace Drawably.UserControls.CanvasRelated
                 this.CurrentTool.GetNewCanvasGraphics();
             }
         }
+
+        /// <summary>
+        /// Called by the select shape tool
+        /// </summary>
+        /// <returns></returns>
+        public Shape? GetShapeUnderneathMousePositionOnCurrentLayer(float x, float y) 
+        {
+            return this.LayersWindow.GetShapeUnderneathMousePosition(x, y);
+        }
+
+        /// <summary>
+        /// Called by the SelectShapeTool whenever the selected shapes are being moved
+        /// </summary>
+        public void OnCurrentLayerShapesMoved() 
+        {
+            // Because shapes were moved, update the visualized canvas
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+
+            if (this.CurrentTool != null)
+            {
+                // Because I updated the visualized image, acquire the new graphics object for that image
+                this.CurrentTool.GetNewCanvasGraphics();
+
+                // Update selected layer graphics
+                this.CurrentTool.GetNewSelectedLayerGraphics();
+            }
+        }
     }
 }
