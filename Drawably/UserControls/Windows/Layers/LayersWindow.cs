@@ -428,5 +428,24 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
 
+        public List<Bitmap> GetAllLayerBitmapsInOrder() 
+        {
+            List<Bitmap> newList = new List<Bitmap>();
+
+            foreach (var layerData in allLayersData.Values)
+            {
+                Bitmap bmp = layerData.LayerImage;
+                newList.Add(bmp);
+            }
+
+            return newList;
+        }
+
+
+        public void LoadAllLayerBitmapsInOrder() 
+        {
+        }
+
+
     }
 }

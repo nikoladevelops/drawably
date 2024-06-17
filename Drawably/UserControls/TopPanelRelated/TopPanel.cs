@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -272,6 +273,25 @@ namespace Drawably.UserControls.TopPanelRelated
                     MessageBox.Show($"Error saving image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+
+        public void ExportAllLayerBitmaps() 
+        {
+            List<Bitmap> allBitmaps = this.CanvasContainer.GetAllLayerBitmapsInOrder();
+            // open file dialog for exporting
+
+        }
+
+        public void LoadAllLayers() 
+        {
+            // open file dialog for loading
+            List<Bitmap> allLoadedBitmaps = new List<Bitmap>();
+            // Load file path with bitmaps
+            // deserialize it and load everything in allBitmapsFil
+
+            this.CanvasContainer.LoadAllLayerBitmapsInOrder(allLoadedBitmaps);
+
         }
     }
 }

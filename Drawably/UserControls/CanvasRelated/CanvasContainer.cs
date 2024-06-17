@@ -272,7 +272,7 @@ namespace Drawably.UserControls.CanvasRelated
         }
 
         // When scrolling up
-        private void ZoomIn()
+        public void ZoomIn()
         {
             float newWidth = canvasWidth * zoomFactor;
             float newHeight = canvasHeight * zoomFactor;
@@ -286,7 +286,7 @@ namespace Drawably.UserControls.CanvasRelated
         }
 
         // When scrolling down
-        private void ZoomOut()
+        public void ZoomOut()
         {
             float newWidth = canvasWidth / zoomFactor;
             float newHeight = canvasHeight / zoomFactor;
@@ -639,5 +639,17 @@ namespace Drawably.UserControls.CanvasRelated
         {
             return this.CanvasVisualizedImage;
         }
+
+
+        public List<Bitmap> GetAllLayerBitmapsInOrder() 
+        {
+            return this.LayersWindow.GetAllLayerBitmapsInOrder();
+        }
+
+        public void LoadAllLayerBitmapsInOrder(List<Bitmap> allBitmapsToLoad) 
+        {
+            this.LayersWindow.LoadAllLayerBitmapsInOrder();
+        }
+        
     }
 }
