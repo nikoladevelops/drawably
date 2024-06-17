@@ -600,5 +600,44 @@ namespace Drawably.UserControls.CanvasRelated
                 this.CurrentTool.GetNewSelectedLayerGraphics();
             }
         }
+
+
+        // Rotation
+
+        public void RotateAllSelectedShapesPlus90Degrees() 
+        {
+            this.LayersWindow.RotateAllSelectedShapesPlus90Degrees();
+        }
+
+        public void RotateAllSelectedShapesMinus90Degrees() 
+        {
+            this.LayersWindow.RotateAllSelectedShapesMinus90Degrees();
+        }
+
+        /// <summary>
+        ///  After rotation of shapes
+        /// </summary>
+        public void OnShapesJustRotated() 
+        {
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+
+            if (this.CurrentTool != null)
+            {
+                // Because I updated the visualized image, acquire the new graphics object for that image
+                this.CurrentTool.GetNewCanvasGraphics();
+
+                // Update selected layer graphics
+                this.CurrentTool.GetNewSelectedLayerGraphics();
+            }
+        }
+
+        /// <summary>
+        /// Export
+        /// </summary>
+        /// <returns></returns>
+        public Bitmap GetFinalImageToExport() 
+        {
+            return this.CanvasVisualizedImage;
+        }
     }
 }

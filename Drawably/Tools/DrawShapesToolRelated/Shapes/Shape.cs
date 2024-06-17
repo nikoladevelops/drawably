@@ -34,6 +34,8 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
         public int BorderSize { get; set; }
         public bool IsFilled { get; set; }
 
+        public float Rotation { get; set; } = 0;
+
         //
         public Color FillColor { get; set; }
         public Color BorderColor { get; set; }

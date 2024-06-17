@@ -332,6 +332,8 @@ namespace Drawably.UserControls.Windows.Layers
 
                 using (Graphics mergedG = Graphics.FromImage(allLayersMerged))
                 {
+
+
                     mergedG.DrawImage(layerData.GetLayerImageWithAllShapesSpawnedOnTop(), new Point(0, 0));
                 }
             }
@@ -386,9 +388,44 @@ namespace Drawably.UserControls.Windows.Layers
             }
 
             this.CanvasContainer.OnAllSelectedShapesDeleted();
-            
         }
 
+
+        /// <summary>
+        /// Rotates every single shape bitmap plus 90 degrees (clockwise)
+        /// </summary>
+        public void RotateAllSelectedShapesPlus90Degrees() 
+        {
+            for (int i = 0; i < this.allLayersData[this.selectedLayerLabel].AllLayerShapes.Count; i++)
+            {
+                Shape currentShape = this.allLayersData[this.selectedLayerLabel].AllLayerShapes[i];
+                
+                if (currentShape.IsSelectedInGroup)
+                {
+                    this.allLayersData[this.selectedLayerLabel].AllLayerShapes[i].Rotation += 90;
+                }
+            }
+
+            this.CanvasContainer.OnShapesJustRotated();
+        }
+
+        /// <summary>
+        /// Rotates every single shape bitmap minus 90 degrees (counter clockwise)
+        /// </summary>
+        public void RotateAllSelectedShapesMinus90Degrees() 
+        {
+            for (int i = 0; i < this.allLayersData[this.selectedLayerLabel].AllLayerShapes.Count; i++)
+            {
+                Shape currentShape = this.allLayersData[this.selectedLayerLabel].AllLayerShapes[i];
+
+                if (currentShape.IsSelectedInGroup)
+                {
+                    this.allLayersData[this.selectedLayerLabel].AllLayerShapes[i].Rotation -= 90;
+                }
+
+                this.CanvasContainer.OnShapesJustRotated();
+            }
+        }
 
 
     }

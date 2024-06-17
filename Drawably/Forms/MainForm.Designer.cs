@@ -32,8 +32,8 @@
             colorsWindow = new UserControls.Windows.Colors.ColorsWindow();
             canvasContainer = new UserControls.CanvasRelated.CanvasContainer();
             layersWindow = new UserControls.Windows.Layers.LayersWindow();
-            toolsWindow = new UserControls.Windows.Tools.ToolsWindow();
             topPanel = new UserControls.TopPanelRelated.TopPanel();
+            toolsWindow = new UserControls.Windows.Tools.ToolsWindow();
             canvas = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
@@ -44,8 +44,9 @@
             colorsWindow.CanvasContainer = canvasContainer;
             colorsWindow.Location = new Point(12, 400);
             colorsWindow.MenuText = "Colors";
+            colorsWindow.MinimumSize = new Size(168, 244);
             colorsWindow.Name = "colorsWindow";
-            colorsWindow.Size = new Size(168, 220);
+            colorsWindow.Size = new Size(168, 244);
             colorsWindow.TabIndex = 19;
             // 
             // canvasContainer
@@ -76,18 +77,10 @@
             layersWindow.Size = new Size(175, 225);
             layersWindow.TabIndex = 20;
             // 
-            // toolsWindow
-            // 
-            toolsWindow.BackColor = SystemColors.ActiveCaption;
-            toolsWindow.Location = new Point(12, 73);
-            toolsWindow.MenuText = "Tools";
-            toolsWindow.Name = "toolsWindow";
-            toolsWindow.Size = new Size(71, 321);
-            toolsWindow.TabIndex = 0;
-            // 
             // topPanel
             // 
             topPanel.BackColor = Color.Black;
+            topPanel.CanvasContainer = canvasContainer;
             topPanel.ColorsWindow = colorsWindow;
             topPanel.Dock = DockStyle.Top;
             topPanel.LayersWindow = layersWindow;
@@ -96,6 +89,15 @@
             topPanel.Size = new Size(1302, 67);
             topPanel.TabIndex = 21;
             topPanel.ToolsWindow = toolsWindow;
+            // 
+            // toolsWindow
+            // 
+            toolsWindow.BackColor = SystemColors.ActiveCaption;
+            toolsWindow.Location = new Point(12, 73);
+            toolsWindow.MenuText = "Tools";
+            toolsWindow.Name = "toolsWindow";
+            toolsWindow.Size = new Size(71, 321);
+            toolsWindow.TabIndex = 0;
             // 
             // canvas
             // 

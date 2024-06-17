@@ -44,12 +44,12 @@ namespace Drawably.Tools.SelectShapeToolRelated
 
         private void rotatePlus90DegreesBtn_Click(object sender, EventArgs e)
         {
-            // TODO shape rotation
+            this.canvasContainer.RotateAllSelectedShapesPlus90Degrees();
         }
 
         private void rotateMinus90DegreesBtn_Click(object sender, EventArgs e)
         {
-            // TODO shape rotation
+            this.canvasContainer.RotateAllSelectedShapesMinus90Degrees();
         }
 
         public void SelectShape(Shape? shapeToSelect)

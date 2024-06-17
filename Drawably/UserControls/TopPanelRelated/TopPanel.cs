@@ -1,7 +1,10 @@
-﻿using Drawably.UserControls.Windows;
+﻿using Drawably.UserControls.CanvasRelated;
+using Drawably.UserControls.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +19,8 @@ namespace Drawably.UserControls.TopPanelRelated
            Description("The Tools window, that the tools button controls")
         ]
 
-        public MenuWindow ToolsWindow 
-        { 
+        public MenuWindow ToolsWindow
+        {
             get => this.mainToolsPanel.ToolsWindow;
             set => this.mainToolsPanel.ToolsWindow = value;
         }
@@ -41,6 +44,11 @@ namespace Drawably.UserControls.TopPanelRelated
             get => this.mainToolsPanel.LayersWindow;
             set => this.mainToolsPanel.LayersWindow = value;
         }
+        [
+           Category("All Custom Props"),
+           Description("The Canvas Container window")
+        ]
+        public CanvasContainer CanvasContainer { get; set; }
 
         public TopPanel()
         {
@@ -51,18 +59,18 @@ namespace Drawably.UserControls.TopPanelRelated
         /// Adds a tool options control to the top panel
         /// </summary>
         /// <param name="controlToAdd"></param>
-        public void AddToolOptionsControlToTopPanel(Control controlToAdd) 
+        public void AddToolOptionsControlToTopPanel(Control controlToAdd)
         {
             this.additionalPanel.Controls.Add(controlToAdd);
         }
 
         private void InitializeComponent()
         {
-            customMenuStrip = new Drawably.UserControls.TopPanelRelated.CustomMenuStrip();
+            customMenuStrip = new CustomMenuStrip();
             testingggToolStripMenuItem = new ToolStripMenuItem();
             dxfhdsafhToolStripMenuItem = new ToolStripMenuItem();
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            adsfhfdshToolStripMenuItem = new ToolStripMenuItem();
+            saveButton = new ToolStripMenuItem();
+            saveAsButton = new ToolStripMenuItem();
             mainControlsPanel = new TableLayoutPanel();
             mainToolsPanel = new MainToolsPanelRelated.MainToolsPanel();
             additionalPanel = new Panel();
@@ -88,7 +96,7 @@ namespace Drawably.UserControls.TopPanelRelated
             // 
             // testingggToolStripMenuItem
             // 
-            testingggToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { dxfhdsafhToolStripMenuItem, toolStripMenuItem1, adsfhfdshToolStripMenuItem });
+            testingggToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { dxfhdsafhToolStripMenuItem, saveButton, saveAsButton });
             testingggToolStripMenuItem.Name = "testingggToolStripMenuItem";
             testingggToolStripMenuItem.Size = new Size(37, 31);
             testingggToolStripMenuItem.Text = "File";
@@ -97,22 +105,24 @@ namespace Drawably.UserControls.TopPanelRelated
             // 
             dxfhdsafhToolStripMenuItem.ForeColor = Color.White;
             dxfhdsafhToolStripMenuItem.Name = "dxfhdsafhToolStripMenuItem";
-            dxfhdsafhToolStripMenuItem.Size = new Size(114, 22);
+            dxfhdsafhToolStripMenuItem.Size = new Size(180, 22);
             dxfhdsafhToolStripMenuItem.Text = "New";
             // 
-            // toolStripMenuItem1
+            // saveButton
             // 
-            toolStripMenuItem1.ForeColor = Color.White;
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(114, 22);
-            toolStripMenuItem1.Text = "Save";
+            saveButton.ForeColor = Color.White;
+            saveButton.Name = "saveButton";
+            saveButton.Size = new Size(180, 22);
+            saveButton.Text = "Save";
+            saveButton.Click += saveButton_Click;
             // 
-            // adsfhfdshToolStripMenuItem
+            // saveAsButton
             // 
-            adsfhfdshToolStripMenuItem.ForeColor = Color.White;
-            adsfhfdshToolStripMenuItem.Name = "adsfhfdshToolStripMenuItem";
-            adsfhfdshToolStripMenuItem.Size = new Size(114, 22);
-            adsfhfdshToolStripMenuItem.Text = "Save As";
+            saveAsButton.ForeColor = Color.White;
+            saveAsButton.Name = "saveAsButton";
+            saveAsButton.Size = new Size(180, 22);
+            saveAsButton.Text = "Save As";
+            saveAsButton.Click += saveAsButton_Click;
             // 
             // mainControlsPanel
             // 
@@ -221,13 +231,47 @@ namespace Drawably.UserControls.TopPanelRelated
         private TopPanelRelated.CustomMenuStrip customMenuStrip;
         private ToolStripMenuItem testingggToolStripMenuItem;
         private ToolStripMenuItem dxfhdsafhToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem adsfhfdshToolStripMenuItem;
+        private ToolStripMenuItem saveButton;
+        private ToolStripMenuItem saveAsButton;
         private Panel additionalPanel;
         private TableLayoutPanel tableLayoutPanel1;
         private HoverButton layersButton;
         private HoverButton colorsButton;
         public MainToolsPanelRelated.MainToolsPanel mainToolsPanel;
         public TableLayoutPanel mainControlsPanel;
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            Bitmap bmpToSaveToDisk = this.CanvasContainer.GetFinalImageToExport();
+            ExportBitmapAsPNG(bmpToSaveToDisk);
+        }
+
+        private void saveAsButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        public void ExportBitmapAsPNG(Bitmap bitmapToExport)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "PNG Image|*.png";
+            saveDialog.Title = "Save PNG File";
+            saveDialog.FileName = "image.png"; // Default file name
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Save the bitmap to the selected path as PNG
+                    bitmapToExport.Save(saveDialog.FileName, ImageFormat.Png);
+                    MessageBox.Show("Image saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error saving image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

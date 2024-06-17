@@ -48,7 +48,11 @@ namespace Drawably.Tools.DrawShapesToolRelated
         {
             btnShapes = new Dictionary<Button, Shape>()
             {
-                {rectangleShapeBtn, new RectangleShape(canvasContainer)}
+                {rectangleShapeBtn, new RectangleShape(canvasContainer)},
+                {normalTriangleShapeBtn, new NormalTriangleShape(canvasContainer)},
+                {rightTriangleShapeBtn, new RightTriangleShape(canvasContainer)},
+                {circleShapeBtn, new CircleShape(canvasContainer)},
+                {rightArrowShapeBtn, new RightArrowShape(canvasContainer)}
             };
 
 
