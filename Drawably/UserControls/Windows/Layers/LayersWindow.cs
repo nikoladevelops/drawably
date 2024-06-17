@@ -380,6 +380,7 @@ namespace Drawably.UserControls.Windows.Layers
                 if (currentShape.IsSelectedInGroup)
                 {
                     this.allLayersData[this.selectedLayerLabel].AllLayerShapes.Remove(currentShape);
+                    i--;
                 }
 
             }
