@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools;
+using Drawably.Tools.DrawShapesToolRelated;
 using Drawably.Tools.PenToolRelated;
 using Drawably.UserControls.CanvasRelated;
 using System;
@@ -52,7 +53,7 @@ namespace Drawably.UserControls.Windows.Tools
                 { this.moveImageToolBtn, new BrushTool(canvContainer) },
                 { this.penToolBtn, new PenTool(canvContainer) },
                 { this.brushToolBtn, new BrushTool(canvContainer) },
-                { this.drawShapesToolBtn, new BrushTool(canvContainer) },
+                { this.drawShapesToolBtn, new DrawShapesTool(canvContainer) },
                 { this.zoomInToolBtn, new BrushTool(canvContainer) },
                 { this.zoomOutToolBtn, new BrushTool(canvContainer) }
             };

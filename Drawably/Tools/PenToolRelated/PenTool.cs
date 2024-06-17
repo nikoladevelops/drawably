@@ -54,7 +54,7 @@ namespace Drawably.Tools.PenToolRelated
 
             // Do the drawing inside the selected layer as well
             selectedLayerGraphics.DrawLine(penToKeepDrawingWith, cacheX, cacheY, x, y);
-
+            
             cacheX = x;
             cacheY = y;
 

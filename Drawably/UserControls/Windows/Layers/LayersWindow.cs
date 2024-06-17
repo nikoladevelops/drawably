@@ -1,4 +1,5 @@
-﻿using Drawably.UserControls.CanvasRelated;
+﻿using Drawably.Tools.DrawShapesToolRelated.Shapes;
+using Drawably.UserControls.CanvasRelated;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -331,11 +332,27 @@ namespace Drawably.UserControls.Windows.Layers
 
                 using (Graphics mergedG = Graphics.FromImage(allLayersMerged))
                 {
-                    mergedG.DrawImage(layerData.LayerImage, new Point(0, 0));
+                    mergedG.DrawImage(layerData.GetLayerImageWithAllShapesSpawnedOnTop(), new Point(0, 0));
                 }
             }
 
             return allLayersMerged;
         }
+
+
+
+        /// <summary>
+        /// Called by the CanvasContainer whenever a new shape has to be spawned inside the currently selected layer
+        /// </summary>
+        /// <param name="shapeToSpawn"></param>
+        public void SpawnNewShapeInsideSelectedLayer(Shape shapeToSpawn) 
+        {
+            LayerData selectedLayerData = this.allLayersData[selectedLayerLabel];
+            selectedLayerData.AllLayerShapes.Add(shapeToSpawn);
+            this.CanvasContainer.OnNewShapeAddedToSelectedLayer();
+
+        }
+
+        
     }
 }

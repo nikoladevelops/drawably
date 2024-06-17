@@ -73,6 +73,16 @@ namespace Drawably.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap circle_shape {
+            get {
+                object obj = ResourceManager.GetObject("circle-shape", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap colour {
             get {
                 object obj = ResourceManager.GetObject("colour", resourceCulture);
@@ -173,6 +183,36 @@ namespace Drawably.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap rectangle_shape {
+            get {
+                object obj = ResourceManager.GetObject("rectangle-shape", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap right_arrow_shape {
+            get {
+                object obj = ResourceManager.GetObject("right-arrow-shape", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap right_triangle_shape {
+            get {
+                object obj = ResourceManager.GetObject("right-triangle-shape", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap select_shape {
             get {
                 object obj = ResourceManager.GetObject("select-shape", resourceCulture);
@@ -186,6 +226,16 @@ namespace Drawably.Properties {
         internal static System.Drawing.Bitmap squares {
             get {
                 object obj = ResourceManager.GetObject("squares", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap triangle_shape {
+            get {
+                object obj = ResourceManager.GetObject("triangle-shape", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

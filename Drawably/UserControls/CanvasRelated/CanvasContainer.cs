@@ -1,5 +1,7 @@
 ﻿using Drawably.Tools;
+using Drawably.Tools.DrawShapesToolRelated.Shapes;
 using Drawably.UserControls.TopPanelRelated;
+using Drawably.UserControls.Windows;
 using Drawably.UserControls.Windows.Colors;
 using Drawably.UserControls.Windows.Layers;
 using System;
@@ -509,6 +511,40 @@ namespace Drawably.UserControls.CanvasRelated
             if (TopPanel != null) 
             {
                 TopPanel.AddToolOptionsControlToTopPanel(control);
+            }
+        }
+
+        /// <summary>
+        /// Places a custom menu inside the MainForm
+        /// </summary>
+        public void PlaceCustomMenuToMainForm(MenuWindow customMenu) 
+        {
+            this.ParentForm.Controls.Add(customMenu);
+            customMenu.Location = new Point(150, 150);
+            customMenu.BringToFront();
+        }
+
+        /// <summary>
+        /// Spawns a brand new shape inside the current selected layer. Called by the DrawSelectedShapeMenu
+        /// </summary>
+        /// <param name="shapeToSpawn"></param>
+        public void SpawnNewShapeInsideSelectedLayer(Shape shapeToSpawn) 
+        {
+            this.LayersWindow.SpawnNewShapeInsideSelectedLayer(shapeToSpawn);
+        }
+
+        /// <summary>
+        /// Called when a new shape was successfully added to the currently selected layer
+        /// </summary>
+        public void OnNewShapeAddedToSelectedLayer() 
+        {
+            // Because a brand new shape was added to the selected layer, I need to refresh the visualized canvas again by getting the changes (a.k.a get all layers merged yet again)
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+
+            if (this.CurrentTool != null)
+            {
+                // Because I updated the visualized image, acquire the new graphics object for that image
+                this.CurrentTool.GetNewCanvasGraphics();
             }
         }
     }

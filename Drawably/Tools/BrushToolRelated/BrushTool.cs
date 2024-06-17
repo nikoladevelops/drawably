@@ -179,8 +179,6 @@ namespace Drawably.Tools.PenToolRelated
 
             DisposeOfOldTools();
             CreateNecessaryTools();
-
-
         }
     }
 }
