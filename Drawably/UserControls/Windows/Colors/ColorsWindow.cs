@@ -125,10 +125,22 @@ namespace Drawably.UserControls.Windows.Colors
 
         private void switchColorsButton_Click(object sender, EventArgs e)
         {
-            Color temp = this.leftColorButton.BackColor;
+            Color tempLeftColor = this.leftColorButton.BackColor;
+            Color tempCacheLeftColor = this.cacheLeftColorNoOpacity;
 
+            int leftTrackBarValueTemp = this.leftColorOpacityTrackBar.Value;
+
+            // Switch colors
             this.leftColorButton.BackColor = this.rightColorButton.BackColor;
-            this.rightColorButton.BackColor = temp;
+            this.rightColorButton.BackColor = tempLeftColor;
+
+            // Switch trackbar values
+            this.leftColorOpacityTrackBar.Value = this.rightColorOpacityTrackBar.Value;
+            this.rightColorOpacityTrackBar.Value = leftTrackBarValueTemp;
+
+            // Switch caches
+            this.cacheLeftColorNoOpacity = this.cacheRightColorNoOpacity;
+            this.cacheRightColorNoOpacity = tempCacheLeftColor;
 
             this.CanvasContainer.OnLeftColorChanged();
             this.CanvasContainer.OnRightColorChanged();
