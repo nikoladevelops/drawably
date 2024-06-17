@@ -34,6 +34,11 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
         public int BorderSize { get; set; }
         public bool IsFilled { get; set; }
 
+        //
+        public Color FillColor { get; set; }
+        public Color BorderColor { get; set; }
+        //
+
         // For dragging etc..
         public bool IsSelectedInGroup { get; set; }
         public Rectangle SelectionDimensions 
@@ -47,7 +52,7 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
         /// <summary>
         /// Creates a copy of the shape, but with populated properties
         /// </summary>
-        public abstract Shape CopyShape(int newX, int newY, int newWidth, int newHeight, int newBorderSize, bool newIsFilled);
+        public abstract Shape CopyShape(int newX, int newY, int newWidth, int newHeight, int newBorderSize, bool newIsFilled, Color newBorderColor, Color newFillColor);
 
         /// <summary>
         /// Draws itself on a graphics object

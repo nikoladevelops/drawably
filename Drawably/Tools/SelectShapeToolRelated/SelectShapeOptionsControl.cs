@@ -80,7 +80,8 @@ namespace Drawably.Tools.SelectShapeToolRelated
 
         private void deleteSelectedBtn_Click(object sender, EventArgs e)
         {
-            // todo delete all selected shapes
+            this.canvasContainer.DeleteAllSelectedShapesFromCurrentSelectedLayer();
+            this.selectedShapes.Clear();
         }
 
         public void MoveAllSelectedShapes(float x, float y)

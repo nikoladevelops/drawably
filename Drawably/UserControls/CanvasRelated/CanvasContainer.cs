@@ -574,5 +574,31 @@ namespace Drawably.UserControls.CanvasRelated
                 this.CurrentTool.GetNewSelectedLayerGraphics();
             }
         }
+
+        /// <summary>
+        /// Called by select shape tool. Clears all selected shapes
+        /// </summary>
+        public void DeleteAllSelectedShapesFromCurrentSelectedLayer() 
+        {
+            this.LayersWindow.DeleteAllSelectedShapesFromCurrentSelectedLayer();
+        }
+
+        /// <summary>
+        /// Called after the layers window clears all selected shapes
+        /// </summary>
+        public void OnAllSelectedShapesDeleted() 
+        {
+            // Because shapes were deleted, update the visualized canvas
+            this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
+
+            if (this.CurrentTool != null)
+            {
+                // Because I updated the visualized image, acquire the new graphics object for that image
+                this.CurrentTool.GetNewCanvasGraphics();
+
+                // Update selected layer graphics
+                this.CurrentTool.GetNewSelectedLayerGraphics();
+            }
+        }
     }
 }

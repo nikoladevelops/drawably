@@ -17,7 +17,7 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
         {
         }
 
-        public override Shape CopyShape(int newX, int newY, int newWidth, int newHeight, int newBorderSize, bool newIsFilled)
+        public override Shape CopyShape(int newX, int newY, int newWidth, int newHeight, int newBorderSize, bool newIsFilled, Color newBorderColor, Color newFillColor)
         {
             RectangleShape copyRectangle = new RectangleShape();
             copyRectangle.canvasContainer = this.canvasContainer;
@@ -28,19 +28,22 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
             copyRectangle.Height = newHeight;
             copyRectangle.BorderSize = newBorderSize;
             copyRectangle.IsFilled = newIsFilled;
+
+            copyRectangle.BorderColor = newBorderColor;
+            copyRectangle.FillColor = newFillColor;
             return copyRectangle;
         }
 
         public override void DrawShape(Graphics g)
         {
-            Pen newPen = new Pen(this.canvasContainer.CurrentLeftColor, this.BorderSize);
+            Pen newPen = new Pen(this.BorderColor, this.BorderSize);
 
             g.DrawRectangle(newPen, this.X, this.Y, this.Width, this.Height);
 
             newPen.Dispose();
             if (this.IsFilled)
             {
-                Brush brush = new SolidBrush(this.canvasContainer.CurrentRightColor);
+                Brush brush = new SolidBrush(this.FillColor);
                 // Calculate the inner rectangle dimensions
                 float halfBorderSize = this.BorderSize / 2.0f;
                 float innerX = this.X + halfBorderSize;

@@ -371,6 +371,23 @@ namespace Drawably.UserControls.Windows.Layers
             return null;
         }
 
+        public void DeleteAllSelectedShapesFromCurrentSelectedLayer() 
+        {
+            for (int i = 0; i < this.allLayersData[this.selectedLayerLabel].AllLayerShapes.Count; i++)
+            {
+                Shape currentShape = this.allLayersData[this.selectedLayerLabel].AllLayerShapes[i];
+
+                if (currentShape.IsSelectedInGroup)
+                {
+                    this.allLayersData[this.selectedLayerLabel].AllLayerShapes.Remove(currentShape);
+                }
+
+            }
+
+            this.CanvasContainer.OnAllSelectedShapesDeleted();
+            
+        }
+
 
 
     }

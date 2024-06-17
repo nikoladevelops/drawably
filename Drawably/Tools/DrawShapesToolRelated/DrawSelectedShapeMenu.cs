@@ -81,7 +81,7 @@ namespace Drawably.Tools.DrawShapesToolRelated
             VerifyTypedTextExistsAsItemInComboBox(this.heightComboBox);
             VerifyTypedTextExistsAsItemInComboBox(this.borderSizeComboBox);
 
-            Shape shapeToDraw = this.shapeToDraw.CopyShape(50, 50, (int)this.widthComboBox.SelectedItem, (int)this.heightComboBox.SelectedItem, (int)this.borderSizeComboBox.SelectedItem, this.fillShapeCheckBox.Checked);
+            Shape shapeToDraw = this.shapeToDraw.CopyShape(50, 50, (int)this.widthComboBox.SelectedItem, (int)this.heightComboBox.SelectedItem, (int)this.borderSizeComboBox.SelectedItem, this.fillShapeCheckBox.Checked, this.canvasContainer.CurrentLeftColor, this.canvasContainer.CurrentRightColor);
             this.canvasContainer.SpawnNewShapeInsideSelectedLayer(shapeToDraw);
             this.Visible = false;
         }
