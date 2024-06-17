@@ -17,6 +17,8 @@ namespace Drawably.Tools.DrawShapesToolRelated
     /// </summary>
     public partial class DrawShapesOptionsControl : UserControl
     {
+        private CanvasContainer canvasContainer;
+
         // This is the menu that gets opened every time a shape button is clicked
         private DrawSelectedShapeMenu drawSelectedMenu;
         Dictionary<Button, Shape> btnShapes;
@@ -28,8 +30,10 @@ namespace Drawably.Tools.DrawShapesToolRelated
 
         public DrawShapesOptionsControl(CanvasContainer newCanvasContainer):this()
         {
-            this.drawSelectedMenu = new DrawSelectedShapeMenu(newCanvasContainer);
-            newCanvasContainer.PlaceCustomMenuToMainForm(this.drawSelectedMenu);
+            canvasContainer = newCanvasContainer;
+
+            this.drawSelectedMenu = new DrawSelectedShapeMenu(canvasContainer);
+            canvasContainer.PlaceCustomMenuToMainForm(this.drawSelectedMenu);
 
             RegisterBtnClickEvents();
 
@@ -44,7 +48,7 @@ namespace Drawably.Tools.DrawShapesToolRelated
         {
             btnShapes = new Dictionary<Button, Shape>()
             {
-                {rectangleShapeBtn, new RectangleShape()}
+                {rectangleShapeBtn, new RectangleShape(canvasContainer)}
             };
 
 

@@ -29,13 +29,5 @@ namespace Drawably.Tools.DrawShapesToolRelated
             base.OnToolUnselected();
             this.DrawShapesOptions.Visible = false;
         }
-
-        public override void OnLeftColorChangedWhileToolSelected()
-        {
-        }
-
-        public override void OnRightColorChangedWhileToolSelected()
-        {
-        }
     }
 }

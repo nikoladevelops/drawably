@@ -142,11 +142,11 @@ namespace Drawably.Tools
         /// <summary>
         /// Called when the selected left color was changed, WHILE the tool is selected
         /// </summary>
-        public abstract void OnLeftColorChangedWhileToolSelected();
+        public virtual void OnLeftColorChangedWhileToolSelected() { }
 
         /// <summary>
         /// Called when the selected right color was changed, WHILE the tool is selected
         /// </summary>
-        public abstract void OnRightColorChangedWhileToolSelected();
+        public virtual void OnRightColorChangedWhileToolSelected() { }
     }
 }
