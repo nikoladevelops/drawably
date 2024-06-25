@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -30,19 +31,21 @@ namespace Drawably.UserControls.CanvasRelated
         private float canvasWidth;
         private float canvasHeight;
 
-        private TableLayoutPanel tableLayoutPanel;
-        private Canvas canvas;
 
+        //
+        private float cacheWidthCalc;
+        private float cacheHeightCalc;
+        private Canvas canvas;
         public Graphics g;
 
         // Accessed by other windows, but not really set up from outside/ something like a shortcut
-        public PictureBox CanvasPictureBox { get => canvas.CanvasPictureBox; }        
+       // public PictureBox CanvasPictureBox { get => canvas.CanvasPictureBox; }        
         public Canvas Canvas { get => canvas; }
         public Bitmap SelectedLayerBitmap { get => this.LayersWindow.GetSelectedLayerBitmap; }
 
-        public Bitmap CanvasVisualizedImage { get => (Bitmap)this.canvas.CanvasPictureBox.Image; set => this.canvas.CanvasPictureBox.Image = value; }
-        public int GetCanvasBitmapWidth { get => this.canvas.CanvasPictureBox.Image.Width; }
-        public int GetCanvasBitmapHeight { get => this.canvas.CanvasPictureBox.Image.Height; }
+        public Bitmap CanvasVisualizedImage { get => this.canvas.DisplayedImage; set => this.canvas.DisplayedImage = value; }
+        public int GetCanvasBitmapWidth { get => this.canvas.DisplayedImage.Width; }
+        public int GetCanvasBitmapHeight { get => this.canvas.DisplayedImage.Height; }
 
         // Colors
 
@@ -78,21 +81,19 @@ namespace Drawably.UserControls.CanvasRelated
             AutoScrollMinSize = new Size(2200, 2500);
 
 
-            CanvasPictureBox.SizeMode = PictureBoxSizeMode.Zoom; // Important
-            CanvasPictureBox.MinimumSize = minimumZoomSize;
-            CanvasPictureBox.MaximumSize = maximumZoomSize;
+            //Canvas.SizeMode = PictureBoxSizeMode.Zoom; // Important
+            Canvas.MinimumSize = minimumZoomSize;
+            Canvas.MaximumSize = maximumZoomSize;
 
-            canvasWidth = CanvasPictureBox.Width;
-            canvasHeight = CanvasPictureBox.Height;
+            canvasWidth = Canvas.Width;
+            canvasHeight = Canvas.Height;
 
-            Bitmap bmp = new Bitmap(CanvasPictureBox.Width, CanvasPictureBox.Height);
-            g = Graphics.FromImage(bmp);
-
-            g.Clear(Color.Transparent);
-            CanvasPictureBox.Image = bmp;
 
             HandleCreated += CanvasContainer_HandleCreated;
-            
+
+            //
+            cacheWidthCalc = 1;
+            cacheHeightCalc = 1;
         }
 
         private void CanvasContainer_HandleCreated(object? sender, EventArgs e)
@@ -104,13 +105,13 @@ namespace Drawably.UserControls.CanvasRelated
             form.KeyUp += Form_KeyUp;
 
 
-            originalSize = CanvasPictureBox.Size;
+            originalSize = Canvas.Size;
 
             // Connect event handlers
-            CanvasPictureBox.MouseMove += Canvas_MouseMove;
-            CanvasPictureBox.MouseDown += Canvas_MouseDown;
-            CanvasPictureBox.MouseUp += Canvas_MouseUp;
-            CanvasPictureBox.MouseClick += Canvas_MouseClick;
+            Canvas.MouseMove += Canvas_MouseMove;
+            Canvas.MouseDown += Canvas_MouseDown;
+            Canvas.MouseUp += Canvas_MouseUp;
+            Canvas.MouseClick += Canvas_MouseClick;
 
         }
 
@@ -145,10 +146,10 @@ namespace Drawably.UserControls.CanvasRelated
                 return;
             }
 
-            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
+            Point mousePos = Canvas.PointToClient(MousePosition);
 
-            float newX = mousePos.X * (originalSize.Width / canvasWidth);
-            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+            float newX = mousePos.X * cacheWidthCalc;
+            float newY = mousePos.Y * cacheHeightCalc;
 
             if (typeOfButton == MouseButtons.Left)
             {
@@ -174,10 +175,10 @@ namespace Drawably.UserControls.CanvasRelated
                 return;
             }
 
-            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
+            Point mousePos = Canvas.PointToClient(MousePosition);
 
-            float newX = mousePos.X * (originalSize.Width / canvasWidth);
-            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+            float newX = mousePos.X * cacheWidthCalc;
+            float newY = mousePos.Y * cacheHeightCalc;
 
 
             if (typeOfButton == MouseButtons.Left)
@@ -204,10 +205,10 @@ namespace Drawably.UserControls.CanvasRelated
                 return;
             }
 
-            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
+            Point mousePos = Canvas.PointToClient(MousePosition);
 
-            float newX = mousePos.X * (originalSize.Width / canvasWidth);
-            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+            float newX = mousePos.X * cacheWidthCalc;
+            float newY = mousePos.Y * cacheHeightCalc;
 
             if (typeOfButton == MouseButtons.Left)
             {
@@ -226,10 +227,11 @@ namespace Drawably.UserControls.CanvasRelated
                 return;
             }
 
-            Point mousePos = CanvasPictureBox.PointToClient(MousePosition);
+            Point mousePos = Canvas.PointToClient(MousePosition);
 
-            float newX = mousePos.X * (originalSize.Width / canvasWidth);
-            float newY = mousePos.Y * (originalSize.Height / canvasHeight);
+            float newX = mousePos.X * cacheWidthCalc;
+            float newY = mousePos.Y * cacheHeightCalc;
+
 
             CurrentTool.OnMouseMove(newX, newY);
         }
@@ -277,12 +279,16 @@ namespace Drawably.UserControls.CanvasRelated
             float newWidth = canvasWidth * zoomFactor;
             float newHeight = canvasHeight * zoomFactor;
 
-            if (newWidth > CanvasPictureBox.MaximumSize.Width || newHeight > CanvasPictureBox.MaximumSize.Height)
+            if (newWidth > Canvas.MaximumSize.Width || newHeight > Canvas.MaximumSize.Height)
             {
                 return;
             }
 
+            
             SetNewCanvasSize(newWidth, newHeight);
+
+            cacheWidthCalc = originalSize.Width / newWidth;
+            cacheHeightCalc = originalSize.Height / newHeight;
         }
 
         // When scrolling down
@@ -291,12 +297,15 @@ namespace Drawably.UserControls.CanvasRelated
             float newWidth = canvasWidth / zoomFactor;
             float newHeight = canvasHeight / zoomFactor;
 
-            if (newWidth < CanvasPictureBox.MinimumSize.Width || newHeight < CanvasPictureBox.MinimumSize.Height)
+            if (newWidth < Canvas.MinimumSize.Width || newHeight < Canvas.MinimumSize.Height)
             {
                 return;
             }
 
             SetNewCanvasSize(newWidth, newHeight);
+
+            cacheWidthCalc = originalSize.Width / newWidth;
+            cacheHeightCalc = originalSize.Height / newHeight;
         }
 
         private void SetNewCanvasSize(float newCanvasWidth, float newCanvasHeight)
@@ -304,48 +313,31 @@ namespace Drawably.UserControls.CanvasRelated
             canvasWidth = newCanvasWidth;
             canvasHeight = newCanvasHeight;
 
-            canvas.Size = new Size((int)canvasWidth, (int)canvasHeight);
+            canvas.Resize((int)canvasWidth, (int)canvasHeight);
         }
 
         private void InitializeComponent()
         {
-            tableLayoutPanel = new TableLayoutPanel();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(CanvasContainer));
             canvas = new Canvas();
-            tableLayoutPanel.SuspendLayout();
             SuspendLayout();
-            // 
-            // tableLayoutPanel
-            // 
-            tableLayoutPanel.BackColor = Color.Transparent;
-            tableLayoutPanel.ColumnCount = 1;
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.Controls.Add(canvas, 0, 0);
-            tableLayoutPanel.Dock = DockStyle.Fill;
-            tableLayoutPanel.Location = new Point(0, 0);
-            tableLayoutPanel.Name = "tableLayoutPanel";
-            tableLayoutPanel.RowCount = 1;
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.Size = new Size(623, 418);
-            tableLayoutPanel.TabIndex = 0;
             // 
             // canvas
             // 
             canvas.Anchor = AnchorStyles.None;
             canvas.BackColor = Color.Transparent;
-            canvas.Location = new Point(87, 95);
+            canvas.DisplayedImage = (Bitmap)resources.GetObject("canvas.DisplayedImage");
+            canvas.Location = new Point(87, 96);
             canvas.Name = "canvas";
             canvas.Size = new Size(449, 227);
-            canvas.TabIndex = 0;
+            canvas.TabIndex = 1;
             // 
             // CanvasContainer
             // 
             BackColor = Color.DarkGray;
-            Controls.Add(tableLayoutPanel);
+            Controls.Add(canvas);
             Name = "CanvasContainer";
             Size = new Size(623, 418);
-            tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 

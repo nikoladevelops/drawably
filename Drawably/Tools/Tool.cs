@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools.PenToolRelated;
+using Drawably.UserControls;
 using Drawably.UserControls.CanvasRelated;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Drawably.Tools
     public abstract class Tool
     {
         protected CanvasContainer canvasContainer;
-        protected PictureBox canvas;
+        protected Canvas canvas;
 
         /// <summary>
         /// Holds a reference to the canvas image's graphics object, so that the tool can draw on the canvas
@@ -27,7 +28,7 @@ namespace Drawably.Tools
         protected Tool(CanvasContainer newCanvasContainer)
         {
             this.canvasContainer = newCanvasContainer;
-            canvas = newCanvasContainer.CanvasPictureBox;
+            this.canvas = this.canvasContainer.Canvas;
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace Drawably.Tools
         /// </summary>
         public virtual void OnToolSelected() 
         {
-            canvasGraphics = Graphics.FromImage(canvas.Image);
+            canvasGraphics = Graphics.FromImage(canvasContainer.CanvasVisualizedImage);
             selectedLayerGraphics = Graphics.FromImage(canvasContainer.SelectedLayerBitmap);
         }
 
@@ -116,7 +117,7 @@ namespace Drawably.Tools
             {
                 canvasGraphics.Dispose();
             }
-            canvasGraphics = Graphics.FromImage(canvas.Image);
+            canvasGraphics = Graphics.FromImage(canvasContainer.CanvasVisualizedImage);
         }
 
         /// <summary>

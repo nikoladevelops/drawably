@@ -28,49 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            canvasPictureBox = new PictureBox();
-            backgroundPictureBox = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)canvasPictureBox).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)backgroundPictureBox).BeginInit();
             SuspendLayout();
-            // 
-            // canvasPictureBox
-            // 
-            canvasPictureBox.BackColor = Color.Transparent;
-            canvasPictureBox.Dock = DockStyle.Fill;
-            canvasPictureBox.Location = new Point(0, 0);
-            canvasPictureBox.Name = "canvasPictureBox";
-            canvasPictureBox.Size = new Size(559, 332);
-            canvasPictureBox.TabIndex = 0;
-            canvasPictureBox.TabStop = false;
-            // 
-            // backgroundPictureBox
-            // 
-            backgroundPictureBox.BackgroundImage = Properties.Resources.squares;
-            backgroundPictureBox.Dock = DockStyle.Fill;
-            backgroundPictureBox.Location = new Point(0, 0);
-            backgroundPictureBox.Name = "backgroundPictureBox";
-            backgroundPictureBox.Size = new Size(559, 332);
-            backgroundPictureBox.TabIndex = 1;
-            backgroundPictureBox.TabStop = false;
             // 
             // Canvas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Transparent;
-            Controls.Add(canvasPictureBox);
-            Controls.Add(backgroundPictureBox);
+            BackColor = Color.White;
             Name = "Canvas";
             Size = new Size(559, 332);
-            ((System.ComponentModel.ISupportInitialize)canvasPictureBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)backgroundPictureBox).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private PictureBox canvasPictureBox;
-        private PictureBox backgroundPictureBox;
     }
 }

@@ -68,7 +68,7 @@ namespace Drawably.Tools.PenToolRelated
         {
             isDrawingEnabled = false;
             canvasContainer.OnSelectedToolFinishedDrawing();
-            canvasGraphics = Graphics.FromImage(canvas.Image); // important because after refresh we work with brand new merged bitmap
+            canvasGraphics = Graphics.FromImage(canvas.DisplayedImage); // important because after refresh we work with brand new merged bitmap
         }
 
         /// <summary>
