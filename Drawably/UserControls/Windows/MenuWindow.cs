@@ -12,9 +12,21 @@ using System.Windows.Forms;
 
 namespace Drawably.UserControls.Windows
 {
+    /// <summary>
+    /// An empty draggable window
+    /// </summary>
     public partial class MenuWindow : UserControl
     {
         private string menuText;
+
+        public MenuWindow()
+        {
+            InitializeComponent();
+            this.EnableDrag(topPanel);
+            this.EnableDrag(menuTextLabel);
+            this.Resize += MenuWindow_Resize;
+            this.closeButton.Click += CloseButton_Click;
+        }
 
         [
            Category("All Custom Props"),
@@ -30,14 +42,6 @@ namespace Drawably.UserControls.Windows
 
                 EnsureMenuTextLabelFitsSize();
             }
-        }
-        public MenuWindow()
-        {
-            InitializeComponent();
-            this.EnableDrag(topPanel);
-            this.EnableDrag(menuTextLabel);
-            this.Resize += MenuWindow_Resize;
-            this.closeButton.Click += CloseButton_Click;
         }
 
         // An additional function that gets called whenever the Close button is clicked
@@ -60,11 +64,6 @@ namespace Drawably.UserControls.Windows
             {
                 OnCloseBtnClicked();
             }
-        }
-
-        private void menuWindowLoad(object sender, EventArgs e)
-        {
-           
         }
 
         private void MenuWindow_Resize(object? sender, EventArgs e)

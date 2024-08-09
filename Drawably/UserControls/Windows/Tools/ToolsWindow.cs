@@ -17,32 +17,48 @@ using System.Windows.Forms;
 
 namespace Drawably.UserControls.Windows.Tools
 {
+    /// <summary>
+    /// Keeps a collection of tools that the user can select and use to draw on the canvas.
+    /// </summary>
     public partial class ToolsWindow : MenuWindow
     {
-        // Keeps track of each tool button and the actual tool it corresponds to
+        // Keeps track of each tool button and the actual tool it corresponds to.
         private Dictionary<Button, Tool> btnTools;
 
-        // Keeps track of the selected button
+        // Keeps track of the currently selected button.
         private Button? selectedBtn;
 
-        [
-           Category("All Custom Props"),
-           Description("This is the Canvas Container. It HAS TO be set in order for the tool buttons to work.")
-        ]
+        // Dependencies that HAVE TO be set up from outside, before the window is used.
+
+        // TODO canvas container should be eliminated as a dependency
         private CanvasContainer canvContainer;
+
+        //
         public ToolsWindow()
         {
             InitializeComponent();
             this.MenuText = "Tools";
         }
 
-        public void SetUp(CanvasContainer newCanvContainer) 
+        /// <summary>
+        /// Ensures the window is ready to be used by the user.
+        /// </summary>
+        public void SetUp(CanvasContainer newCanvasContainer) 
         {
-            this.canvContainer = newCanvContainer;
+            if (newCanvasContainer == null)
+            {
+                MessageBox.Show("Error: Tools Window has no CanvasContainer.");
+                return;
+            }
+
+            this.canvContainer = newCanvasContainer;
             PopulateBtnTools();
             ConnectBtnEvents();
         }
 
+        /// <summary>
+        /// Ensures each tool button corresponds to the correct tool.
+        /// </summary>
         private void PopulateBtnTools()
         {
             if (canvContainer == null) 
@@ -63,6 +79,9 @@ namespace Drawably.UserControls.Windows.Tools
             
         }
 
+        /// <summary>
+        /// Enables the tool buttons' functionalities
+        /// </summary>
         private void ConnectBtnEvents() 
         {
             if (canvContainer == null)
@@ -76,26 +95,34 @@ namespace Drawably.UserControls.Windows.Tools
                 {
                     if (selectedBtn == kvp.Key)
                     {
-                        DeselectCurrentTool(kvp);
+                        UnselectCurrentTool(kvp);
                         return;
                     }
 
-                    DeselectCurrentTool(kvp);
+                    UnselectCurrentTool(kvp);
                     SelectNewTool(kvp);
                 };
             }
         }
 
+        /// <summary>
+        /// Selects a different tool button and its corresponding tool.
+        /// </summary>
+        /// <param name="kvp"></param>
         private void SelectNewTool(KeyValuePair<Button, Tool> kvp) 
         {
             selectedBtn = kvp.Key;
             selectedBtn.BackColor = Color.Yellow;
             selectedBtn.FlatAppearance.MouseOverBackColor = Color.Yellow;
-            kvp.Value.OnToolSelected();
             canvContainer.CurrentTool = kvp.Value;
+            kvp.Value.OnToolSelected();
         }
 
-        private void DeselectCurrentTool(KeyValuePair<Button, Tool> kvp) 
+        /// <summary>
+        /// Unselects the current tool button and its corresponding tool.
+        /// </summary>
+        /// <param name="kvp"></param>
+        private void UnselectCurrentTool(KeyValuePair<Button, Tool> kvp) 
         {
             // Deselect only if there is a tool to deselect
             if (selectedBtn == null) 
@@ -109,6 +136,5 @@ namespace Drawably.UserControls.Windows.Tools
             selectedBtn = null;
             canvContainer.CurrentTool = null;
         }
-
     }
 }

@@ -91,35 +91,35 @@
             tableLayoutPanel1.Size = new Size(168, 175);
             tableLayoutPanel1.TabIndex = 2;
             // 
-            // firstColorOpacityPercentageLabel
+            // leftColorOpacityPercentageLabel
             // 
             leftColorOpacityPercentageLabel.AutoSize = true;
             leftColorOpacityPercentageLabel.Dock = DockStyle.Fill;
             leftColorOpacityPercentageLabel.ForeColor = Color.White;
             leftColorOpacityPercentageLabel.Location = new Point(3, 154);
-            leftColorOpacityPercentageLabel.Name = "firstColorOpacityPercentageLabel";
+            leftColorOpacityPercentageLabel.Name = "leftColorOpacityPercentageLabel";
             leftColorOpacityPercentageLabel.Size = new Size(78, 21);
             leftColorOpacityPercentageLabel.TabIndex = 10;
             leftColorOpacityPercentageLabel.Text = "100%";
             leftColorOpacityPercentageLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // secondColorOpacityPercentageLabel
+            // rightColorOpacityPercentageLabel
             // 
             rightColorOpacityPercentageLabel.AutoSize = true;
             rightColorOpacityPercentageLabel.Dock = DockStyle.Fill;
             rightColorOpacityPercentageLabel.ForeColor = Color.White;
             rightColorOpacityPercentageLabel.Location = new Point(87, 154);
-            rightColorOpacityPercentageLabel.Name = "secondColorOpacityPercentageLabel";
+            rightColorOpacityPercentageLabel.Name = "rightColorOpacityPercentageLabel";
             rightColorOpacityPercentageLabel.Size = new Size(78, 21);
             rightColorOpacityPercentageLabel.TabIndex = 9;
             rightColorOpacityPercentageLabel.Text = "100%";
             rightColorOpacityPercentageLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // secondColorOpacityTrackBar
+            // rightColorOpacityTrackBar
             // 
             rightColorOpacityTrackBar.Location = new Point(87, 127);
             rightColorOpacityTrackBar.Maximum = 255;
-            rightColorOpacityTrackBar.Name = "secondColorOpacityTrackBar";
+            rightColorOpacityTrackBar.Name = "rightColorOpacityTrackBar";
             rightColorOpacityTrackBar.Size = new Size(78, 24);
             rightColorOpacityTrackBar.TabIndex = 8;
             rightColorOpacityTrackBar.TickStyle = TickStyle.None;
@@ -149,11 +149,11 @@
             label1.Text = "Opacity";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // firstColorOpacityTrackBar
+            // leftColorOpacityTrackBar
             // 
             leftColorOpacityTrackBar.Location = new Point(3, 127);
             leftColorOpacityTrackBar.Maximum = 255;
-            leftColorOpacityTrackBar.Name = "firstColorOpacityTrackBar";
+            leftColorOpacityTrackBar.Name = "leftColorOpacityTrackBar";
             leftColorOpacityTrackBar.Size = new Size(78, 24);
             leftColorOpacityTrackBar.TabIndex = 5;
             leftColorOpacityTrackBar.TickStyle = TickStyle.None;
@@ -170,7 +170,6 @@
             rightColorButton.Size = new Size(75, 70);
             rightColorButton.TabIndex = 1;
             rightColorButton.UseVisualStyleBackColor = false;
-            rightColorButton.Click += rightColorButton_Click;
             // 
             // leftColorButton
             // 
@@ -183,7 +182,6 @@
             leftColorButton.Size = new Size(75, 70);
             leftColorButton.TabIndex = 0;
             leftColorButton.UseVisualStyleBackColor = false;
-            leftColorButton.Click += leftColorButton_Click;
             // 
             // colorBtnHolder
             // 
@@ -205,7 +203,6 @@
             switchColorsButton.TabIndex = 4;
             switchColorsButton.Text = "Switch";
             switchColorsButton.UseVisualStyleBackColor = false;
-            switchColorsButton.Click += switchColorsButton_Click;
             // 
             // ColorsWindow
             // 

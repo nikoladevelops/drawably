@@ -5,7 +5,6 @@ namespace Drawably
         public MainForm()
         {
             InitializeComponent();
-
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -14,22 +13,9 @@ namespace Drawably
             
             this.canvasContainer.ScrollToMiddle();
 
-            toolsWindow.SetUp(this.canvasContainer);
-        }
-
-        private void MainForm_MouseWheel(object? sender, MouseEventArgs e)
-        {
-        }
-
-
-        private void colorsMenuWindow_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
+            this.toolsWindow.SetUp(this.canvasContainer);
+            this.layersWindow.SetUp(this.canvasContainer);
+            this.colorsWindow.SetUp(this.canvasContainer);
         }
     }
 }

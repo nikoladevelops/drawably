@@ -30,18 +30,17 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             colorsWindow = new UserControls.Windows.Colors.ColorsWindow();
+            canvasContainer = new UserControls.CanvasRelated.CanvasContainer();
             layersWindow = new UserControls.Windows.Layers.LayersWindow();
             topPanel = new UserControls.TopPanelRelated.TopPanel();
             toolsWindow = new UserControls.Windows.Tools.ToolsWindow();
             canvas = new PictureBox();
-            canvasContainer = new UserControls.CanvasRelated.CanvasContainer();
             ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
             // 
             // colorsWindow
             // 
             colorsWindow.BackColor = SystemColors.ActiveCaption;
-            colorsWindow.CanvasContainer = canvasContainer;
             colorsWindow.Location = new Point(12, 400);
             colorsWindow.MenuText = "Colors";
             colorsWindow.MinimumSize = new Size(168, 244);
@@ -49,10 +48,26 @@
             colorsWindow.Size = new Size(168, 244);
             colorsWindow.TabIndex = 19;
             // 
+            // canvasContainer
+            // 
+            canvasContainer.AutoScroll = true;
+            canvasContainer.AutoScrollMinSize = new Size(2200, 2500);
+            canvasContainer.BackColor = Color.DarkGray;
+            canvasContainer.CanvasVisualizedImage = (Bitmap)resources.GetObject("canvasContainer.CanvasVisualizedImage");
+            canvasContainer.ColorsWindow = colorsWindow;
+            canvasContainer.CurrentTool = null;
+            canvasContainer.Dock = DockStyle.Fill;
+            canvasContainer.LayersWindow = layersWindow;
+            canvasContainer.Location = new Point(0, 67);
+            canvasContainer.Name = "canvasContainer";
+            canvasContainer.Size = new Size(1302, 562);
+            canvasContainer.TabIndex = 22;
+            canvasContainer.TopPanel = topPanel;
+            // 
             // layersWindow
             // 
             layersWindow.BackColor = SystemColors.ActiveCaption;
-            layersWindow.CanvasContainer = canvasContainer;
+            
             layersWindow.Location = new Point(980, 400);
             layersWindow.MaximumSize = new Size(175, 225);
             layersWindow.MenuText = "Layers";
@@ -95,22 +110,6 @@
             canvas.Size = new Size(608, 233);
             canvas.TabIndex = 0;
             canvas.TabStop = false;
-            // 
-            // canvasContainer
-            // 
-            canvasContainer.AutoScroll = true;
-            canvasContainer.AutoScrollMinSize = new Size(2200, 2500);
-            canvasContainer.BackColor = Color.DarkGray;
-            canvasContainer.CanvasVisualizedImage = (Bitmap)resources.GetObject("canvasContainer.CanvasVisualizedImage");
-            canvasContainer.ColorsWindow = colorsWindow;
-            canvasContainer.CurrentTool = null;
-            canvasContainer.Dock = DockStyle.Fill;
-            canvasContainer.LayersWindow = layersWindow;
-            canvasContainer.Location = new Point(0, 67);
-            canvasContainer.Name = "canvasContainer";
-            canvasContainer.Size = new Size(1302, 562);
-            canvasContainer.TabIndex = 22;
-            canvasContainer.TopPanel = topPanel;
             // 
             // MainForm
             // 

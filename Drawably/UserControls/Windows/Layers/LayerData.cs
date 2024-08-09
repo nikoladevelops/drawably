@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Drawably.UserControls.Windows.Layers
 {
+    /// <summary>
+    /// Holds data for a layer.
+    /// </summary>
     public class LayerData
     {
         private Bitmap layerImage;

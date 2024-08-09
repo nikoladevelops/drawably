@@ -77,7 +77,7 @@ namespace Drawably.UserControls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+           // base.OnPaint(e);
             // TODO handle zoom in zoom out inside here
             // TODO when resizing the form, resize all bitmaps/ layers whatever
             // TODO handle drawing cached checkerboard

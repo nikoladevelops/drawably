@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace Drawably.UserControls.Windows.Layers
 {
+    /// <summary>
+    /// A special label used by LayersWindow internally.
+    /// </summary>
     public partial class LayerLabel : UserControl
     {
         private bool isLayerSelected;

@@ -13,29 +13,60 @@ using System.Windows.Forms;
 
 namespace Drawably.UserControls.Windows.Layers
 {
+    /// <summary>
+    /// Visualizes all available layers and also the actions that can be applied to them by the user.
+    /// </summary>
     public partial class LayersWindow : MenuWindow
     {
-        // Note that there should ALWAYS be a selected layer lable
+        // Note that there should ALWAYS be a selected layer lable.
         private LayerLabel selectedLayerLabel;
 
-        // Every single layer should contain a LayerData containing the bitmap image associated
+        // Every single layer should contain a LayerData containing the bitmap image associated.
         private Dictionary<LayerLabel, LayerData> allLayersData = new Dictionary<LayerLabel, LayerData>();
 
-        // Accessed by other windows but not set up from outside. Make sure you always call this, so you always get the correct selected layer bitmap
-        public Bitmap GetSelectedLayerBitmap { get => allLayersData[selectedLayerLabel].LayerImage; }
-        //
-
-        [
-           Category("All Custom Props"),
-           Description("The canvas container is needed in order for everything to work correctly")
-        ]
-        public CanvasContainer CanvasContainer { get; set; }
+        // TODO should be eliminated as a dependency.
+        private CanvasContainer canvasContainer { get; set; }
 
         public LayersWindow()
         {
             InitializeComponent();
             this.MenuText = "Layers";
+        }
 
+        // Accessed by other windows but not set up from outside. Make sure you always call this, so you always get the correct selected layer bitmap.
+        public Bitmap GetSelectedLayerBitmap { get => allLayersData[selectedLayerLabel].LayerImage; }
+        //
+
+        /// <summary>
+        /// Ensures the window is ready to be used by the user.
+        /// </summary>
+        public void SetUp(CanvasContainer newCanvasContainer) 
+        {
+            if (newCanvasContainer == null)
+            {
+                MessageBox.Show("Error: Layers Window has no CanvasContainer.");
+                return;
+            }
+
+            this.canvasContainer = newCanvasContainer;
+
+
+            // Create the very first layer.
+            CreateLayerLabel();
+
+            // Connect necessary click events.
+            ConnectBtnEvents();
+
+            // Because we have a single layer, the delete button should be disabled by default.
+            this.deleteLayerBtn.Enabled = false;
+
+        }
+
+        /// <summary>
+        /// Enables the buttons' functionalities
+        /// </summary>
+        private void ConnectBtnEvents() 
+        {
             this.createLayerBtn.Click += (o, e) =>
             {
                 // Ensure the delete button is enabled yet again if the count of labels is more than 1 (which would always be true when executing this function, because the last layer can NEVER be deleted)
@@ -70,21 +101,10 @@ namespace Drawably.UserControls.Windows.Layers
                 MoveLayerDown();
             };
 
-            this.Load += LayersWindow_Load;
-
         }
-
+        
         private void LayersWindow_Load(object? sender, EventArgs e)
         {
-            if (this.CanvasContainer == null)
-            {
-                MessageBox.Show("Error: Layers Window has no CanvasContainer");
-                return;
-            }
-
-            // Create the very first layer
-            CreateLayerLabel();
-            this.deleteLayerBtn.Enabled = false;
         }
 
         /// <summary>
@@ -108,7 +128,7 @@ namespace Drawably.UserControls.Windows.Layers
         private void SelectNewLayerLabelByUserClick(LayerLabel newLbl) 
         {
             MarkNewSelectedLabel(newLbl);
-            this.CanvasContainer.OnNewLayerSelectedByUserClick();
+            this.canvasContainer.OnNewLayerSelectedByUserClick();
         }
 
         /// <summary>
@@ -152,7 +172,7 @@ namespace Drawably.UserControls.Windows.Layers
         {
             newLbl.OnCheckBoxClicked = () =>
             {
-                this.CanvasContainer.OnLayerChangedVisibility();
+                this.canvasContainer.OnLayerChangedVisibility();
             };
         }
 
@@ -172,7 +192,7 @@ namespace Drawably.UserControls.Windows.Layers
             ConfigureNewLayerLabelCheckBoxEvent(newLbl);
 
             // Ensure the layer has a layer data and is added to the dictionary that tracks all layers
-            LayerData layerData = new LayerData(this.CanvasContainer.GetCanvasBitmapWidth, this.CanvasContainer.GetCanvasBitmapHeight);
+            LayerData layerData = new LayerData(this.canvasContainer.GetCanvasBitmapWidth, this.canvasContainer.GetCanvasBitmapHeight);
             allLayersData.Add(newLbl, layerData);
 
             // There should always be a selectedLayerLabel
@@ -190,7 +210,7 @@ namespace Drawably.UserControls.Windows.Layers
             MarkNewSelectedLabel(newLbl);
 
             // Ensure the Canvas container is informed about the newly created layer. Note that the canvas container should know that by creating a new layer, the new layer is being marked as selected automatically.
-            this.CanvasContainer.OnLayerCreated();
+            this.canvasContainer.OnLayerCreated();
         }
 
         /// <summary>
@@ -220,7 +240,7 @@ namespace Drawably.UserControls.Windows.Layers
             this.allLayersPanel.Controls.Remove(lblToRemove);
 
             // Ensure the Canvas container is informed about the user deleting a selected layer. Note that the canvas container should know that by deleting a layer, another one will be selected automatically.
-            this.CanvasContainer.OnLayerDeleted();
+            this.canvasContainer.OnLayerDeleted();
         }
 
         /// <summary>
@@ -265,7 +285,7 @@ namespace Drawably.UserControls.Windows.Layers
             MarkNewSelectedLabel(newLbl);
 
             // Inform the canvas container that a layer has been duplicated
-            this.CanvasContainer.OnLayerDuplicated();
+            this.canvasContainer.OnLayerDuplicated();
         }
 
         /// <summary>
@@ -285,7 +305,7 @@ namespace Drawably.UserControls.Windows.Layers
             this.allLayersPanel.Controls.SetChildIndex(selectedLayerLabel, indexOfSelected + 1);
 
             // Inform the Canvas container that the selected layer was moved up
-            this.CanvasContainer.OnMoveLayerUp();
+            this.canvasContainer.OnMoveLayerUp();
 
         }
 
@@ -306,7 +326,7 @@ namespace Drawably.UserControls.Windows.Layers
             this.allLayersPanel.Controls.SetChildIndex(selectedLayerLabel, indexOfSelected - 1);
 
             // Inform the Canvas container that the selected layer was moved down
-            this.CanvasContainer.OnMoveLayerDown();
+            this.canvasContainer.OnMoveLayerDown();
         }
 
         /// <summary>
@@ -315,7 +335,7 @@ namespace Drawably.UserControls.Windows.Layers
         /// <returns>The bitmap containing all layers merged.</returns>
         public Bitmap GetAllLayersMergedBitmap()
         {
-            Bitmap allLayersMerged = new Bitmap(this.CanvasContainer.GetCanvasBitmapWidth, this.CanvasContainer.GetCanvasBitmapHeight);
+            Bitmap allLayersMerged = new Bitmap(this.canvasContainer.GetCanvasBitmapWidth, this.canvasContainer.GetCanvasBitmapHeight);
 
             // The Z index is automatically achieved by looping all layer labels inside the allLayersPanel, they are already ordered in the way I want them to be
             // This is done, because I used this.allLayersPanel.Controls.SetChildIndex and this.allLayersPanel.Controls.GetChildIndex to rely on ordering
@@ -351,7 +371,7 @@ namespace Drawably.UserControls.Windows.Layers
         {
             LayerData selectedLayerData = this.allLayersData[selectedLayerLabel];
             selectedLayerData.AllLayerShapes.Add(shapeToSpawn);
-            this.CanvasContainer.OnNewShapeAddedToSelectedLayer();
+            this.canvasContainer.OnNewShapeAddedToSelectedLayer();
 
         }
 
@@ -387,7 +407,7 @@ namespace Drawably.UserControls.Windows.Layers
 
             }
 
-            this.CanvasContainer.OnAllSelectedShapesDeleted();
+            this.canvasContainer.OnAllSelectedShapesDeleted();
         }
 
 
@@ -406,7 +426,7 @@ namespace Drawably.UserControls.Windows.Layers
                 }
             }
 
-            this.CanvasContainer.OnShapesJustRotated();
+            this.canvasContainer.OnShapesJustRotated();
         }
 
         /// <summary>
@@ -423,7 +443,7 @@ namespace Drawably.UserControls.Windows.Layers
                     this.allLayersData[this.selectedLayerLabel].AllLayerShapes[i].Rotation -= 90;
                 }
 
-                this.CanvasContainer.OnShapesJustRotated();
+                this.canvasContainer.OnShapesJustRotated();
             }
         }
 

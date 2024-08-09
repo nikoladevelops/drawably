@@ -108,7 +108,6 @@
             Controls.Add(dragPanel);
             Name = "MenuWindow";
             Size = new Size(504, 321);
-            Load += menuWindowLoad;
             dragPanel.ResumeLayout(false);
             topPanel.ResumeLayout(false);
             ResumeLayout(false);
