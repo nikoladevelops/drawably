@@ -63,7 +63,7 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
-        /// Enables the buttons' functionalities
+        /// Enables the buttons' functionalities.
         /// </summary>
         private void ConnectBtnEvents() 
         {
@@ -108,7 +108,7 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
-        /// Marks the newly selected layer. Should always be called first when a new layer label is selected
+        /// Marks the newly selected layer. Should always be called first when a new layer label is selected.
         /// </summary>
         /// <param name="newLbl"></param>
         private void MarkNewSelectedLabel(LayerLabel newLbl)
@@ -123,7 +123,7 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
-        /// When the user clicks with the mouse and selects a brand new layer label
+        /// When the user clicks with the mouse and selects a brand new layer label.
         /// </summary>
         private void SelectNewLayerLabelByUserClick(LayerLabel newLbl) 
         {
@@ -132,7 +132,7 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
-        /// Helper method to re-use logic that creates a label and places it exactly after the selected label
+        /// Helper method to re-use logic that creates a label and places it exactly after the selected label.
         /// </summary>
         private void PlaceNewLayerLableAfterCurrentlySelectedLayerLable(LayerLabel newLbl) 
         {
@@ -142,7 +142,7 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
-        /// Helper method to re-use logic that registers click event for the newly created layer label
+        /// Helper method to re-use logic that registers click event for the newly created layer label.
         /// </summary>
         /// <param name="newLbl"></param>
         private void ConfigureNewLayerLabelClickEvent(LayerLabel newLbl) 

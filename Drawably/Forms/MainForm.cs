@@ -16,6 +16,7 @@ namespace Drawably
             this.toolsWindow.SetUp(this.canvasContainer);
             this.layersWindow.SetUp(this.canvasContainer);
             this.colorsWindow.SetUp(this.canvasContainer);
+            this.topPanel.SetUp(this.toolsWindow, this.colorsWindow, this.layersWindow, this.canvasContainer);
         }
     }
 }

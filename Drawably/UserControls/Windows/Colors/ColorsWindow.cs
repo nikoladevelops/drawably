@@ -44,7 +44,7 @@ namespace Drawably.UserControls.Windows.Colors
         }
 
         /// <summary>
-        /// Enables the buttons' functionalities
+        /// Enables the buttons' functionalities.
         /// </summary>
         private void ConnectBtnEvents()
         {
@@ -62,7 +62,7 @@ namespace Drawably.UserControls.Windows.Colors
             this.cacheRightColorNoOpacity = RightColor;
         }
 
-        // For actual color alpha calculation
+        // For actual color alpha calculation.
         private Color ApplyAlphaToColor(Color color, int alpha) 
         {
             return Color.FromArgb(alpha, color.R, color.G, color.B);
@@ -86,7 +86,7 @@ namespace Drawably.UserControls.Windows.Colors
 
         //
 
-        // For label opacity percentages
+        // For label opacity percentages.
         private void LeftColorOpacityTrackBar_ValueChanged(object? sender, EventArgs e)
         {
             int opacityPercentage = (int)(this.leftColorOpacityTrackBar.Value / 255.0f * 100);

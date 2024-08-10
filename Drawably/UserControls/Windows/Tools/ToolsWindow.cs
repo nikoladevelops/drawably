@@ -80,7 +80,7 @@ namespace Drawably.UserControls.Windows.Tools
         }
 
         /// <summary>
-        /// Enables the tool buttons' functionalities
+        /// Enables the tool buttons' functionalities.
         /// </summary>
         private void ConnectBtnEvents() 
         {

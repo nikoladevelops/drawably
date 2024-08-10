@@ -67,7 +67,6 @@
             // layersWindow
             // 
             layersWindow.BackColor = SystemColors.ActiveCaption;
-            
             layersWindow.Location = new Point(980, 400);
             layersWindow.MaximumSize = new Size(175, 225);
             layersWindow.MenuText = "Layers";
@@ -79,15 +78,11 @@
             // topPanel
             // 
             topPanel.BackColor = Color.Black;
-            topPanel.CanvasContainer = canvasContainer;
-            topPanel.ColorsWindow = colorsWindow;
             topPanel.Dock = DockStyle.Top;
-            topPanel.LayersWindow = layersWindow;
             topPanel.Location = new Point(0, 0);
             topPanel.Name = "topPanel";
             topPanel.Size = new Size(1302, 67);
             topPanel.TabIndex = 21;
-            topPanel.ToolsWindow = toolsWindow;
             // 
             // toolsWindow
             // 

@@ -49,6 +49,7 @@
             toolsButton.MouseEnterBorderColor = Color.Blue;
             toolsButton.MouseEnterColor = Color.FromArgb(139, 138, 194);
             toolsButton.Name = "toolsButton";
+            toolsButton.OriginalColorCached = Color.FromArgb(139, 138, 194);
             toolsButton.Size = new Size(131, 136);
             toolsButton.TabIndex = 16;
             toolsButton.UseVisualStyleBackColor = false;
@@ -67,6 +68,7 @@
             colorsButton.MouseEnterBorderColor = Color.Blue;
             colorsButton.MouseEnterColor = Color.FromArgb(139, 138, 194);
             colorsButton.Name = "colorsButton";
+            colorsButton.OriginalColorCached = Color.FromArgb(139, 138, 194);
             colorsButton.Size = new Size(131, 136);
             colorsButton.TabIndex = 17;
             colorsButton.UseVisualStyleBackColor = false;
@@ -85,6 +87,7 @@
             layersButton.MouseEnterBorderColor = Color.Blue;
             layersButton.MouseEnterColor = Color.FromArgb(139, 138, 194);
             layersButton.Name = "layersButton";
+            layersButton.OriginalColorCached = Color.FromArgb(139, 138, 194);
             layersButton.Size = new Size(133, 136);
             layersButton.TabIndex = 18;
             layersButton.UseVisualStyleBackColor = false;
@@ -113,7 +116,6 @@
             Controls.Add(tableLayoutPanel1);
             Name = "MainToolsPanel";
             Size = new Size(413, 142);
-            Load += MainToolsPanel_Load;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }

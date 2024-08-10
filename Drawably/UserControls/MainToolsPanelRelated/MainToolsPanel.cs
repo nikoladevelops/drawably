@@ -3,8 +3,14 @@ using System.ComponentModel;
 
 namespace Drawably.UserControls.MainToolsPanelRelated
 {
+    /// <summary>
+    /// Holds buttons that associate to tool panels and the functionality of opening/closing them.
+    /// </summary>
     public partial class MainToolsPanel : UserControl
     {
+        /// <summary>
+        /// Holds data for a tools button.
+        /// </summary>
         private class ToolsButtonData
         {
             public HoverButton AssociatedButton { get; set; }
@@ -17,52 +23,71 @@ namespace Drawably.UserControls.MainToolsPanelRelated
             }
         }
 
-        // When the window state is opened, the button should be colored like this
+        // When the window state is opened, the button should be colored like this.
         private Color windowOpenedColor = Color.FromArgb(139, 138, 194);
 
-        // When the window state is closed, the button should be colored like this
+        // When the window state is closed, the button should be colored like this.
         private Color windowClosedColor = Color.FromArgb(192, 192, 255);
 
-        [
-           Category("All Custom Props"),
-           Description("The Tools window, that the tools button controls")
-        ]
-        
-        public MenuWindow ToolsWindow { get; set; }
-        [
-           Category("All Custom Props"),
-           Description("The Colors window, that the colors button controls")
-        ]
-        public MenuWindow ColorsWindow { get; set; }
-
-        [
-           Category("All Custom Props"),
-           Description("The Layers window, that the layers button controls")
-        ]
-        public MenuWindow LayersWindow { get; set; }
-
-        // Holds window as KEY and the data of the corresponding button as VALUE
+        // Holds window as KEY and the data of the corresponding button as VALUE.
         private Dictionary<MenuWindow, ToolsButtonData> windowsOpenedState = new Dictionary<MenuWindow, ToolsButtonData>();
+        
+        // External dependencies.
+        private MenuWindow toolsWindow;
+
+        private MenuWindow colorsWindow;
+
+        private MenuWindow layersWindow;
+        //
+
         public MainToolsPanel()
         {
             InitializeComponent();
         }
 
-        private void MainToolsPanel_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Ensures the tools panel is ready to be used by the user.
+        /// </summary>
+        public void SetUp(MenuWindow newToolsWindow, MenuWindow newColorsWindow, MenuWindow newLayersWindow) 
         {
-            // Note that all these menus have to be set from the outside before trying to put them inside the dictionary.
+            string errorInfo = "";
 
-            if (ToolsWindow == null || ColorsWindow == null || LayersWindow == null) 
+            if (newToolsWindow == null) 
             {
+                errorInfo += "Error: Main Tools Panel has no ToolsWindow.";
+            }
+
+            if (newColorsWindow == null) 
+            {
+                errorInfo += "Error: Main Tools Panel has no ColorsWindow.";
+            }
+
+            if (newLayersWindow == null) 
+            {
+                errorInfo += "Error: Main Tools Panel has no LayersWindow.";
+            }
+
+            if (errorInfo.Length != 0) 
+            {
+                MessageBox.Show(errorInfo);
                 return;
             }
 
-            // Initial state, all windows are visible TODO this should probably get loaded from a settings json file
-            windowsOpenedState[ToolsWindow] = new ToolsButtonData(this.toolsButton, true);
-            windowsOpenedState[ColorsWindow] = new ToolsButtonData(this.colorsButton, true);
-            windowsOpenedState[LayersWindow] = new ToolsButtonData(this.layersButton, true);
+            this.toolsWindow = newToolsWindow;
+            this.colorsWindow = newColorsWindow;
+            this.layersWindow = newLayersWindow;
 
-            // Set close btn clicked behaviour for each window
+            ConnectBtnEvents();
+        }
+
+        private void ConnectBtnEvents() 
+        {
+            // Initial state, all windows are visible.
+            windowsOpenedState[toolsWindow] = new ToolsButtonData(this.toolsButton, true);
+            windowsOpenedState[colorsWindow] = new ToolsButtonData(this.colorsButton, true);
+            windowsOpenedState[layersWindow] = new ToolsButtonData(this.layersButton, true);
+
+            // Override the close button behaviour for each individual window, so that it affects the style of the associated tools button.
             foreach (var window in windowsOpenedState.Keys)
             {
                 window.OnCloseBtnClicked = () =>
@@ -74,6 +99,7 @@ namespace Drawably.UserControls.MainToolsPanelRelated
                 };
             }
 
+            // Connect button click events.
             this.toolsButton.Click += ToolsButton_Click; ;
             this.colorsButton.Click += ColorsButton_Click;
             this.layersButton.Click += LayersButton_Click;
@@ -81,33 +107,37 @@ namespace Drawably.UserControls.MainToolsPanelRelated
 
         private void LayersButton_Click(object? sender, EventArgs e)
         {
-            ChangeMenuWindowState(LayersWindow);
+            ChangeMenuWindowState(layersWindow);
         }
 
         private void ColorsButton_Click(object? sender, EventArgs e)
         {
-            ChangeMenuWindowState(ColorsWindow);
+            ChangeMenuWindowState(colorsWindow);
         }
 
         private void ToolsButton_Click(object? sender, EventArgs e)
         {
-            ChangeMenuWindowState(ToolsWindow);
+            ChangeMenuWindowState(toolsWindow);
         }
 
+        /// <summary>
+        /// Changes the state of the window (opened/closed).
+        /// </summary>
+        /// <param name="window"></param>
         private void ChangeMenuWindowState(MenuWindow window)
         {
             ToolsButtonData currData = windowsOpenedState[window];
 
-            // If the menu is already opened close it
+            // If the menu is already opened close it.
             if (currData.IsWindowOpened)
             {
                 currData.IsWindowOpened = false;
                 window.Close();
-                currData.AssociatedButton.OriginalColorCached = windowClosedColor; // notice how I'm changing the cached color and NOT the back color
+                currData.AssociatedButton.OriginalColorCached = windowClosedColor; // notice how I'm changing the cached color and NOT the back color.
                 return;
             }
 
-            // If the menu is closed then open it
+            // If the menu is closed then open it.
             currData.IsWindowOpened = true;
             window.Open();
             currData.AssociatedButton.OriginalColorCached = windowOpenedColor;
