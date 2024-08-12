@@ -10,8 +10,8 @@ namespace Drawably
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
-            
-            this.canvasContainer.ScrollToMiddle();
+
+            this.canvasContainer.SetUp(layersWindow, colorsWindow, topPanel);
 
             this.toolsWindow.SetUp(this.canvasContainer);
             this.layersWindow.SetUp(this.canvasContainer);

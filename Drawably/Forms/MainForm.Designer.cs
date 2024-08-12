@@ -45,6 +45,7 @@
             colorsWindow.MenuText = "Colors";
             colorsWindow.MinimumSize = new Size(168, 244);
             colorsWindow.Name = "colorsWindow";
+            colorsWindow.OnCloseBtnClicked = null;
             colorsWindow.Size = new Size(168, 244);
             colorsWindow.TabIndex = 19;
             // 
@@ -54,15 +55,15 @@
             canvasContainer.AutoScrollMinSize = new Size(2200, 2500);
             canvasContainer.BackColor = Color.DarkGray;
             canvasContainer.CanvasVisualizedImage = (Bitmap)resources.GetObject("canvasContainer.CanvasVisualizedImage");
-            canvasContainer.ColorsWindow = colorsWindow;
+            canvasContainer.ColorsWindow = null;
             canvasContainer.CurrentTool = null;
             canvasContainer.Dock = DockStyle.Fill;
-            canvasContainer.LayersWindow = layersWindow;
+            canvasContainer.LayersWindow = null;
             canvasContainer.Location = new Point(0, 67);
             canvasContainer.Name = "canvasContainer";
             canvasContainer.Size = new Size(1302, 562);
             canvasContainer.TabIndex = 22;
-            canvasContainer.TopPanel = topPanel;
+            canvasContainer.TopPanel = null;
             // 
             // layersWindow
             // 
@@ -72,6 +73,7 @@
             layersWindow.MenuText = "Layers";
             layersWindow.MinimumSize = new Size(175, 225);
             layersWindow.Name = "layersWindow";
+            layersWindow.OnCloseBtnClicked = null;
             layersWindow.Size = new Size(175, 225);
             layersWindow.TabIndex = 20;
             // 
@@ -90,6 +92,7 @@
             toolsWindow.Location = new Point(12, 73);
             toolsWindow.MenuText = "Tools";
             toolsWindow.Name = "toolsWindow";
+            toolsWindow.OnCloseBtnClicked = null;
             toolsWindow.Size = new Size(71, 321);
             toolsWindow.TabIndex = 0;
             // 

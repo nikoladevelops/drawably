@@ -15,31 +15,62 @@ using System.Windows.Forms;
 
 namespace Drawably.UserControls.CanvasRelated
 {
-    public class CanvasContainer : UserControl
+    /// <summary>
+    /// Holds the canvas and enables scrolling and zooming behaviour.
+    /// </summary>
+    public partial class CanvasContainer : UserControl
     {
+        /// <summary>
+        /// The mouse wheel message.
+        /// </summary>
         private const int WM_MOUSEWHEEL = 0x020A;
-        private bool isCtrlClicked = false;
 
+        /// <summary>
+        /// Tracks whether the CTRL is pressed.
+        /// </summary>
+        private bool isCtrlPressed = false;
+
+        /// <summary>
+        /// The amount by which the size of the canvas increases/decreases when zoom is applied.
+        /// </summary>
         private float zoomFactor = 1.4f;
 
-        private Size minimumZoomSize = new Size(32, 32);
-        private Size maximumZoomSize = new Size(1508, 1508);
+        /// <summary>
+        /// The smallest the canvas can be when zoomed in.
+        /// </summary>
+        private Size minimumZoomSize;
 
+        /// <summary>
+        /// The biggest the canvas can be when zoomed out.
+        /// </summary>
+        private Size maximumZoomSize;
+
+        /// <summary>
+        /// The original size of the canvas, before zoom being applied.
+        /// </summary>
         private Size originalSize;
 
-        // It's important to keep separate variables of type double for the width and height of the canvas. This is because when doing operations such as multiplication or division with a real number we get another real number. If I would've used the Canvas.Width and Canvas.Height to store the result of the operations, I would have data loss which brings bugs (it would work perfectly with int numbers but not so well with numbers such as 1.3 1.5 and so on..).
+        /// <summary>
+        /// Keeps track of the correct canvas width as a floating point number.
+        /// </summary>
         private float canvasWidth;
+
+        /// <summary>
+        /// Keeps track of the correct canvas height as a floating point number.
+        /// </summary>
         private float canvasHeight;
 
-
-        //
+        /// <summary>
+        /// Caches originalSize.Width / newWidth when zooming.
+        /// </summary>
         private float cacheWidthCalc;
-        private float cacheHeightCalc;
-        private Canvas canvas;
-        public Graphics g;
 
-        // Accessed by other windows, but not really set up from outside/ something like a shortcut
-       // public PictureBox CanvasPictureBox { get => canvas.CanvasPictureBox; }        
+        /// <summary>
+        /// Caches originalSize.Height / newHeight when zooming.
+        /// </summary>
+        private float cacheHeightCalc;
+
+        // External dependencies // TODO Refactor  
         public Canvas Canvas { get => canvas; }
         public Bitmap SelectedLayerBitmap { get => this.LayersWindow.GetSelectedLayerBitmap; }
 
@@ -47,31 +78,19 @@ namespace Drawably.UserControls.CanvasRelated
         public int GetCanvasBitmapWidth { get => this.canvas.DisplayedImage.Width; }
         public int GetCanvasBitmapHeight { get => this.canvas.DisplayedImage.Height; }
 
-        // Colors
-
         public Color CurrentLeftColor { get => this.ColorsWindow.LeftColor; }
         public Color CurrentRightColor { get => this.ColorsWindow.RightColor; }
-        //
 
-        [
-           Category("All Custom Props"),
-           Description("The Layers window is needed in order for everything to work correctly.")
-        ]
+
         public LayersWindow LayersWindow { get; set; }
 
-        [
-           Category("All Custom Props"),
-           Description("The Colors window is needed in order for everything to work correctly.")
-        ]
         public ColorsWindow ColorsWindow { get; set; }
 
-        [
-           Category("All Custom Props"),
-           Description("The TopPanel window is needed in order for everything to work correctly.")
-        ]
         public TopPanel TopPanel { get; set; }
 
         public Tool? CurrentTool { get; set; }
+
+        //
 
         public CanvasContainer()
         {
@@ -79,40 +98,185 @@ namespace Drawably.UserControls.CanvasRelated
 
             AutoScroll = true;
             AutoScrollMinSize = new Size(2200, 2500);
+        }
+
+        /// <summary>
+        /// Ensures the canvas container is ready to be used by the user.
+        /// </summary>
+        public void SetUp(LayersWindow newLayersWindow, ColorsWindow newColorsWindow, TopPanel newTopPanel)
+        {
+            this.LayersWindow = newLayersWindow;
+            this.ColorsWindow = newColorsWindow;
+            this.TopPanel = newTopPanel;
 
 
-            //Canvas.SizeMode = PictureBoxSizeMode.Zoom; // Important
+            // Ensure canvas works and set its size
+            Canvas.SetUp(200, 80);
+
+            // Center the canvas inside the CanvasContainer
+            // TODO
+
+            // I could've made an additional property for the main form, but I feel like this is good enough. I need the form's KeyPreview to be true in order to always capture events no matter which control is focused. I'm basically using it as a global event catcher instead of playing around with the win32 API, this is easier for setting hotkeys.
+            Form parentForm = FindForm();
+            parentForm.KeyPreview = true;
+            parentForm.KeyDown += Form_KeyDown;
+            parentForm.KeyUp += Form_KeyUp;
+
+            // Store the original size of the canvas
+            originalSize = Canvas.Size;
+
+            // Set min/max zoom size
+            minimumZoomSize = new Size(32, 32);
+            maximumZoomSize = new Size(2500, 2500);
+
             Canvas.MinimumSize = minimumZoomSize;
             Canvas.MaximumSize = maximumZoomSize;
 
+            // Store the canvas width and height
             canvasWidth = Canvas.Width;
             canvasHeight = Canvas.Height;
 
-
-            HandleCreated += CanvasContainer_HandleCreated;
-
-            //
+            // Set these cache variables to 1
             cacheWidthCalc = 1;
             cacheHeightCalc = 1;
+
+            ConnectMouseEvents();
+            ScrollToMiddle();
         }
 
-        private void CanvasContainer_HandleCreated(object? sender, EventArgs e)
+        /// <summary>
+        /// Connects all necessary mouse events.
+        /// </summary>
+        public void ConnectMouseEvents()
         {
-            // I could've made an additional property for the main form, but I feel like this is good enough. I need the form's KeyPreview to be true in order to always capture events no matter which control is focused. I'm basically using it as a global event catcher instead of playing around with the win32 API, this is easier for setting hotkeys.
-            Form form = FindForm();
-            form.KeyPreview = true;
-            form.KeyDown += Form_KeyDown;
-            form.KeyUp += Form_KeyUp;
-
-
-            originalSize = Canvas.Size;
-
-            // Connect event handlers
             Canvas.MouseMove += Canvas_MouseMove;
             Canvas.MouseDown += Canvas_MouseDown;
             Canvas.MouseUp += Canvas_MouseUp;
             Canvas.MouseClick += Canvas_MouseClick;
+        }
 
+
+        /// <summary>
+        /// Overriding base behaviour only because there's a bug that automatically sets new incorrect scroll values when zooming in/out.
+        /// </summary>
+        /// <param name="activeControl"></param>
+        /// <returns></returns>
+        protected override Point ScrollToControl(Control activeControl)
+        {
+            return AutoScrollPosition;
+        }
+
+        /// <summary>
+        /// Scrolls the scroll bars to the middle. Should be called after the form is fully loaded.
+        /// </summary>
+        public void ScrollToMiddle()
+        {
+            int x = Math.Max(0, (HorizontalScroll.Maximum - HorizontalScroll.LargeChange) / 2);
+            int y = Math.Max(0, (VerticalScroll.Maximum - VerticalScroll.LargeChange) / 2);
+
+            HorizontalScroll.Value = x;
+            VerticalScroll.Value = y;
+        }
+
+        /// <summary>
+        /// Used to track when the CTRL key has been pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                isCtrlPressed = true;
+            }
+        }
+
+        /// <summary>
+        /// Used to track when the CTRL key has been released.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form_KeyUp(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                isCtrlPressed = false;
+            }
+        }
+
+        /// <summary>
+        /// Overriding the base mouse wheel behaviour while the CTRL key has been pressed (CTRL + MOUSE WHEEL = ZOOM / ONLY MOUSE WHEEL = SCROLL).
+        /// </summary>
+        /// <param name="m"></param>
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == WM_MOUSEWHEEL && isCtrlPressed)
+            {
+                // Prevent the base class from processing the mouse wheel event, this will disable the default scroll behaviour
+                int delta = (int)m.WParam.ToInt64(); // Extract delta value
+                if (delta > 0)
+                {
+                    ZoomIn();
+                }
+                else
+                {
+                    ZoomOut();
+                }
+
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
+
+        /// <summary>
+        /// Zooms in on the canvas (canvas gets bigger).
+        /// </summary>
+        public void ZoomIn()
+        {
+            float newWidth = canvasWidth * zoomFactor;
+            float newHeight = canvasHeight * zoomFactor;
+
+            if (newWidth > Canvas.MaximumSize.Width || newHeight > Canvas.MaximumSize.Height)
+            {
+                return;
+            }
+
+            DisplayCanvasAsZoomed(newWidth, newHeight);
+        }
+
+        /// <summary>
+        /// Zooms out on the canvas (canvas gets smaller).
+        /// </summary>
+        public void ZoomOut()
+        {
+            float newWidth = canvasWidth / zoomFactor;
+            float newHeight = canvasHeight / zoomFactor;
+
+            if (newWidth < Canvas.MinimumSize.Width || newHeight < Canvas.MinimumSize.Height)
+            {
+                return;
+            }
+
+            DisplayCanvasAsZoomed(newWidth, newHeight);
+        }
+
+        /// <summary>
+        /// Displays the canvas as zoomed with the new width and new height.
+        /// </summary>
+        /// <param name="newWidth"></param>
+        /// <param name="newHeight"></param>
+        private void DisplayCanvasAsZoomed(float newWidth, float newHeight)
+        {
+            canvasWidth = newWidth;
+            canvasHeight = newHeight;
+
+            canvas.ResizeCanvas((int)canvasWidth, (int)canvasHeight);
+
+            // Important to cache these calculations. Having this we can calculate the offset of the mouse coordinates.
+            cacheWidthCalc = originalSize.Width / newWidth;
+            cacheHeightCalc = originalSize.Height / newHeight;
         }
 
         /// <summary>
@@ -120,7 +284,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private MouseButtons? GetTypeOfMouseButtonFromEvent(MouseEventArgs e) 
+        private MouseButtons? GetTypeOfMouseButtonFromEvent(MouseEventArgs e)
         {
             switch (e.Button)
             {
@@ -131,7 +295,7 @@ namespace Drawably.UserControls.CanvasRelated
                     // If any other button besides these, was clicked
                     return null;
             }
-        } 
+        }
 
         private void Canvas_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -141,7 +305,7 @@ namespace Drawably.UserControls.CanvasRelated
             }
             // Ensure no other MouseButton besides the tracked ones was pressed
             MouseButtons? typeOfButton = GetTypeOfMouseButtonFromEvent(e);
-            if (typeOfButton == null) 
+            if (typeOfButton == null)
             {
                 return;
             }
@@ -155,7 +319,7 @@ namespace Drawably.UserControls.CanvasRelated
             {
                 CurrentTool.OnMouseLeftClick(newX, newY);
             }
-            else if (typeOfButton == MouseButtons.Right) 
+            else if (typeOfButton == MouseButtons.Right)
             {
                 CurrentTool.OnMouseRightClick(newX, newY);
             }
@@ -220,7 +384,7 @@ namespace Drawably.UserControls.CanvasRelated
             }
         }
 
-        private void Canvas_MouseMove(object? sender, EventArgs e)
+        private void Canvas_MouseMove(object? sender, MouseEventArgs e)
         {
             if (CurrentTool == null)
             {
@@ -232,133 +396,15 @@ namespace Drawably.UserControls.CanvasRelated
             float newX = mousePos.X * cacheWidthCalc;
             float newY = mousePos.Y * cacheHeightCalc;
 
-
             CurrentTool.OnMouseMove(newX, newY);
-        }
-
-        private void Form_KeyUp(object? sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ControlKey)
-            {
-                isCtrlClicked = false;
-            }
-        }
-
-        private void Form_KeyDown(object? sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ControlKey)
-            {
-                isCtrlClicked = true;
-            }
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            if (m.Msg == WM_MOUSEWHEEL && isCtrlClicked)
-            {
-                // Prevent the base class from processing the mouse wheel event, this will disable the default scroll behaviour
-                int delta = (int)m.WParam.ToInt64(); // Extract delta value
-                if (delta > 0)
-                {
-                    ZoomIn();
-                }
-                else
-                {
-                    ZoomOut();
-                }
-
-                return;
-            }
-
-            base.WndProc(ref m);
-        }
-
-        // When scrolling up
-        public void ZoomIn()
-        {
-            float newWidth = canvasWidth * zoomFactor;
-            float newHeight = canvasHeight * zoomFactor;
-
-            if (newWidth > Canvas.MaximumSize.Width || newHeight > Canvas.MaximumSize.Height)
-            {
-                return;
-            }
-
-            
-            SetNewCanvasSize(newWidth, newHeight);
-
-            cacheWidthCalc = originalSize.Width / newWidth;
-            cacheHeightCalc = originalSize.Height / newHeight;
-        }
-
-        // When scrolling down
-        public void ZoomOut()
-        {
-            float newWidth = canvasWidth / zoomFactor;
-            float newHeight = canvasHeight / zoomFactor;
-
-            if (newWidth < Canvas.MinimumSize.Width || newHeight < Canvas.MinimumSize.Height)
-            {
-                return;
-            }
-
-            SetNewCanvasSize(newWidth, newHeight);
-
-            cacheWidthCalc = originalSize.Width / newWidth;
-            cacheHeightCalc = originalSize.Height / newHeight;
-        }
-
-        private void SetNewCanvasSize(float newCanvasWidth, float newCanvasHeight)
-        {
-            canvasWidth = newCanvasWidth;
-            canvasHeight = newCanvasHeight;
-
-            canvas.Resize((int)canvasWidth, (int)canvasHeight);
-        }
-
-        private void InitializeComponent()
-        {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(CanvasContainer));
-            canvas = new Canvas();
-            SuspendLayout();
-            // 
-            // canvas
-            // 
-            canvas.Anchor = AnchorStyles.None;
-            canvas.BackColor = Color.Transparent;
-            canvas.DisplayedImage = (Bitmap)resources.GetObject("canvas.DisplayedImage");
-            canvas.Location = new Point(87, 96);
-            canvas.Name = "canvas";
-            canvas.Size = new Size(449, 227);
-            canvas.TabIndex = 1;
-            // 
-            // CanvasContainer
-            // 
-            BackColor = Color.DarkGray;
-            Controls.Add(canvas);
-            Name = "CanvasContainer";
-            Size = new Size(623, 418);
-            ResumeLayout(false);
-        }
-
-        /// <summary>
-        /// Scrolls the scroll bars to the middle. Should be called after the form is fully loaded
-        /// </summary>
-        public void ScrollToMiddle()
-        {
-            int x = Math.Max(0, (HorizontalScroll.Maximum - HorizontalScroll.LargeChange) / 2);
-            int y = Math.Max(0, (VerticalScroll.Maximum - VerticalScroll.LargeChange) / 2);
-
-            HorizontalScroll.Value = x;
-            VerticalScroll.Value = y;
         }
 
         /// <summary>
         /// Called when a new layer was selected by the user (the user clicks on a layer label, this means seletion of the layer)
         /// </summary>
-        public void OnNewLayerSelectedByUserClick() 
+        public void OnNewLayerSelectedByUserClick()
         {
-            if (this.CurrentTool != null) 
+            if (this.CurrentTool != null)
             {
                 // Inform the current tool that a new layer has been selected, so it should get the newly selected layer's graphics so that it can draw on the correct layer
                 this.CurrentTool.GetNewSelectedLayerGraphics();
@@ -368,7 +414,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when a new layer was created by the user
         /// </summary>
-        public void OnLayerCreated() 
+        public void OnLayerCreated()
         {
             if (this.CurrentTool != null)
             {
@@ -380,7 +426,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when the selected layer was deleted
         /// </summary>
-        public void OnLayerDeleted() 
+        public void OnLayerDeleted()
         {
             // When a layer is deleted, that means I should update the visualized canvas image so some drawn elements can dissapear because they no longer exist (the layer was deleted)
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -396,7 +442,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when the selected layer was duplicated
         /// </summary>
-        public void OnLayerDuplicated() 
+        public void OnLayerDuplicated()
         {
             // When a layer is duplicated, that means I should update the visualized canvas image (right now it may be pointless, but in the future when adding thing such as layer opacity and other things like that, it may have an effect whether the visualized image was refreshed or not)
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -413,7 +459,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when the selected layer was moved up
         /// </summary>
-        public void OnMoveLayerUp() 
+        public void OnMoveLayerUp()
         {
             // When the selected layer is moved up, this will change the Z index, so I need to visualize that by merging all layers into a Bitmap and then giving this bitmap to the Canvas's visualized image
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -428,7 +474,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when the selected layer was moved down
         /// </summary>
-        public void OnMoveLayerDown() 
+        public void OnMoveLayerDown()
         {
             // When the selected layer is moved down, this will change the Z index, so I need to visualize that by merging all layers into a Bitmap and then giving this bitmap to the Canvas's visualized image
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -443,7 +489,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// This method should be called by the CurrentTool ALWAYS when the user has finished drawing on the canvas, so that the layers can be merged correctly and visualized to the canvas based on their Z index. In simple terms -> user always draws on top of every layer by drawing on the visualized canvas, user stops drawing on the canvas -> merge layers and display the merged bitmap so that the Z indexes are correct
         /// </summary>
-        public void OnSelectedToolFinishedDrawing() 
+        public void OnSelectedToolFinishedDrawing()
         {
             // When user finishes drawing with the tool, I should visualize the image correctly based on the Z indexes of all layers
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -459,12 +505,12 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         ///  Called when a layer has switched visibility - visible/hidden
         /// </summary>
-        public void OnLayerChangedVisibility() 
+        public void OnLayerChangedVisibility()
         {
             // Because a layer has been hidden/shown I need to update the visualized canvas again
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
 
-            if (this.CurrentTool != null) 
+            if (this.CurrentTool != null)
             {
                 // Because the visualized canvas's image changed, I need to tell the current tool to select the new graphics object
                 this.CurrentTool.GetNewCanvasGraphics();
@@ -475,9 +521,9 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when a brand new left color was selected from the colors window
         /// </summary>
-        public void OnLeftColorChanged() 
+        public void OnLeftColorChanged()
         {
-            if (this.CurrentTool != null) 
+            if (this.CurrentTool != null)
             {
                 this.CurrentTool.OnLeftColorChangedWhileToolSelected();
             }
@@ -486,7 +532,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when a brand new right color was selected from the colors window
         /// </summary>
-        public void OnRightColorChanged() 
+        public void OnRightColorChanged()
         {
             if (this.CurrentTool != null)
             {
@@ -498,9 +544,9 @@ namespace Drawably.UserControls.CanvasRelated
         /// May be called by the current tool in order to display additional options for the selected tool. The options get displayed inside the top panel.
         /// </summary>
         /// <param name="control"></param>
-        public void PlaceToolControlInsideTopPanel(Control control) 
+        public void PlaceToolControlInsideTopPanel(Control control)
         {
-            if (TopPanel != null) 
+            if (TopPanel != null)
             {
                 TopPanel.AddToolOptionsControlToTopPanel(control);
             }
@@ -509,7 +555,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Places a custom menu inside the MainForm
         /// </summary>
-        public void PlaceCustomMenuToMainForm(MenuWindow customMenu) 
+        public void PlaceCustomMenuToMainForm(MenuWindow customMenu)
         {
             this.ParentForm.Controls.Add(customMenu);
             customMenu.Location = new Point(150, 150);
@@ -520,7 +566,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// Spawns a brand new shape inside the current selected layer. Called by the DrawSelectedShapeMenu
         /// </summary>
         /// <param name="shapeToSpawn"></param>
-        public void SpawnNewShapeInsideSelectedLayer(Shape shapeToSpawn) 
+        public void SpawnNewShapeInsideSelectedLayer(Shape shapeToSpawn)
         {
             this.LayersWindow.SpawnNewShapeInsideSelectedLayer(shapeToSpawn);
         }
@@ -528,7 +574,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called when a new shape was successfully added to the currently selected layer
         /// </summary>
-        public void OnNewShapeAddedToSelectedLayer() 
+        public void OnNewShapeAddedToSelectedLayer()
         {
             // Because a brand new shape was added to the selected layer, I need to refresh the visualized canvas again by getting the changes (a.k.a get all layers merged yet again)
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -544,7 +590,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// Called by the select shape tool
         /// </summary>
         /// <returns></returns>
-        public Shape? GetShapeUnderneathMousePositionOnCurrentLayer(float x, float y) 
+        public Shape? GetShapeUnderneathMousePositionOnCurrentLayer(float x, float y)
         {
             return this.LayersWindow.GetShapeUnderneathMousePosition(x, y);
         }
@@ -552,7 +598,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called by the SelectShapeTool whenever the selected shapes are being moved
         /// </summary>
-        public void OnCurrentLayerShapesMoved() 
+        public void OnCurrentLayerShapesMoved()
         {
             // Because shapes were moved, update the visualized canvas
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -570,7 +616,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called by select shape tool. Clears all selected shapes
         /// </summary>
-        public void DeleteAllSelectedShapesFromCurrentSelectedLayer() 
+        public void DeleteAllSelectedShapesFromCurrentSelectedLayer()
         {
             this.LayersWindow.DeleteAllSelectedShapesFromCurrentSelectedLayer();
         }
@@ -578,7 +624,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// Called after the layers window clears all selected shapes
         /// </summary>
-        public void OnAllSelectedShapesDeleted() 
+        public void OnAllSelectedShapesDeleted()
         {
             // Because shapes were deleted, update the visualized canvas
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
@@ -596,12 +642,12 @@ namespace Drawably.UserControls.CanvasRelated
 
         // Rotation
 
-        public void RotateAllSelectedShapesPlus90Degrees() 
+        public void RotateAllSelectedShapesPlus90Degrees()
         {
             this.LayersWindow.RotateAllSelectedShapesPlus90Degrees();
         }
 
-        public void RotateAllSelectedShapesMinus90Degrees() 
+        public void RotateAllSelectedShapesMinus90Degrees()
         {
             this.LayersWindow.RotateAllSelectedShapesMinus90Degrees();
         }
@@ -609,7 +655,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         ///  After rotation of shapes
         /// </summary>
-        public void OnShapesJustRotated() 
+        public void OnShapesJustRotated()
         {
             this.CanvasVisualizedImage = this.LayersWindow.GetAllLayersMergedBitmap();
 
@@ -627,21 +673,21 @@ namespace Drawably.UserControls.CanvasRelated
         /// Export
         /// </summary>
         /// <returns></returns>
-        public Bitmap GetFinalImageToExport() 
+        public Bitmap GetFinalImageToExport()
         {
             return this.CanvasVisualizedImage;
         }
 
 
-        public List<Bitmap> GetAllLayerBitmapsInOrder() 
+        public List<Bitmap> GetAllLayerBitmapsInOrder()
         {
             return this.LayersWindow.GetAllLayerBitmapsInOrder();
         }
 
-        public void LoadAllLayerBitmapsInOrder(List<Bitmap> allBitmapsToLoad) 
+        public void LoadAllLayerBitmapsInOrder(List<Bitmap> allBitmapsToLoad)
         {
             this.LayersWindow.LoadAllLayerBitmapsInOrder();
         }
-        
+
     }
 }
