@@ -1,3 +1,5 @@
+using Drawably.Utility;
+
 namespace Drawably
 {
     public partial class MainForm : Form
@@ -9,14 +11,22 @@ namespace Drawably
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Globals.SetUp(
+                this.canvasContainer,
+                this.layersWindow,
+                this.colorsWindow,
+                this.toolsWindow,
+                this.topPanel
+                );
+
             this.WindowState = FormWindowState.Maximized;
 
-            this.canvasContainer.SetUp(layersWindow, colorsWindow, topPanel);
+            this.canvasContainer.SetUp();
 
-            this.toolsWindow.SetUp(this.canvasContainer);
-            this.layersWindow.SetUp(this.canvasContainer);
-            this.colorsWindow.SetUp(this.canvasContainer);
-            this.topPanel.SetUp(this.toolsWindow, this.colorsWindow, this.layersWindow, this.canvasContainer);
+            this.toolsWindow.SetUp();
+            this.layersWindow.SetUp();
+            this.colorsWindow.SetUp();
+            this.topPanel.SetUp();
         }
     }
 }

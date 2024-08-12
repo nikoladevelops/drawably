@@ -1,6 +1,7 @@
 ﻿using Drawably.Tools.DrawShapesToolRelated.Shapes;
 using Drawably.UserControls.CanvasRelated;
 using Drawably.UserControls.Windows.Layers;
+using Drawably.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,15 +18,10 @@ namespace Drawably.Tools.SelectShapeToolRelated
     {
         private List<Shape> selectedShapes;
 
-        private CanvasContainer canvasContainer;
         public SelectShapeOptionsControl()
         {
             InitializeComponent();
-        }
 
-        public SelectShapeOptionsControl(CanvasContainer newCanvasContainer) : this()
-        {
-            this.canvasContainer = newCanvasContainer;
             selectedShapes = new List<Shape>();
             this.Visible = false;
         }
@@ -44,12 +40,12 @@ namespace Drawably.Tools.SelectShapeToolRelated
 
         private void rotatePlus90DegreesBtn_Click(object sender, EventArgs e)
         {
-            this.canvasContainer.RotateAllSelectedShapesPlus90Degrees();
+            Globals.CanvasContainer.RotateAllSelectedShapesPlus90Degrees();
         }
 
         private void rotateMinus90DegreesBtn_Click(object sender, EventArgs e)
         {
-            this.canvasContainer.RotateAllSelectedShapesMinus90Degrees();
+            Globals.CanvasContainer.RotateAllSelectedShapesMinus90Degrees();
         }
 
         public void SelectShape(Shape? shapeToSelect)
@@ -86,7 +82,7 @@ namespace Drawably.Tools.SelectShapeToolRelated
             }
             this.selectedShapes.Clear();
 
-            this.canvasContainer.DeleteAllSelectedShapesFromCurrentSelectedLayer();
+            Globals.CanvasContainer.DeleteAllSelectedShapesFromCurrentSelectedLayer();
             this.amountShapesSelectedLabel.Text = this.selectedShapes.Count().ToString();
         }
 
@@ -96,7 +92,7 @@ namespace Drawably.Tools.SelectShapeToolRelated
             {
                 shape.MoveShapeByAmount(x, y);
             }
-            this.canvasContainer.OnCurrentLayerShapesMoved();
+            Globals.CanvasContainer.OnCurrentLayerShapesMoved();
         }
 
         private void clearAllSelectedBtn_Click(object sender, EventArgs e)

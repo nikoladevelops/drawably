@@ -9,21 +9,9 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
 {
     public abstract class Shape
     {
-        protected CanvasContainer canvasContainer;
         public Shape(string newName)
         {
             this.Name = newName;
-        }
-
-        /// <summary>
-        /// Always specify shapes in the DrawShapesTool using this constructor, so that the Left and Right colors are always available
-        /// </summary>
-        /// <param name="newName"></param>
-        /// <param name="newCanvasContainer"></param>
-        public Shape(string newName, CanvasContainer newCanvasContainer)
-        {
-            this.Name = newName;
-            this.canvasContainer = newCanvasContainer;
         }
 
         public string Name { get; set; }

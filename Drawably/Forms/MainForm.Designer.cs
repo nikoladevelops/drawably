@@ -54,16 +54,12 @@
             canvasContainer.AutoScroll = true;
             canvasContainer.AutoScrollMinSize = new Size(2200, 2500);
             canvasContainer.BackColor = Color.DarkGray;
-            canvasContainer.CanvasVisualizedImage = (Bitmap)resources.GetObject("canvasContainer.CanvasVisualizedImage");
-            canvasContainer.ColorsWindow = null;
-            canvasContainer.CurrentTool = null;
+            canvasContainer.CanvasDisplayedImage = (Bitmap)resources.GetObject("canvasContainer.CanvasVisualizedImage");
             canvasContainer.Dock = DockStyle.Fill;
-            canvasContainer.LayersWindow = null;
             canvasContainer.Location = new Point(0, 67);
             canvasContainer.Name = "canvasContainer";
             canvasContainer.Size = new Size(1302, 562);
             canvasContainer.TabIndex = 22;
-            canvasContainer.TopPanel = null;
             // 
             // layersWindow
             // 

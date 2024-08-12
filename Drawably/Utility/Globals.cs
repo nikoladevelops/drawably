@@ -1,4 +1,8 @@
 ﻿using Drawably.UserControls.CanvasRelated;
+using Drawably.UserControls.TopPanelRelated;
+using Drawably.UserControls.Windows.Colors;
+using Drawably.UserControls.Windows.Layers;
+using Drawably.UserControls.Windows.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +14,31 @@ namespace Drawably.Utility
 {
     /// <summary>
     /// Contains classes that can be accessed by any other class. Something like a singleton holder.
-    /// TODO Each and every single one of these have to be set up correctly in order for the application to work.
     /// </summary>
     public static class Globals
     {
         public static CanvasContainer CanvasContainer { get; private set; }
+        public static LayersWindow LayersWindow { get; private set; }
 
-        public static void SetUp(CanvasContainer newCanvasContainer) 
+        public static ColorsWindow ColorsWindow { get; private set; }
+
+        public static ToolsWindow ToolsWindow { get; private set; }
+
+        public static TopPanel TopPanel { get; private set; }
+
+        public static void SetUp(
+            CanvasContainer newCanvasContainer,
+            LayersWindow newLayersWindow,
+            ColorsWindow newColorsWindow,
+            ToolsWindow newToolsWindow,
+            TopPanel newTopPanel
+            ) 
         {
             CanvasContainer = newCanvasContainer;
+            LayersWindow = newLayersWindow;
+            ColorsWindow = newColorsWindow;
+            ToolsWindow = newToolsWindow;
+            TopPanel = newTopPanel;
 
         }
     }

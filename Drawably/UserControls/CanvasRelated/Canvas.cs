@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace Drawably.UserControls
 {
+    /// <summary>
+    /// Responsible for rendering the image on screen.
+    /// </summary>
     public partial class Canvas : UserControl
     {
         /// <summary>
@@ -100,7 +103,7 @@ namespace Drawably.UserControls
                     for (int x = 0; x < width; x += checkerboardCellSize)
                     {
                         Color color = ((x / checkerboardCellSize) % 2 == (y / checkerboardCellSize) % 2) ? Color.White : Color.LightGray;
-
+                        
                         using (Brush brush = new SolidBrush(color))
                         {
                             g.FillRectangle(brush, x, y, checkerboardCellSize, checkerboardCellSize);

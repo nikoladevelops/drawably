@@ -1,6 +1,7 @@
 ﻿using Drawably.Tools.PenToolRelated;
 using Drawably.UserControls;
 using Drawably.UserControls.CanvasRelated;
+using Drawably.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,6 @@ namespace Drawably.Tools
     /// </summary>
     public abstract class Tool
     {
-        protected CanvasContainer canvasContainer;
-        protected Canvas canvas;
-
         /// <summary>
         /// Holds a reference to the canvas image's graphics object, so that the tool can draw on the canvas
         /// </summary>
@@ -25,19 +23,13 @@ namespace Drawably.Tools
         /// Holds a reference to the currently selected layer's graphics object, so that the tool can draw on the selected layer
         /// </summary>
         protected Graphics selectedLayerGraphics;
-        protected Tool(CanvasContainer newCanvasContainer)
-        {
-            this.canvasContainer = newCanvasContainer;
-            this.canvas = this.canvasContainer.Canvas;
-        }
-
         /// <summary>
         /// Called when this tool was selected from the Tools window. Should be used to set up things that will be used throughout the life time of the tool (until it gets unselected). By default retrieves the new graphics objects
         /// </summary>
         public virtual void OnToolSelected() 
         {
-            canvasGraphics = Graphics.FromImage(canvasContainer.CanvasVisualizedImage);
-            selectedLayerGraphics = Graphics.FromImage(canvasContainer.SelectedLayerBitmap);
+            canvasGraphics = Globals.CanvasContainer.CanvasGraphics;
+            selectedLayerGraphics = Graphics.FromImage(Globals.LayersWindow.GetSelectedLayerBitmap);
         }
 
         /// <summary>
@@ -117,7 +109,7 @@ namespace Drawably.Tools
             {
                 canvasGraphics.Dispose();
             }
-            canvasGraphics = Graphics.FromImage(canvasContainer.CanvasVisualizedImage);
+            canvasGraphics = Globals.CanvasContainer.CanvasGraphics;
         }
 
         /// <summary>
@@ -129,15 +121,15 @@ namespace Drawably.Tools
             {
                 selectedLayerGraphics.Dispose();
             }
-            selectedLayerGraphics = Graphics.FromImage(canvasContainer.SelectedLayerBitmap);
+            selectedLayerGraphics = Graphics.FromImage(Globals.LayersWindow.GetSelectedLayerBitmap);
         }
 
         /// <summary>
-        ///  Call whenver the bitmap has been edited/ all edits were done. When the tool finishes drawing, tell the canvas container to apply the necessary changes (merging all layers -> telling the tool to update the graphics etc..). By default just informs the Canvas Container about the changes made.
+        /// Call whenver the bitmap has been edited/ all edits were done. When the tool finishes drawing, tell the canvas container to apply the necessary changes (merging all layers -> telling the tool to update the graphics etc..). By default just informs the Canvas Container about the changes made.
         /// </summary>
         public virtual void OnToolFinishedDrawing() 
         {
-            canvasContainer.OnSelectedToolFinishedDrawing();
+            Globals.CanvasContainer.OnSelectedToolFinishedDrawing();
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Drawably.UserControls.CanvasRelated;
 using Drawably.UserControls.Windows;
+using Drawably.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,16 +18,6 @@ namespace Drawably.UserControls.TopPanelRelated
     /// </summary>
     public partial class TopPanel : UserControl
     {
-        // External dependencies.
-        private MenuWindow toolsWindow;
-
-        private MenuWindow colorsWindow;
-
-        private MenuWindow layersWindow;
-
-        private CanvasContainer canvasContainer;
-        //
-
         public TopPanel()
         {
             this.InitializeComponent();
@@ -35,43 +26,9 @@ namespace Drawably.UserControls.TopPanelRelated
         /// <summary>
         /// Ensures the top panel is ready to be used by the user.
         /// </summary>
-        public void SetUp(MenuWindow newToolsWindow, MenuWindow newColorsWindow, MenuWindow newLayersWindow, CanvasContainer newCanvasContainer) 
+        public void SetUp() 
         {
-            string errorInfo = "";
-
-            if (newToolsWindow == null)
-            {
-                errorInfo += "Error: Top Panel has no ToolsWindow.";
-            }
-
-            if (newColorsWindow == null)
-            {
-                errorInfo += "Error: Top Panel has no ColorsWindow.";
-            }
-
-            if (newLayersWindow == null)
-            {
-                errorInfo += "Error: Top Panel has no LayersWindow.";
-            }
-
-            if (newCanvasContainer == null) 
-            {
-                errorInfo += "Error: Top Panel has no CanvasContainer.";
-            }
-
-            if (errorInfo.Length != 0)
-            {
-                MessageBox.Show(errorInfo);
-                return;
-            }
-
-
-            this.toolsWindow = newToolsWindow;
-            this.colorsWindow = newColorsWindow;
-            this.layersWindow = newLayersWindow;
-            this.canvasContainer = newCanvasContainer;
-
-            this.mainToolsPanel.SetUp(toolsWindow, colorsWindow, layersWindow);
+            this.mainToolsPanel.SetUp();
         }
 
         /// <summary>
@@ -88,7 +45,7 @@ namespace Drawably.UserControls.TopPanelRelated
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            Bitmap bmpToSaveToDisk = this.canvasContainer.GetFinalImageToExport();
+            Bitmap bmpToSaveToDisk = Globals.CanvasContainer.GetFinalImageToExport();
             ExportBitmapAsPNG(bmpToSaveToDisk);
         }
 
@@ -123,7 +80,7 @@ namespace Drawably.UserControls.TopPanelRelated
 
         public void ExportAllLayerBitmaps() 
         {
-            List<Bitmap> allBitmaps = this.canvasContainer.GetAllLayerBitmapsInOrder();
+            List<Bitmap> allBitmaps = Globals.CanvasContainer.GetAllLayerBitmapsInOrder();
             // open file dialog for exporting
 
         }
@@ -135,7 +92,7 @@ namespace Drawably.UserControls.TopPanelRelated
             // Load file path with bitmaps
             // deserialize it and load everything in allBitmapsFil
 
-            this.canvasContainer.LoadAllLayerBitmapsInOrder(allLoadedBitmaps);
+            Globals.CanvasContainer.LoadAllLayerBitmapsInOrder(allLoadedBitmaps);
         }
     }
 }

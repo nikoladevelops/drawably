@@ -1,5 +1,6 @@
 ﻿using Drawably.Tools.DrawShapesToolRelated.Shapes;
 using Drawably.UserControls.CanvasRelated;
+using Drawably.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,8 +18,6 @@ namespace Drawably.Tools.DrawShapesToolRelated
     /// </summary>
     public partial class DrawShapesOptionsControl : UserControl
     {
-        private CanvasContainer canvasContainer;
-
         // This is the menu that gets opened every time a shape button is clicked
         private DrawSelectedShapeMenu drawSelectedMenu;
         Dictionary<Button, Shape> btnShapes;
@@ -26,19 +25,14 @@ namespace Drawably.Tools.DrawShapesToolRelated
         public DrawShapesOptionsControl()
         {
             InitializeComponent();
-        }
 
-        public DrawShapesOptionsControl(CanvasContainer newCanvasContainer):this()
-        {
-            canvasContainer = newCanvasContainer;
 
-            this.drawSelectedMenu = new DrawSelectedShapeMenu(canvasContainer);
-            canvasContainer.PlaceCustomMenuToMainForm(this.drawSelectedMenu);
+            this.drawSelectedMenu = new DrawSelectedShapeMenu();
+            Globals.CanvasContainer.PlaceCustomMenuToMainForm(this.drawSelectedMenu);
 
             RegisterBtnClickEvents();
 
             this.Visible = false;
-
         }
 
         /// <summary>
@@ -48,11 +42,11 @@ namespace Drawably.Tools.DrawShapesToolRelated
         {
             btnShapes = new Dictionary<Button, Shape>()
             {
-                {rectangleShapeBtn, new RectangleShape(canvasContainer)},
-                {normalTriangleShapeBtn, new NormalTriangleShape(canvasContainer)},
-                {rightTriangleShapeBtn, new RightTriangleShape(canvasContainer)},
-                {circleShapeBtn, new CircleShape(canvasContainer)},
-                {rightArrowShapeBtn, new RightArrowShape(canvasContainer)}
+                {rectangleShapeBtn, new RectangleShape()},
+                {normalTriangleShapeBtn, new NormalTriangleShape()},
+                {rightTriangleShapeBtn, new RightTriangleShape()},
+                {circleShapeBtn, new CircleShape()},
+                {rightArrowShapeBtn, new RightArrowShape()}
             };
 
 

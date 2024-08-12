@@ -30,10 +30,7 @@ namespace Drawably.UserControls.Windows.Tools
 
         // Dependencies that HAVE TO be set up from outside, before the window is used.
 
-        // TODO canvas container should be eliminated as a dependency
-        private CanvasContainer canvContainer;
-
-        //
+        public Tool? CurrentTool { get; set; }
         public ToolsWindow()
         {
             InitializeComponent();
@@ -43,15 +40,8 @@ namespace Drawably.UserControls.Windows.Tools
         /// <summary>
         /// Ensures the window is ready to be used by the user.
         /// </summary>
-        public void SetUp(CanvasContainer newCanvasContainer) 
+        public void SetUp() 
         {
-            if (newCanvasContainer == null)
-            {
-                MessageBox.Show("Error: Tools Window has no CanvasContainer.");
-                return;
-            }
-
-            this.canvContainer = newCanvasContainer;
             PopulateBtnTools();
             ConnectBtnEvents();
         }
@@ -61,20 +51,15 @@ namespace Drawably.UserControls.Windows.Tools
         /// </summary>
         private void PopulateBtnTools()
         {
-            if (canvContainer == null) 
-            {
-                return;
-            }
-
             btnTools = new Dictionary<Button, Tool>()
             {
-                { this.selectShapeToolBtn, new SelectShapeTool(canvContainer) },
-                { this.moveImageToolBtn, new BrushTool(canvContainer) },
-                { this.penToolBtn, new PenTool(canvContainer) },
-                { this.brushToolBtn, new BrushTool(canvContainer) },
-                { this.drawShapesToolBtn, new DrawShapesTool(canvContainer) },
-                { this.zoomInToolBtn, new ZoomInTool(canvContainer) },
-                { this.zoomOutToolBtn, new ZoomOutTool(canvContainer) }
+                { this.selectShapeToolBtn, new SelectShapeTool() },
+                { this.moveImageToolBtn, new BrushTool() },
+                { this.penToolBtn, new PenTool() },
+                { this.brushToolBtn, new BrushTool() },
+                { this.drawShapesToolBtn, new DrawShapesTool() },
+                { this.zoomInToolBtn, new ZoomInTool() },
+                { this.zoomOutToolBtn, new ZoomOutTool() }
             };
             
         }
@@ -84,11 +69,6 @@ namespace Drawably.UserControls.Windows.Tools
         /// </summary>
         private void ConnectBtnEvents() 
         {
-            if (canvContainer == null)
-            {
-                return;
-            }
-
             foreach (var kvp in btnTools)
             {
                 kvp.Key.Click += (o, e) =>
@@ -114,7 +94,7 @@ namespace Drawably.UserControls.Windows.Tools
             selectedBtn = kvp.Key;
             selectedBtn.BackColor = Color.Yellow;
             selectedBtn.FlatAppearance.MouseOverBackColor = Color.Yellow;
-            canvContainer.CurrentTool = kvp.Value;
+            this.CurrentTool = kvp.Value;
             kvp.Value.OnToolSelected();
         }
 
@@ -132,9 +112,9 @@ namespace Drawably.UserControls.Windows.Tools
 
             selectedBtn.BackColor = Color.White;
             selectedBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
-            canvContainer.CurrentTool.OnToolUnselected();
+            this.CurrentTool.OnToolUnselected();
             selectedBtn = null;
-            canvContainer.CurrentTool = null;
+            this.CurrentTool = null;
         }
     }
 }

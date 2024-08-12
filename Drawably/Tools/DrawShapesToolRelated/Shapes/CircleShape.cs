@@ -13,15 +13,9 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
         {
         }
 
-        public CircleShape(CanvasContainer newCanvasContainer) : base("Circle", newCanvasContainer)
-        {
-        }
-
         public override Shape CopyShape(int newX, int newY, int newWidth, int newHeight, int newBorderSize, bool newIsFilled, Color newBorderColor, Color newFillColor)
         {
             CircleShape copyCircle = new CircleShape();
-            copyCircle.canvasContainer = this.canvasContainer;
-            copyCircle.Name = this.Name;
             copyCircle.X = newX;
             copyCircle.Y = newY;
             copyCircle.Width = newWidth;

@@ -14,15 +14,9 @@ namespace Drawably.Tools.DrawShapesToolRelated.Shapes
         {
         }
 
-        public RightArrowShape(CanvasContainer newCanvasContainer) : base("Right Arrow", newCanvasContainer)
-        {
-        }
-
         public override Shape CopyShape(int newX, int newY, int newWidth, int newHeight, int newBorderSize, bool newIsFilled, Color newBorderColor, Color newFillColor)
         {
             RightArrowShape copyArrow = new RightArrowShape();
-            copyArrow.canvasContainer = this.canvasContainer;
-            copyArrow.Name = this.Name;
             copyArrow.X = newX;
             copyArrow.Y = newY;
             copyArrow.Width = newWidth;

@@ -1,4 +1,5 @@
 ﻿using Drawably.UserControls.CanvasRelated;
+using Drawably.Utility;
 using System.Drawing.Drawing2D;
 
 namespace Drawably.Tools.PenToolRelated
@@ -20,7 +21,7 @@ namespace Drawably.Tools.PenToolRelated
         private Pen penToKeepDrawingWith;
         private Brush brushToApplyFirstDotWith;
 
-        public PenTool(CanvasContainer newCanvasContainer):base(newCanvasContainer)
+        public PenTool():base()
         {
         }
 
@@ -29,17 +30,17 @@ namespace Drawably.Tools.PenToolRelated
         /// </summary>
         private void CreateNecessaryTools() 
         {
-            leftPen = new Pen(canvasContainer.CurrentLeftColor, Size);
+            leftPen = new Pen(Globals.ColorsWindow.LeftColor, Size);
             leftPen.EndCap = LineCap.Round;
             leftPen.StartCap = LineCap.Round;
 
-            leftBrush = new SolidBrush(canvasContainer.CurrentLeftColor);
+            leftBrush = new SolidBrush(Globals.ColorsWindow.LeftColor);
 
-            rightPen = new Pen(canvasContainer.CurrentRightColor, Size);
+            rightPen = new Pen(Globals.ColorsWindow.RightColor, Size);
             rightPen.EndCap = LineCap.Round;
             rightPen.StartCap = LineCap.Round;
 
-            rightBrush = new SolidBrush(canvasContainer.CurrentRightColor);
+            rightBrush = new SolidBrush(Globals.ColorsWindow.RightColor);
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace Drawably.Tools.PenToolRelated
             cacheX = x;
             cacheY = y;
 
-            canvas.Invalidate();
+            Globals.CanvasContainer.RefreshCanvas();
         }
 
         /// <summary>
@@ -67,8 +68,8 @@ namespace Drawably.Tools.PenToolRelated
         private void StopDrawing() 
         {
             isDrawingEnabled = false;
-            canvasContainer.OnSelectedToolFinishedDrawing();
-            canvasGraphics = Graphics.FromImage(canvas.DisplayedImage); // important because after refresh we work with brand new merged bitmap
+            Globals.CanvasContainer.OnSelectedToolFinishedDrawing();
+            canvasGraphics = Globals.CanvasContainer.CanvasGraphics; // important because after refresh we work with brand new merged bitmap
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Drawably.Tools.PenToolRelated
             // Do the same on top of the selected layer
             selectedLayerGraphics.FillEllipse(brushToApplyFirstDotWith, x - Size / 2, y - Size / 2, Size, Size);
 
-            canvas.Invalidate();
+            Globals.CanvasContainer.RefreshCanvas();
         }
 
         public override void OnMouseMove(float x, float y)
@@ -123,15 +124,15 @@ namespace Drawably.Tools.PenToolRelated
         public override void OnLeftColorChangedWhileToolSelected()
         {
             leftBrush.Dispose();
-            leftBrush = new SolidBrush(canvasContainer.CurrentLeftColor);
-            leftPen.Color = canvasContainer.CurrentLeftColor;
+            leftBrush = new SolidBrush(Globals.ColorsWindow.LeftColor);
+            leftPen.Color = Globals.ColorsWindow.LeftColor;
         }
 
         public override void OnRightColorChangedWhileToolSelected()
         {
             rightBrush.Dispose();
-            rightBrush = new SolidBrush(canvasContainer.CurrentRightColor);
-            rightPen.Color = canvasContainer.CurrentRightColor;
+            rightBrush = new SolidBrush(Globals.ColorsWindow.RightColor);
+            rightPen.Color = Globals.ColorsWindow.RightColor;
         }
 
         public override void OnToolSelected()

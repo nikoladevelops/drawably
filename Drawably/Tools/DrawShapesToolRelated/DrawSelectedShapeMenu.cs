@@ -1,6 +1,7 @@
 ﻿using Drawably.Tools.DrawShapesToolRelated.Shapes;
 using Drawably.UserControls.CanvasRelated;
 using Drawably.UserControls.Windows;
+using Drawably.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 namespace Drawably.Tools.DrawShapesToolRelated
 {
     /// <summary>
-    /// This menu is responsible for user input which will be used to draw a particularly selected shape
+    /// This menu is responsible for user input which will be used to draw a selected shape.
     /// </summary>
     public partial class DrawSelectedShapeMenu : MenuWindow
     {
@@ -22,12 +23,6 @@ namespace Drawably.Tools.DrawShapesToolRelated
         public DrawSelectedShapeMenu()
         {
             InitializeComponent();
-        }
-
-        private CanvasContainer canvasContainer;
-        public DrawSelectedShapeMenu(CanvasContainer newCanvasContainer):this()
-        {
-            this.canvasContainer = newCanvasContainer;
 
             PopulateComboBoxWithNumbers(this.widthComboBox);
             PopulateComboBoxWithNumbers(this.heightComboBox);
@@ -81,8 +76,19 @@ namespace Drawably.Tools.DrawShapesToolRelated
             VerifyTypedTextExistsAsItemInComboBox(this.heightComboBox);
             VerifyTypedTextExistsAsItemInComboBox(this.borderSizeComboBox);
 
-            Shape shapeToDraw = this.shapeToDraw.CopyShape(50, 50, (int)this.widthComboBox.SelectedItem, (int)this.heightComboBox.SelectedItem, (int)this.borderSizeComboBox.SelectedItem, this.fillShapeCheckBox.Checked, this.canvasContainer.CurrentLeftColor, this.canvasContainer.CurrentRightColor);
-            this.canvasContainer.SpawnNewShapeInsideSelectedLayer(shapeToDraw);
+            Shape shapeToDraw = this.shapeToDraw.CopyShape
+            (
+                50,
+                50,
+                (int)this.widthComboBox.SelectedItem,
+                (int)this.heightComboBox.SelectedItem,
+                (int)this.borderSizeComboBox.SelectedItem,
+                this.fillShapeCheckBox.Checked,
+                Globals.ColorsWindow.LeftColor,
+                Globals.ColorsWindow.RightColor
+            );
+
+            Globals.CanvasContainer.SpawnNewShapeInsideSelectedLayer(shapeToDraw);
             this.Visible = false;
         }
 

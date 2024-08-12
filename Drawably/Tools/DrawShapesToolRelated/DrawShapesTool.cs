@@ -1,4 +1,5 @@
 ﻿using Drawably.UserControls.CanvasRelated;
+using Drawably.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace Drawably.Tools.DrawShapesToolRelated
     {
         // This is the menu that contains a bunch of shapes, when one of those shapes is clicked, a new menu will open up for drawing that shape
         private DrawShapesOptionsControl DrawShapesOptions;
-        public DrawShapesTool(CanvasContainer newCanvasContainer) : base(newCanvasContainer)
+        public DrawShapesTool() : base()
         {
-            this.DrawShapesOptions = new DrawShapesOptionsControl(newCanvasContainer);
+            this.DrawShapesOptions = new DrawShapesOptionsControl();
 
-            this.canvasContainer.PlaceToolControlInsideTopPanel(this.DrawShapesOptions);
+            Globals.CanvasContainer.PlaceToolControlInsideTopPanel(this.DrawShapesOptions);
         }
 
         public override void OnToolSelected()

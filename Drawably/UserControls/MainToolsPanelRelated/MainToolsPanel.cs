@@ -1,4 +1,5 @@
 ﻿using Drawably.UserControls.Windows;
+using Drawably.Utility;
 using System.ComponentModel;
 
 namespace Drawably.UserControls.MainToolsPanelRelated
@@ -32,14 +33,6 @@ namespace Drawably.UserControls.MainToolsPanelRelated
         // Holds window as KEY and the data of the corresponding button as VALUE.
         private Dictionary<MenuWindow, ToolsButtonData> windowsOpenedState = new Dictionary<MenuWindow, ToolsButtonData>();
         
-        // External dependencies.
-        private MenuWindow toolsWindow;
-
-        private MenuWindow colorsWindow;
-
-        private MenuWindow layersWindow;
-        //
-
         public MainToolsPanel()
         {
             InitializeComponent();
@@ -48,44 +41,17 @@ namespace Drawably.UserControls.MainToolsPanelRelated
         /// <summary>
         /// Ensures the tools panel is ready to be used by the user.
         /// </summary>
-        public void SetUp(MenuWindow newToolsWindow, MenuWindow newColorsWindow, MenuWindow newLayersWindow) 
+        public void SetUp() 
         {
-            string errorInfo = "";
-
-            if (newToolsWindow == null) 
-            {
-                errorInfo += "Error: Main Tools Panel has no ToolsWindow.";
-            }
-
-            if (newColorsWindow == null) 
-            {
-                errorInfo += "Error: Main Tools Panel has no ColorsWindow.";
-            }
-
-            if (newLayersWindow == null) 
-            {
-                errorInfo += "Error: Main Tools Panel has no LayersWindow.";
-            }
-
-            if (errorInfo.Length != 0) 
-            {
-                MessageBox.Show(errorInfo);
-                return;
-            }
-
-            this.toolsWindow = newToolsWindow;
-            this.colorsWindow = newColorsWindow;
-            this.layersWindow = newLayersWindow;
-
             ConnectBtnEvents();
         }
 
         private void ConnectBtnEvents() 
         {
             // Initial state, all windows are visible.
-            windowsOpenedState[toolsWindow] = new ToolsButtonData(this.toolsButton, true);
-            windowsOpenedState[colorsWindow] = new ToolsButtonData(this.colorsButton, true);
-            windowsOpenedState[layersWindow] = new ToolsButtonData(this.layersButton, true);
+            windowsOpenedState[Globals.ToolsWindow] = new ToolsButtonData(this.toolsButton, true);
+            windowsOpenedState[Globals.ColorsWindow] = new ToolsButtonData(this.colorsButton, true);
+            windowsOpenedState[Globals.LayersWindow] = new ToolsButtonData(this.layersButton, true);
 
             // Override the close button behaviour for each individual window, so that it affects the style of the associated tools button.
             foreach (var window in windowsOpenedState.Keys)
@@ -107,17 +73,17 @@ namespace Drawably.UserControls.MainToolsPanelRelated
 
         private void LayersButton_Click(object? sender, EventArgs e)
         {
-            ChangeMenuWindowState(layersWindow);
+            ChangeMenuWindowState(Globals.LayersWindow);
         }
 
         private void ColorsButton_Click(object? sender, EventArgs e)
         {
-            ChangeMenuWindowState(colorsWindow);
+            ChangeMenuWindowState(Globals.ColorsWindow);
         }
 
         private void ToolsButton_Click(object? sender, EventArgs e)
         {
-            ChangeMenuWindowState(toolsWindow);
+            ChangeMenuWindowState(Globals.ToolsWindow);
         }
 
         /// <summary>

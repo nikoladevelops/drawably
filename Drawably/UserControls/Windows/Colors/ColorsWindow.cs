@@ -1,4 +1,5 @@
 ﻿using Drawably.UserControls.CanvasRelated;
+using Drawably.Utility;
 
 namespace Drawably.UserControls.Windows.Colors
 {
@@ -9,11 +10,6 @@ namespace Drawably.UserControls.Windows.Colors
     {
         private Color cacheLeftColorNoOpacity;
         private Color cacheRightColorNoOpacity;
-
-        // Dependencies from outside
-        private CanvasContainer canvasContainer { get; set; }
-
-        //
 
         private ColorDialog colorDialog;
         public ColorsWindow()
@@ -30,16 +26,8 @@ namespace Drawably.UserControls.Windows.Colors
         /// <summary>
         /// Ensures the window is ready to be used by the user.
         /// </summary>
-        public void SetUp(CanvasContainer newCanvasContainer)
+        public void SetUp()
         {
-            if (newCanvasContainer == null)
-            {
-                MessageBox.Show("Error: Colors Window has no CanvasContainer.");
-                return;
-            }
-
-            this.canvasContainer = newCanvasContainer;
-
             ConnectBtnEvents();
         }
 
@@ -73,7 +61,7 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(cacheLeftColorNoOpacity, this.leftColorOpacityTrackBar.Value);
 
             this.leftColorButton.BackColor = applyOpacityColor;
-            this.canvasContainer.OnLeftColorChanged();
+            Globals.CanvasContainer.OnLeftColorChanged();
 
         }
         private void RightColorOpacityTrackBar_MouseUp(object? sender, MouseEventArgs e)
@@ -81,7 +69,7 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(cacheRightColorNoOpacity, this.rightColorOpacityTrackBar.Value);
 
             this.rightColorButton.BackColor = applyOpacityColor;
-            this.canvasContainer.OnRightColorChanged();
+            Globals.CanvasContainer.OnRightColorChanged();
         }
 
         //
@@ -101,12 +89,6 @@ namespace Drawably.UserControls.Windows.Colors
 
         private void leftColorButton_Click(object sender, EventArgs e)
         {
-            if (canvasContainer == null)
-            {
-                MessageBox.Show("Error: Canvas Container was not set");
-                return;
-            }
-
             DialogResult result = colorDialog.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -117,17 +99,11 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(colorDialog.Color, this.leftColorOpacityTrackBar.Value);
 
             this.leftColorButton.BackColor = applyOpacityColor;
-            this.canvasContainer.OnLeftColorChanged();
+            Globals.CanvasContainer.OnLeftColorChanged();
         }
 
         private void rightColorButton_Click(object sender, EventArgs e)
         {
-            if (canvasContainer == null)
-            {
-                MessageBox.Show("Error: Canvas Container was not set");
-                return;
-            }
-
             DialogResult result = colorDialog.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -138,7 +114,7 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(colorDialog.Color, this.rightColorOpacityTrackBar.Value);
 
             this.rightColorButton.BackColor = applyOpacityColor;
-            this.canvasContainer.OnRightColorChanged();
+            Globals.CanvasContainer.OnRightColorChanged();
         }
 
         private void switchColorsButton_Click(object sender, EventArgs e)
@@ -160,8 +136,8 @@ namespace Drawably.UserControls.Windows.Colors
             this.cacheLeftColorNoOpacity = this.cacheRightColorNoOpacity;
             this.cacheRightColorNoOpacity = tempCacheLeftColor;
 
-            this.canvasContainer.OnLeftColorChanged();
-            this.canvasContainer.OnRightColorChanged();
+            Globals.CanvasContainer.OnLeftColorChanged();
+            Globals.CanvasContainer.OnRightColorChanged();
         }
     }
 }
