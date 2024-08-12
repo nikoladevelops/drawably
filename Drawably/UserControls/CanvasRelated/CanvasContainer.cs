@@ -111,10 +111,13 @@ namespace Drawably.UserControls.CanvasRelated
 
 
             // Ensure canvas works and set its size
-            Canvas.SetUp(200, 80);
+            Canvas.SetUp(400, 280);
 
             // Center the canvas inside the CanvasContainer
-            // TODO
+            int centerX = (AutoScrollMinSize.Width / 2) - this.canvas.Width/2;
+            int centerY = (AutoScrollMinSize.Height / 2) - this.canvas.Height/2;
+
+            this.canvas.Location = new Point(centerX, centerY);
 
             // I could've made an additional property for the main form, but I feel like this is good enough. I need the form's KeyPreview to be true in order to always capture events no matter which control is focused. I'm basically using it as a global event catcher instead of playing around with the win32 API, this is easier for setting hotkeys.
             Form parentForm = FindForm();
