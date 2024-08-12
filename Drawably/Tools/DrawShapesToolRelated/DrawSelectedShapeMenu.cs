@@ -37,19 +37,19 @@ namespace Drawably.Tools.DrawShapesToolRelated
 
         private void VerifyTypedTextExistsAsItemInComboBox(ComboBox box) 
         {
-            int indexToSelect = 0;
-
             for (int i = 0; i < box.Items.Count; i++)
             {
                 if (box.GetItemText(i) == box.Text)
                 {
-                    indexToSelect = i;
-                    break;
+                    // There is a weird bug where executing this method increases the index by 1 after finishing. To fix it I just subtract the index by 1 and get the correct behaviour.
+                    box.SelectedIndex = i-1;
+                    return;
                 }
             }
 
-            box.SelectedIndex = indexToSelect;
+            box.SelectedIndex = 0;
         }
+
 
         /// <summary>
         /// Populates combo box with numbers
@@ -78,8 +78,8 @@ namespace Drawably.Tools.DrawShapesToolRelated
 
             Shape shapeToDraw = this.shapeToDraw.CopyShape
             (
-                50,
-                50,
+                0,
+                0,
                 (int)this.widthComboBox.SelectedItem,
                 (int)this.heightComboBox.SelectedItem,
                 (int)this.borderSizeComboBox.SelectedItem,
