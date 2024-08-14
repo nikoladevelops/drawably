@@ -1,4 +1,5 @@
-﻿using Drawably.UserControls.CanvasRelated;
+﻿using Drawably.Renderer;
+using Drawably.UserControls.CanvasRelated;
 using Drawably.UserControls.TopPanelRelated;
 using Drawably.UserControls.Windows.Colors;
 using Drawably.UserControls.Windows.Layers;
@@ -18,6 +19,7 @@ namespace Drawably.Utility
     public static class Globals
     {
         public static CanvasContainer CanvasContainer { get; private set; }
+
         public static LayersWindow LayersWindow { get; private set; }
 
         public static ColorsWindow ColorsWindow { get; private set; }
@@ -26,12 +28,18 @@ namespace Drawably.Utility
 
         public static TopPanel TopPanel { get; private set; }
 
+        public static LayerRenderer LayerRenderer { get; private set; }
+
+        public static ShapeManager ShapeManager { get; private set; } 
+
         public static void SetUp(
             CanvasContainer newCanvasContainer,
             LayersWindow newLayersWindow,
             ColorsWindow newColorsWindow,
             ToolsWindow newToolsWindow,
-            TopPanel newTopPanel
+            TopPanel newTopPanel,
+            LayerRenderer newLayerRenderer,
+            ShapeManager newShapeManager
             ) 
         {
             CanvasContainer = newCanvasContainer;
@@ -39,7 +47,8 @@ namespace Drawably.Utility
             ColorsWindow = newColorsWindow;
             ToolsWindow = newToolsWindow;
             TopPanel = newTopPanel;
-
+            LayerRenderer = newLayerRenderer;
+            ShapeManager = newShapeManager;
         }
     }
 }

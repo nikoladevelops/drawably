@@ -59,7 +59,7 @@ namespace Drawably.Tools.PenToolRelated
             cacheX = x;
             cacheY = y;
 
-            Globals.CanvasContainer.RefreshCanvas();
+            Globals.CanvasContainer.RedrawCanvas();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Drawably.Tools.PenToolRelated
         private void StopDrawing() 
         {
             isDrawingEnabled = false;
-            Globals.CanvasContainer.OnSelectedToolFinishedDrawing();
+            Globals.LayerRenderer.OnLayerChangesApplied();
             canvasGraphics = Globals.CanvasContainer.CanvasGraphics; // important because after refresh we work with brand new merged bitmap
         }
 
@@ -86,7 +86,7 @@ namespace Drawably.Tools.PenToolRelated
             // Do the same on top of the selected layer
             selectedLayerGraphics.FillEllipse(brushToApplyFirstDotWith, x - Size / 2, y - Size / 2, Size, Size);
 
-            Globals.CanvasContainer.RefreshCanvas();
+            Globals.CanvasContainer.RedrawCanvas();
         }
 
         public override void OnMouseMove(float x, float y)

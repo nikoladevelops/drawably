@@ -45,7 +45,7 @@ namespace Drawably.UserControls.TopPanelRelated
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            Bitmap bmpToSaveToDisk = Globals.CanvasContainer.GetFinalImageToExport();
+            Bitmap bmpToSaveToDisk = Globals.CanvasContainer.CanvasDisplayedImage;
             ExportBitmapAsPNG(bmpToSaveToDisk);
         }
 
@@ -75,24 +75,6 @@ namespace Drawably.UserControls.TopPanelRelated
                     MessageBox.Show($"Error saving image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-
-        public void ExportAllLayerBitmaps() 
-        {
-            List<Bitmap> allBitmaps = Globals.CanvasContainer.GetAllLayerBitmapsInOrder();
-            // open file dialog for exporting
-
-        }
-
-        public void LoadAllLayers() 
-        {
-            // open file dialog for loading
-            List<Bitmap> allLoadedBitmaps = new List<Bitmap>();
-            // Load file path with bitmaps
-            // deserialize it and load everything in allBitmapsFil
-
-            Globals.CanvasContainer.LoadAllLayerBitmapsInOrder(allLoadedBitmaps);
         }
     }
 }

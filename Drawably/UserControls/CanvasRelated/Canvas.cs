@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Drawably.Utility;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,15 +29,22 @@ namespace Drawably.UserControls
         /// </summary>
         private Bitmap displayedImage = null;
 
+        /// <summary>
+        /// This is the region where the rendering of the layers should happen. It should always have the same width and height as the canvas itself.
+        /// </summary>
+        private Rectangle renderingArea;
+
+        /// <summary>
+        /// The OnPaint's custom code responsible for layer rendering will run only when this is set to true, otherwise the base behaviour will run.
+        /// </summary>
+        bool isReadyToRender;
+
         public Canvas()
         {
             InitializeComponent();
 
             this.DoubleBuffered = true;
             this.checkerboardCellSize = 15;
-
-            // I only have this so that the designer doesn't throw an error when trying to paint the canvas.
-            checkerboard = GenerateCheckerboard();
         }
 
         public Bitmap DisplayedImage
@@ -58,6 +66,7 @@ namespace Drawably.UserControls
             displayedImage = new Bitmap(width, height);
             ResizeCanvas(width, height);
             checkerboard = GenerateCheckerboard();
+            isReadyToRender = true;
         }
 
 
@@ -75,6 +84,8 @@ namespace Drawably.UserControls
             this.Width = width;
             this.Height = height;
 
+            renderingArea = new Rectangle(0, 0, width, height);
+
             this.Location = newLocation;
 
             this.Invalidate();
@@ -82,11 +93,15 @@ namespace Drawably.UserControls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.DrawImage(checkerboard, new Rectangle(0, 0, this.Width, this.Height));
-            if (displayedImage != null)
+            if (isReadyToRender == false) 
             {
-                e.Graphics.DrawImage(displayedImage, new Rectangle(0, 0, this.Width, this.Height));
+                base.OnPaint(e);
+                return;
             }
+
+            e.Graphics.DrawImage(checkerboard, renderingArea);
+
+            Globals.LayerRenderer.RenderAllLayers(e.Graphics, renderingArea, this.displayedImage);
         }
 
         public Bitmap GenerateCheckerboard()

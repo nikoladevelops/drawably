@@ -1,3 +1,4 @@
+using Drawably.Renderer;
 using Drawably.Utility;
 
 namespace Drawably
@@ -16,7 +17,9 @@ namespace Drawably
                 this.layersWindow,
                 this.colorsWindow,
                 this.toolsWindow,
-                this.topPanel
+                this.topPanel,
+                new LayerRenderer(),
+                new ShapeManager()
                 );
 
             this.WindowState = FormWindowState.Maximized;

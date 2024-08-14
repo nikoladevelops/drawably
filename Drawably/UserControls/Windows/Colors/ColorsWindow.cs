@@ -61,7 +61,11 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(cacheLeftColorNoOpacity, this.leftColorOpacityTrackBar.Value);
 
             this.leftColorButton.BackColor = applyOpacityColor;
-            Globals.CanvasContainer.OnLeftColorChanged();
+
+            if (Globals.ToolsWindow.CurrentTool != null)
+            {
+                Globals.ToolsWindow.CurrentTool.OnLeftColorChangedWhileToolSelected();
+            }
 
         }
         private void RightColorOpacityTrackBar_MouseUp(object? sender, MouseEventArgs e)
@@ -69,7 +73,11 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(cacheRightColorNoOpacity, this.rightColorOpacityTrackBar.Value);
 
             this.rightColorButton.BackColor = applyOpacityColor;
-            Globals.CanvasContainer.OnRightColorChanged();
+
+            if (Globals.ToolsWindow.CurrentTool != null)
+            {
+                Globals.ToolsWindow.CurrentTool.OnRightColorChangedWhileToolSelected();
+            }
         }
 
         //
@@ -99,7 +107,11 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(colorDialog.Color, this.leftColorOpacityTrackBar.Value);
 
             this.leftColorButton.BackColor = applyOpacityColor;
-            Globals.CanvasContainer.OnLeftColorChanged();
+
+            if (Globals.ToolsWindow.CurrentTool != null)
+            {
+                Globals.ToolsWindow.CurrentTool.OnLeftColorChangedWhileToolSelected();
+            }
         }
 
         private void rightColorButton_Click(object sender, EventArgs e)
@@ -114,7 +126,11 @@ namespace Drawably.UserControls.Windows.Colors
             Color applyOpacityColor = ApplyAlphaToColor(colorDialog.Color, this.rightColorOpacityTrackBar.Value);
 
             this.rightColorButton.BackColor = applyOpacityColor;
-            Globals.CanvasContainer.OnRightColorChanged();
+
+            if (Globals.ToolsWindow.CurrentTool != null) 
+            {
+                Globals.ToolsWindow.CurrentTool.OnRightColorChangedWhileToolSelected();
+            }
         }
 
         private void switchColorsButton_Click(object sender, EventArgs e)
@@ -136,8 +152,11 @@ namespace Drawably.UserControls.Windows.Colors
             this.cacheLeftColorNoOpacity = this.cacheRightColorNoOpacity;
             this.cacheRightColorNoOpacity = tempCacheLeftColor;
 
-            Globals.CanvasContainer.OnLeftColorChanged();
-            Globals.CanvasContainer.OnRightColorChanged();
+            if (Globals.ToolsWindow.CurrentTool != null)
+            {
+                Globals.ToolsWindow.CurrentTool.OnLeftColorChangedWhileToolSelected();
+                Globals.ToolsWindow.CurrentTool.OnRightColorChangedWhileToolSelected();
+            }
         }
     }
 }

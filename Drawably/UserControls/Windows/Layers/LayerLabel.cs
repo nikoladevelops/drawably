@@ -17,24 +17,46 @@ namespace Drawably.UserControls.Windows.Layers
     {
         private bool isLayerSelected;
 
+        public LayerLabel()
+        {
+            InitializeComponent();
+        }
+
+        public LayerLabel(string newLayerName, bool newIsLayerVisible=true, bool newIsLayerSelected=false):this()
+        {
+            this.LayerName = newLayerName;
+            this.IsLayerVisible = newIsLayerVisible;
+            this.IsLayerSelected = newIsLayerSelected;
+
+            this.isLayerVisibleCheckBox.Click += (o,e)=> 
+            {
+                if (OnCheckBoxClicked != null) 
+                {
+                    OnCheckBoxClicked();
+                }
+            };
+        }
+
+        public Action OnCheckBoxClicked { get; set; }
+
         [
-            Category("All Custom Props"), 
+            Category("All Custom Props"),
             Description("Displays the layer's name")
         ]
-        public string LayerName 
-        { 
-            get => this.layerNameLabel.Text; 
-            set => this.layerNameLabel.Text = value; 
+        public string LayerName
+        {
+            get => this.layerNameLabel.Text;
+            set => this.layerNameLabel.Text = value;
         }
 
         [
             Category("All Custom Props"),
             Description("Displays whether the layer is visible")
         ]
-        public bool IsLayerVisible 
-        { 
-            get => this.isLayerVisibleCheckBox.Checked; 
-            set => this.isLayerVisibleCheckBox.Checked = value; 
+        public bool IsLayerVisible
+        {
+            get => this.isLayerVisibleCheckBox.Checked;
+            set => this.isLayerVisibleCheckBox.Checked = value;
         }
 
         [
@@ -43,17 +65,17 @@ namespace Drawably.UserControls.Windows.Layers
         ]
         public bool IsLayerSelected
         {
-            get 
+            get
             {
                 return this.isLayerSelected;
             }
-            set 
+            set
             {
                 if (value)
                 {
                     this.BackColor = Color.FromArgb(80, 76, 152, 214);
                 }
-                else 
+                else
                 {
                     this.BackColor = Color.Transparent;
                 }
@@ -76,29 +98,6 @@ namespace Drawably.UserControls.Windows.Layers
                 this.tableLayoutPanel.Click -= value;
                 this.layerNameLabel.Click -= value;
             }
-        }
-
-        public Action OnCheckBoxClicked { get; set; }
-        public LayerLabel()
-        {
-            InitializeComponent();
-        }
-
-        public LayerLabel(string newLayerName, bool newIsLayerVisible=true, bool newIsLayerSelected=false)
-        {
-            InitializeComponent();
-
-            this.LayerName = newLayerName;
-            this.IsLayerVisible = newIsLayerVisible;
-            this.IsLayerSelected = newIsLayerSelected;
-
-            this.isLayerVisibleCheckBox.Click += (o,e)=> 
-            {
-                if (OnCheckBoxClicked != null) 
-                {
-                    OnCheckBoxClicked();
-                }
-            };
         }
     }
 }

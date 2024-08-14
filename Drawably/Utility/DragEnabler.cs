@@ -53,6 +53,7 @@ namespace Drawably.Utility
             draggableControls[(Control)sender].BringToFront();
 
         }
+
         /// <summary>
         /// When the mouse hovers the controlToTouch and the left mouse stops being held pressed
         /// </summary>
@@ -62,6 +63,7 @@ namespace Drawably.Utility
         {
             isDragging = false;
         }
+
         /// <summary>
         /// When the mouse is being moved, while it hovers controlToTouch
         /// </summary>

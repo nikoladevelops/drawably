@@ -88,7 +88,7 @@ namespace Drawably.Tools.DrawShapesToolRelated
                 Globals.ColorsWindow.RightColor
             );
 
-            Globals.CanvasContainer.SpawnNewShapeInsideSelectedLayer(shapeToDraw);
+            Globals.ShapeManager.SpawnNewShapeInsideSelectedLayer(shapeToDraw);
             this.Visible = false;
         }
 

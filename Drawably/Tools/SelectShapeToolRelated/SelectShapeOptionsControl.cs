@@ -40,12 +40,12 @@ namespace Drawably.Tools.SelectShapeToolRelated
 
         private void rotatePlus90DegreesBtn_Click(object sender, EventArgs e)
         {
-            Globals.CanvasContainer.RotateAllSelectedShapesPlus90Degrees();
+            Globals.ShapeManager.RotateAllSelectedShapesPlus90Degrees();
         }
 
         private void rotateMinus90DegreesBtn_Click(object sender, EventArgs e)
         {
-            Globals.CanvasContainer.RotateAllSelectedShapesMinus90Degrees();
+            Globals.ShapeManager.RotateAllSelectedShapesMinus90Degrees();
         }
 
         public void SelectShape(Shape? shapeToSelect)
@@ -82,7 +82,7 @@ namespace Drawably.Tools.SelectShapeToolRelated
             }
             this.selectedShapes.Clear();
 
-            Globals.CanvasContainer.DeleteAllSelectedShapesFromCurrentSelectedLayer();
+            Globals.ShapeManager.DeleteAllSelectedShapesFromCurrentSelectedLayer();
             this.amountShapesSelectedLabel.Text = this.selectedShapes.Count().ToString();
         }
 
@@ -92,7 +92,8 @@ namespace Drawably.Tools.SelectShapeToolRelated
             {
                 shape.MoveShapeByAmount(x, y);
             }
-            Globals.CanvasContainer.OnCurrentLayerShapesMoved();
+
+            Globals.LayerRenderer.OnLayerChangesApplied();
         }
 
         private void clearAllSelectedBtn_Click(object sender, EventArgs e)

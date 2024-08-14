@@ -30,7 +30,7 @@ namespace Drawably.Tools.SelectShapeToolRelated
         /// <param name="y"></param>
         public override void OnMouseLeftClickDown(float x, float y)
         {
-            Shape? shape = Globals.CanvasContainer.GetShapeUnderneathMousePositionOnCurrentLayer(x, y);
+            Shape? shape = Globals.ShapeManager.GetShapeUnderneathMousePosition(x, y);
             this.selectShapeOptions.SelectShape(shape);
 
             cacheX = x;
@@ -45,7 +45,7 @@ namespace Drawably.Tools.SelectShapeToolRelated
         /// <param name="y"></param>
         public override void OnMouseRightClickDown(float x, float y)
         {
-            Shape? shape = Globals.CanvasContainer.GetShapeUnderneathMousePositionOnCurrentLayer(x, y);
+            Shape? shape = Globals.ShapeManager.GetShapeUnderneathMousePosition(x, y);
             this.selectShapeOptions.UnselectShape(shape);
         }
 

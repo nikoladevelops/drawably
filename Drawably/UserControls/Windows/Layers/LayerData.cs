@@ -16,7 +16,7 @@ namespace Drawably.UserControls.Windows.Layers
         public LayerData(int newWidth, int newHeight)
         {
             layerImage = new Bitmap(newWidth, newHeight);
-            this.AllLayerShapes = new List<Shape>();
+            AllLayerShapes = new List<Shape>();
 
             using (Graphics g = Graphics.FromImage(layerImage))
             {
@@ -27,20 +27,43 @@ namespace Drawably.UserControls.Windows.Layers
         /// <summary>
         /// Holds the Bitmap where everything is drawn
         /// </summary>
-        public Bitmap LayerImage { get=>this.layerImage; }// { 
-        
+        public Bitmap LayerImage { get => layerImage; }
+
+        /// <summary>
+        /// Holds all shapes for the particular layer
+        /// </summary>
+        public List<Shape> AllLayerShapes { get; set; }
+
+        /// <summary>
+        /// Duplicates the layer data.
+        /// </summary>
+        /// <returns></returns>
+        public LayerData DuplicateLayerData()
+        {
+            // Create brand new LayerData with the same size.
+            LayerData duplicatedLayerData = new LayerData(LayerImage.Width, LayerImage.Height);
+
+            // Draw the same image on to the new layer's bitmap.
+            using (Graphics g = Graphics.FromImage(duplicatedLayerData.LayerImage))
+            {
+                g.DrawImage(LayerImage, new Point(0, 0));
+            }
+
+            return duplicatedLayerData;
+        }
+
         /// <summary>
         /// Draws all shapes onto LayerImage and returns a brand new Bitmap
         /// </summary>
         /// <returns></returns>
-        public Bitmap GetLayerImageWithAllShapesSpawnedOnTop() 
+        public Bitmap GetLayerImageWithAllShapesSpawnedOnTop()
         {
-            Bitmap appliedShapesBitmap = new Bitmap(this.layerImage.Width, this.layerImage.Height);
+            Bitmap appliedShapesBitmap = new Bitmap(layerImage.Width, layerImage.Height);
 
             using (Graphics g = Graphics.FromImage(appliedShapesBitmap))
             {
                 // Copy everything from this.layerImage and apply it
-                g.DrawImage(this.layerImage, new Point(0, 0));
+                g.DrawImage(layerImage, new Point(0, 0));
 
                 // Draw every single shape on top always
                 foreach (var shape in AllLayerShapes)
@@ -48,7 +71,7 @@ namespace Drawably.UserControls.Windows.Layers
                     // If the shape has rotation, ensure you rotate it
                     if (shape.Rotation != 0)
                     {
-                        Bitmap shapeBitmap = new Bitmap(this.layerImage.Width, this.layerImage.Height);
+                        Bitmap shapeBitmap = new Bitmap(layerImage.Width, layerImage.Height);
                         using (Graphics g2 = Graphics.FromImage(shapeBitmap))
                         {
                             shape.DrawShape(g2);
@@ -67,7 +90,7 @@ namespace Drawably.UserControls.Windows.Layers
                         g.DrawImage(shapeBitmap, new Point(0, 0));
 
                     }
-                    else 
+                    else
                     {
                         shape.DrawShape(g);
                     }
@@ -76,11 +99,6 @@ namespace Drawably.UserControls.Windows.Layers
 
             return appliedShapesBitmap;
         }
-
-        /// <summary>
-        /// Holds all shapes for the particular layer
-        /// </summary>
-        public List<Shape> AllLayerShapes { get; set; }
 
         // Rotation
 

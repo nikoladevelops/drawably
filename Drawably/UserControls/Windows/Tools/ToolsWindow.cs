@@ -22,14 +22,19 @@ namespace Drawably.UserControls.Windows.Tools
     /// </summary>
     public partial class ToolsWindow : MenuWindow
     {
-        // Keeps track of each tool button and the actual tool it corresponds to.
+        /// <summary>
+        /// Keeps track of each tool button and the actual tool it corresponds to.
+        /// </summary>
         private Dictionary<Button, Tool> btnTools;
 
-        // Keeps track of the currently selected button.
+        /// <summary>
+        /// Keeps track of the currently selected button.
+        /// </summary>
         private Button? selectedBtn;
 
-        // Dependencies that HAVE TO be set up from outside, before the window is used.
-
+        /// <summary>
+        /// Keeps track of the currently selected tool.
+        /// </summary>
         public Tool? CurrentTool { get; set; }
         public ToolsWindow()
         {

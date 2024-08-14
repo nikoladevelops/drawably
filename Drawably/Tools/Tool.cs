@@ -129,7 +129,7 @@ namespace Drawably.Tools
         /// </summary>
         public virtual void OnToolFinishedDrawing() 
         {
-            Globals.CanvasContainer.OnSelectedToolFinishedDrawing();
+            Globals.LayerRenderer.OnLayerChangesApplied();
         }
 
         /// <summary>
