@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Drawably.Tools.SelectShapeToolRelated
 {
@@ -20,7 +21,7 @@ namespace Drawably.Tools.SelectShapeToolRelated
         public SelectShapeTool() : base()
         {
             selectShapeOptions = new SelectShapeOptionsControl();
-            Globals.CanvasContainer.PlaceToolControlInsideTopPanel(this.selectShapeOptions);
+            Globals.TopPanel.AddToolOptionsControlToTopPanel(this.selectShapeOptions);
         }
 
         /// <summary>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Drawably.Tools.DrawShapesToolRelated
 {
@@ -16,7 +17,7 @@ namespace Drawably.Tools.DrawShapesToolRelated
         {
             this.DrawShapesOptions = new DrawShapesOptionsControl();
 
-            Globals.CanvasContainer.PlaceToolControlInsideTopPanel(this.DrawShapesOptions);
+            Globals.TopPanel.AddToolOptionsControlToTopPanel(this.DrawShapesOptions);
         }
 
         public override void OnToolSelected()

@@ -26,9 +26,8 @@ namespace Drawably.Tools.DrawShapesToolRelated
         {
             InitializeComponent();
 
-
             this.drawSelectedMenu = new DrawSelectedShapeMenu();
-            Globals.CanvasContainer.PlaceCustomMenuToMainForm(this.drawSelectedMenu);
+            Globals.MainForm.PlaceCustomMenuToMainForm(this.drawSelectedMenu);
 
             RegisterBtnClickEvents();
 

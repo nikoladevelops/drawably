@@ -2,6 +2,7 @@
 using Drawably.UserControls.CanvasRelated;
 using Drawably.Utility;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace Drawably.Tools.PenToolRelated
 {
@@ -28,7 +29,7 @@ namespace Drawably.Tools.PenToolRelated
         {
             BrushControl = new BrushOptionsControl(this);
             BrushControl.Visible = false;
-            Globals.CanvasContainer.PlaceToolControlInsideTopPanel(BrushControl);
+            Globals.TopPanel.AddToolOptionsControlToTopPanel(BrushControl);
         }
 
         /// <summary>

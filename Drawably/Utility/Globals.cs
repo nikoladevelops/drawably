@@ -18,6 +18,7 @@ namespace Drawably.Utility
     /// </summary>
     public static class Globals
     {
+        public static MainForm MainForm { get; set; }
         public static CanvasContainer CanvasContainer { get; private set; }
 
         public static LayersWindow LayersWindow { get; private set; }
@@ -33,6 +34,7 @@ namespace Drawably.Utility
         public static ShapeManager ShapeManager { get; private set; } 
 
         public static void SetUp(
+            MainForm mainForm,
             CanvasContainer newCanvasContainer,
             LayersWindow newLayersWindow,
             ColorsWindow newColorsWindow,
@@ -42,6 +44,7 @@ namespace Drawably.Utility
             ShapeManager newShapeManager
             ) 
         {
+            MainForm = mainForm;
             CanvasContainer = newCanvasContainer;
             LayersWindow = newLayersWindow;
             ColorsWindow = newColorsWindow;

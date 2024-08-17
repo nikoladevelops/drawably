@@ -27,11 +27,6 @@ namespace Drawably.UserControls.CanvasRelated
         private const int WM_MOUSEWHEEL = 0x020A;
 
         /// <summary>
-        /// Tracks whether the CTRL is pressed.
-        /// </summary>
-        private bool isCtrlPressed = false;
-
-        /// <summary>
         /// The amount by which the size of the canvas increases/decreases when zoom is applied.
         /// </summary>
         private float zoomFactor = 1.4f;
@@ -103,12 +98,6 @@ namespace Drawably.UserControls.CanvasRelated
 
             this.canvas.Location = new Point(centerX, centerY);
 
-            // I could've made an additional property for the main form, but I feel like this is good enough. I need the form's KeyPreview to be true in order to always capture events no matter which control is focused. I'm basically using it as a global event catcher instead of playing around with the win32 API, this is easier for setting hotkeys.
-            Form parentForm = FindForm();
-            parentForm.KeyPreview = true;
-            parentForm.KeyDown += Form_KeyDown;
-            parentForm.KeyUp += Form_KeyUp;
-
             // Store the original size of the canvas
             originalSize = canvas.Size;
 
@@ -173,38 +162,12 @@ namespace Drawably.UserControls.CanvasRelated
         }
 
         /// <summary>
-        /// Used to track when the CTRL key has been pressed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Form_KeyDown(object? sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ControlKey)
-            {
-                isCtrlPressed = true;
-            }
-        }
-
-        /// <summary>
-        /// Used to track when the CTRL key has been released.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Form_KeyUp(object? sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ControlKey)
-            {
-                isCtrlPressed = false;
-            }
-        }
-
-        /// <summary>
         /// Overriding the base mouse wheel behaviour while the CTRL key has been pressed (CTRL + MOUSE WHEEL = ZOOM / ONLY MOUSE WHEEL = SCROLL).
         /// </summary>
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == WM_MOUSEWHEEL && isCtrlPressed)
+            if (m.Msg == WM_MOUSEWHEEL && Globals.MainForm.IsCtrlPressed)
             {
                 // Prevent the base class from processing the mouse wheel event, this will disable the default scroll behaviour
                 int delta = (int)m.WParam.ToInt64(); // Extract delta value
@@ -387,25 +350,6 @@ namespace Drawably.UserControls.CanvasRelated
         private PointF ApplyZoomOffsetToPoint(Point mousePos) 
         {
             return new PointF(mousePos.X * cacheWidthCalc, mousePos.Y * cacheHeightCalc);
-        }
-
-        /// <summary>
-        /// May be called by the current tool in order to display additional options for the selected tool. The options get displayed inside the top panel.
-        /// </summary>
-        /// <param name="control"></param>
-        public void PlaceToolControlInsideTopPanel(Control control)
-        {
-            Globals.TopPanel.AddToolOptionsControlToTopPanel(control);
-        }
-
-        /// <summary>
-        /// Places a custom menu inside the MainForm
-        /// </summary>
-        public void PlaceCustomMenuToMainForm(MenuWindow customMenu)
-        {
-            this.ParentForm.Controls.Add(customMenu);
-            customMenu.Location = new Point(150, 150);
-            customMenu.BringToFront();
         }
     }
 }
