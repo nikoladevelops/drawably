@@ -21,7 +21,6 @@ namespace Drawably.Renderer
         /// <param name="renderingArea"></param>
         public void RenderAllLayers(Graphics g, Rectangle renderingArea, Bitmap canvasDisplayedImage)
         {
-            // TODO better rendering logic needed
             g.DrawImage(canvasDisplayedImage, renderingArea);
         }
 
@@ -47,19 +46,21 @@ namespace Drawably.Renderer
         /// <returns>The bitmap containing all layers merged.</returns>
         private Bitmap GetAllLayersMergedBitmap()
         {
-            Bitmap allLayersMerged = new Bitmap(Globals.CanvasContainer.CanvasDisplayedImage.Width, Globals.CanvasContainer.CanvasDisplayedImage.Height);
-            // The Z index is automatically achieved by looping all layer labels inside the allLayersPanel, they are already ordered in the way I want them to be
-            // This is done, because I used this.allLayersPanel.Controls.SetChildIndex and this.allLayersPanel.Controls.GetChildIndex to rely on ordering
-            // In other words it will merge layers one after another starting from index 0 all the way to max index (last layer label), pretty cool
-            foreach (LayerData layerData in Globals.LayersWindow.GetAllVisibleLayersData)
+            List<Bitmap> bitmaps = new List<Bitmap>();
+
+            foreach (LayerData data in Globals.LayersWindow.GetAllVisibleLayersData)
             {
-                using (Graphics merged = Graphics.FromImage(allLayersMerged))
-                {
-                    merged.DrawImage(layerData.GetLayerImageWithAllShapesSpawnedOnTop(), new Point(0, 0));
-                }
+                bitmaps.Add(data.LayerImage);
             }
 
-            return allLayersMerged;
+            Bitmap mergedLayers = BitmapHelper.MergeBitmaps(
+                bitmaps,
+                Globals.CanvasContainer.CanvasDisplayedImage.Width,
+                Globals.CanvasContainer.CanvasDisplayedImage.Height
+                );
+
+
+            return mergedLayers;
         }
     }
 }

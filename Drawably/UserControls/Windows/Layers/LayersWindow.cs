@@ -32,13 +32,13 @@ namespace Drawably.UserControls.Windows.Layers
         public LayerData GetSelectedLayerData { get => this.layerDataHelper.GetLayerData(this.labelHelper.SelectedLayerLabel);}
         
         /// <summary>
-        /// Retrieves all visible layers' data.
+        /// Retrieves all visible layers' data. It is ordered by Z index.
         /// </summary>
         public IEnumerable<LayerData> GetAllVisibleLayersData {
             get
             {
                 List<LayerData> allVisibleLayersData = new List<LayerData>();
-                foreach (LayerLabel lbl in this.allLayersPanel.Controls)
+                foreach (LayerLabel lbl in this.allLayersPanel.Controls) // all labels are already ordered in the panel based on Z index
                 {
                     if (lbl.IsLayerVisible == false)
                     {
