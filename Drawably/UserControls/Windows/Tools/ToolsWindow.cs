@@ -59,7 +59,6 @@ namespace Drawably.UserControls.Windows.Tools
             btnTools = new Dictionary<Button, Tool>()
             {
                 { this.selectShapeToolBtn, new SelectShapeTool() },
-                { this.moveImageToolBtn, new BrushTool() },
                 { this.penToolBtn, new PenTool() },
                 { this.brushToolBtn, new BrushTool() },
                 { this.drawShapesToolBtn, new DrawShapesTool() },

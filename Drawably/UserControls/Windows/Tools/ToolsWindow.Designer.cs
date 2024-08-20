@@ -30,12 +30,11 @@
         {
             buttonsHolderContainer = new FlowLayoutPanel();
             selectShapeToolBtn = new Button();
-            moveImageToolBtn = new Button();
-            penToolBtn = new Button();
             brushToolBtn = new Button();
             drawShapesToolBtn = new Button();
             zoomInToolBtn = new Button();
             zoomOutToolBtn = new Button();
+            penToolBtn = new Button();
             contentPanel.SuspendLayout();
             topPanel.SuspendLayout();
             buttonsHolderContainer.SuspendLayout();
@@ -52,7 +51,7 @@
             // 
             // menuTextLabel
             // 
-            menuTextLabel.Size = new Size(45, 23);
+            menuTextLabel.Size = new Size(478, 23);
             // 
             // closeButton
             // 
@@ -62,7 +61,6 @@
             // buttonsHolderContainer
             // 
             buttonsHolderContainer.Controls.Add(selectShapeToolBtn);
-            buttonsHolderContainer.Controls.Add(moveImageToolBtn);
             buttonsHolderContainer.Controls.Add(penToolBtn);
             buttonsHolderContainer.Controls.Add(brushToolBtn);
             buttonsHolderContainer.Controls.Add(drawShapesToolBtn);
@@ -91,38 +89,6 @@
             selectShapeToolBtn.TabIndex = 7;
             selectShapeToolBtn.UseVisualStyleBackColor = false;
             // 
-            // moveImageToolBtn
-            // 
-            moveImageToolBtn.BackColor = Color.White;
-            moveImageToolBtn.BackgroundImage = Properties.Resources.move;
-            moveImageToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
-            moveImageToolBtn.FlatAppearance.BorderSize = 0;
-            moveImageToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
-            moveImageToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
-            moveImageToolBtn.FlatStyle = FlatStyle.Flat;
-            moveImageToolBtn.ForeColor = SystemColors.Control;
-            moveImageToolBtn.Location = new Point(3, 45);
-            moveImageToolBtn.Name = "moveImageToolBtn";
-            moveImageToolBtn.Size = new Size(65, 26);
-            moveImageToolBtn.TabIndex = 6;
-            moveImageToolBtn.UseVisualStyleBackColor = false;
-            // 
-            // penToolBtn
-            // 
-            penToolBtn.BackColor = Color.White;
-            penToolBtn.BackgroundImage = Properties.Resources.pen;
-            penToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
-            penToolBtn.FlatAppearance.BorderSize = 0;
-            penToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
-            penToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
-            penToolBtn.FlatStyle = FlatStyle.Flat;
-            penToolBtn.ForeColor = SystemColors.Control;
-            penToolBtn.Location = new Point(3, 77);
-            penToolBtn.Name = "penToolBtn";
-            penToolBtn.Size = new Size(65, 26);
-            penToolBtn.TabIndex = 5;
-            penToolBtn.UseVisualStyleBackColor = false;
-            // 
             // brushToolBtn
             // 
             brushToolBtn.BackColor = Color.White;
@@ -133,7 +99,7 @@
             brushToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             brushToolBtn.FlatStyle = FlatStyle.Flat;
             brushToolBtn.ForeColor = SystemColors.Control;
-            brushToolBtn.Location = new Point(3, 109);
+            brushToolBtn.Location = new Point(3, 77);
             brushToolBtn.Name = "brushToolBtn";
             brushToolBtn.Size = new Size(65, 26);
             brushToolBtn.TabIndex = 4;
@@ -149,7 +115,7 @@
             drawShapesToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             drawShapesToolBtn.FlatStyle = FlatStyle.Flat;
             drawShapesToolBtn.ForeColor = SystemColors.Control;
-            drawShapesToolBtn.Location = new Point(3, 141);
+            drawShapesToolBtn.Location = new Point(3, 109);
             drawShapesToolBtn.Name = "drawShapesToolBtn";
             drawShapesToolBtn.Size = new Size(65, 26);
             drawShapesToolBtn.TabIndex = 8;
@@ -165,7 +131,7 @@
             zoomInToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             zoomInToolBtn.FlatStyle = FlatStyle.Flat;
             zoomInToolBtn.ForeColor = SystemColors.Control;
-            zoomInToolBtn.Location = new Point(3, 173);
+            zoomInToolBtn.Location = new Point(3, 141);
             zoomInToolBtn.Name = "zoomInToolBtn";
             zoomInToolBtn.Size = new Size(65, 26);
             zoomInToolBtn.TabIndex = 9;
@@ -181,11 +147,27 @@
             zoomOutToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
             zoomOutToolBtn.FlatStyle = FlatStyle.Flat;
             zoomOutToolBtn.ForeColor = SystemColors.Control;
-            zoomOutToolBtn.Location = new Point(3, 205);
+            zoomOutToolBtn.Location = new Point(3, 173);
             zoomOutToolBtn.Name = "zoomOutToolBtn";
             zoomOutToolBtn.Size = new Size(65, 26);
             zoomOutToolBtn.TabIndex = 10;
             zoomOutToolBtn.UseVisualStyleBackColor = false;
+            // 
+            // penToolBtn
+            // 
+            penToolBtn.BackColor = Color.White;
+            penToolBtn.BackgroundImage = Properties.Resources.pen;
+            penToolBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            penToolBtn.FlatAppearance.BorderSize = 0;
+            penToolBtn.FlatAppearance.MouseDownBackColor = Color.White;
+            penToolBtn.FlatAppearance.MouseOverBackColor = Color.LightGray;
+            penToolBtn.FlatStyle = FlatStyle.Flat;
+            penToolBtn.ForeColor = SystemColors.Control;
+            penToolBtn.Location = new Point(3, 45);
+            penToolBtn.Name = "penToolBtn";
+            penToolBtn.Size = new Size(65, 26);
+            penToolBtn.TabIndex = 5;
+            penToolBtn.UseVisualStyleBackColor = false;
             // 
             // ToolsWindow
             // 
@@ -204,10 +186,9 @@
         private FlowLayoutPanel buttonsHolderContainer;
         private Button brushToolBtn;
         private Button selectShapeToolBtn;
-        private Button moveImageToolBtn;
-        private Button penToolBtn;
         private Button drawShapesToolBtn;
         private Button zoomInToolBtn;
         private Button zoomOutToolBtn;
+        private Button penToolBtn;
     }
 }
