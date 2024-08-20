@@ -30,8 +30,6 @@
         {
             label1 = new Label();
             amountShapesSelectedLabel = new Label();
-            rotatePlus90DegreesBtn = new Button();
-            rotateMinus90DegreesBtn = new Button();
             deleteSelectedBtn = new Button();
             clearAllSelectedBtn = new Button();
             SuspendLayout();
@@ -56,39 +54,15 @@
             amountShapesSelectedLabel.TabIndex = 1;
             amountShapesSelectedLabel.Text = "0";
             // 
-            // rotatePlus90DegreesBtn
-            // 
-            rotatePlus90DegreesBtn.BackColor = Color.White;
-            rotatePlus90DegreesBtn.FlatStyle = FlatStyle.Flat;
-            rotatePlus90DegreesBtn.Location = new Point(130, 5);
-            rotatePlus90DegreesBtn.Name = "rotatePlus90DegreesBtn";
-            rotatePlus90DegreesBtn.Size = new Size(109, 26);
-            rotatePlus90DegreesBtn.TabIndex = 2;
-            rotatePlus90DegreesBtn.Text = "Rotate +90deg";
-            rotatePlus90DegreesBtn.UseVisualStyleBackColor = false;
-            rotatePlus90DegreesBtn.Click += rotatePlus90DegreesBtn_Click;
-            // 
-            // rotateMinus90DegreesBtn
-            // 
-            rotateMinus90DegreesBtn.BackColor = Color.White;
-            rotateMinus90DegreesBtn.FlatStyle = FlatStyle.Flat;
-            rotateMinus90DegreesBtn.Location = new Point(245, 5);
-            rotateMinus90DegreesBtn.Name = "rotateMinus90DegreesBtn";
-            rotateMinus90DegreesBtn.Size = new Size(109, 26);
-            rotateMinus90DegreesBtn.TabIndex = 3;
-            rotateMinus90DegreesBtn.Text = "Rotate -90deg";
-            rotateMinus90DegreesBtn.UseVisualStyleBackColor = false;
-            rotateMinus90DegreesBtn.Click += rotateMinus90DegreesBtn_Click;
-            // 
             // deleteSelectedBtn
             // 
             deleteSelectedBtn.BackColor = Color.IndianRed;
             deleteSelectedBtn.FlatStyle = FlatStyle.Flat;
-            deleteSelectedBtn.Location = new Point(468, 5);
+            deleteSelectedBtn.Location = new Point(468, 3);
             deleteSelectedBtn.Name = "deleteSelectedBtn";
-            deleteSelectedBtn.Size = new Size(74, 26);
+            deleteSelectedBtn.Size = new Size(105, 26);
             deleteSelectedBtn.TabIndex = 4;
-            deleteSelectedBtn.Text = "Delete All";
+            deleteSelectedBtn.Text = "Delete Selected";
             deleteSelectedBtn.UseVisualStyleBackColor = false;
             deleteSelectedBtn.Click += deleteSelectedBtn_Click;
             // 
@@ -96,7 +70,7 @@
             // 
             clearAllSelectedBtn.BackColor = Color.White;
             clearAllSelectedBtn.FlatStyle = FlatStyle.Flat;
-            clearAllSelectedBtn.Location = new Point(360, 5);
+            clearAllSelectedBtn.Location = new Point(360, 3);
             clearAllSelectedBtn.Name = "clearAllSelectedBtn";
             clearAllSelectedBtn.Size = new Size(102, 26);
             clearAllSelectedBtn.TabIndex = 5;
@@ -111,12 +85,10 @@
             BackColor = Color.Black;
             Controls.Add(clearAllSelectedBtn);
             Controls.Add(deleteSelectedBtn);
-            Controls.Add(rotateMinus90DegreesBtn);
-            Controls.Add(rotatePlus90DegreesBtn);
             Controls.Add(amountShapesSelectedLabel);
             Controls.Add(label1);
             Name = "SelectShapeOptionsControl";
-            Size = new Size(554, 31);
+            Size = new Size(615, 31);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -125,8 +97,6 @@
 
         private Label label1;
         private Label amountShapesSelectedLabel;
-        private Button rotatePlus90DegreesBtn;
-        private Button rotateMinus90DegreesBtn;
         private Button deleteSelectedBtn;
         private Button clearAllSelectedBtn;
     }

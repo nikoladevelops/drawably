@@ -4,6 +4,9 @@ using Drawably.Utility;
 
 namespace Drawably.Renderer
 {
+    /// <summary>
+    /// Contains functions related to shape manipulation.
+    /// </summary>
     public class ShapeManager
     {
         /// <summary>
@@ -38,6 +41,9 @@ namespace Drawably.Renderer
             return null;
         }
 
+        /// <summary>
+        /// Delets all selected shapes from the currently selected layer.
+        /// </summary>
         public void DeleteAllSelectedShapesFromCurrentSelectedLayer()
         {
             List<Shape> selectedLayerShapes = Globals.LayersWindow.GetSelectedLayerData.AllLayerShapes;
@@ -54,46 +60,6 @@ namespace Drawably.Renderer
             }
 
             Globals.LayerRenderer.OnLayerChangesApplied();
-        }
-
-        /// <summary>
-        /// Rotates every single shape bitmap plus 90 degrees (clockwise)
-        /// </summary>
-        public void RotateAllSelectedShapesPlus90Degrees()
-        {
-            List<Shape> selectedLayerShapes = Globals.LayersWindow.GetSelectedLayerData.AllLayerShapes;
-
-            for (int i = 0; i < selectedLayerShapes.Count; i++)
-            {
-                Shape currentShape = selectedLayerShapes[i];
-
-                if (currentShape.IsSelectedInGroup)
-                {
-                    selectedLayerShapes[i].Rotation += 90;
-                }
-            }
-
-            Globals.LayerRenderer.OnLayerChangesApplied();
-        }
-
-        /// <summary>
-        /// Rotates every single shape bitmap minus 90 degrees (counter clockwise)
-        /// </summary>
-        public void RotateAllSelectedShapesMinus90Degrees()
-        {
-            List<Shape> selectedLayerShapes = Globals.LayersWindow.GetSelectedLayerData.AllLayerShapes;
-
-            for (int i = 0; i < selectedLayerShapes.Count; i++)
-            {
-                Shape currentShape = selectedLayerShapes[i];
-
-                if (currentShape.IsSelectedInGroup)
-                {
-                    selectedLayerShapes[i].Rotation -= 90;
-                }
-
-                Globals.LayerRenderer.OnLayerChangesApplied();
-            }
         }
     }
 }

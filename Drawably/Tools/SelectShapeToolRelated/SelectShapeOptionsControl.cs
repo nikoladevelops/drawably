@@ -38,16 +38,6 @@ namespace Drawably.Tools.SelectShapeToolRelated
             ClearAllSelectedShapes();
         }
 
-        private void rotatePlus90DegreesBtn_Click(object sender, EventArgs e)
-        {
-            Globals.ShapeManager.RotateAllSelectedShapesPlus90Degrees();
-        }
-
-        private void rotateMinus90DegreesBtn_Click(object sender, EventArgs e)
-        {
-            Globals.ShapeManager.RotateAllSelectedShapesMinus90Degrees();
-        }
-
         public void SelectShape(Shape? shapeToSelect)
         {
             // If shape not there OR shape already selected / no need to select again
