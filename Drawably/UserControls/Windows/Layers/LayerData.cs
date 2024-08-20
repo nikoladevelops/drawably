@@ -42,11 +42,11 @@ namespace Drawably.UserControls.Windows.Layers
         {
             // Create brand new LayerData with the same size.
             LayerData duplicatedLayerData = new LayerData(LayerImage.Width, LayerImage.Height);
+            duplicatedLayerData.layerImage = new Bitmap(LayerImage);
 
-            // Draw the same image on to the new layer's bitmap.
-            using (Graphics g = Graphics.FromImage(duplicatedLayerData.LayerImage))
+            foreach (Shape shape in AllLayerShapes)
             {
-                g.DrawImage(LayerImage, new Point(0, 0));
+                duplicatedLayerData.AllLayerShapes.Add(shape.CopyShape((int)shape.X, (int)shape.Y, shape.Width, shape.Height, shape.BorderSize, shape.IsFilled, shape.BorderColor, shape.FillColor));
             }
 
             return duplicatedLayerData;
@@ -60,7 +60,14 @@ namespace Drawably.UserControls.Windows.Layers
         {
             Bitmap appliedShapesBitmap = new Bitmap(layerImage.Width, layerImage.Height);
 
-            using (Graphics g = Graphics.FromImage(appliedShapesBitmap))
+            DrawLayerDataOnBitmap(appliedShapesBitmap);
+
+            return appliedShapesBitmap;
+        }
+
+        private void DrawLayerDataOnBitmap(Bitmap bmp) 
+        {
+            using (Graphics g = Graphics.FromImage(bmp))
             {
                 // Copy everything from this.layerImage and apply it
                 g.DrawImage(layerImage, new Point(0, 0));
@@ -68,90 +75,9 @@ namespace Drawably.UserControls.Windows.Layers
                 // Draw every single shape on top always
                 foreach (var shape in AllLayerShapes)
                 {
-                    // If the shape has rotation, ensure you rotate it
-                    if (shape.Rotation != 0)
-                    {
-                        Bitmap shapeBitmap = new Bitmap(layerImage.Width, layerImage.Height);
-                        using (Graphics g2 = Graphics.FromImage(shapeBitmap))
-                        {
-                            shape.DrawShape(g2);
-
-                            // positive rotation
-                            if (shape.Rotation > 0)
-                            {
-                                RotateBitmapPlus90Degrees(shapeBitmap, (int)shape.Rotation / 90);
-                            }
-                            else // negative rotation
-                            {
-                                RotateBitmapMinus90Degrees(shapeBitmap, (int)shape.Rotation / 90);
-                            }
-                        }
-
-                        g.DrawImage(shapeBitmap, new Point(0, 0));
-
-                    }
-                    else
-                    {
-                        shape.DrawShape(g);
-                    }
+                    shape.DrawShape(g);
                 }
             }
-
-            return appliedShapesBitmap;
-        }
-
-        // Rotation
-
-        public static Bitmap RotateBitmapPlus90Degrees(Bitmap originalBitmap, int amountOfTimesToRotate90Degrees)
-        {
-            amountOfTimesToRotate90Degrees = amountOfTimesToRotate90Degrees % 4; // Normalize rotations to within -3 to 3
-            if (amountOfTimesToRotate90Degrees < 0) // Convert negative rotations to positive equivalent
-            {
-                amountOfTimesToRotate90Degrees += 4;
-            }
-
-            Bitmap rotatedBitmap = originalBitmap;
-            for (int i = 0; i < amountOfTimesToRotate90Degrees; i++)
-            {
-                rotatedBitmap = RotateBitmapBy90Degrees(rotatedBitmap, clockwise: true);
-            }
-
-            return rotatedBitmap;
-        }
-
-        public static Bitmap RotateBitmapMinus90Degrees(Bitmap originalBitmap, int amountOfTimesToRotate90Degrees)
-        {
-            amountOfTimesToRotate90Degrees = amountOfTimesToRotate90Degrees % 4; // Normalize rotations to within -3 to 3
-            if (amountOfTimesToRotate90Degrees < 0) // Convert negative rotations to positive equivalent
-            {
-                amountOfTimesToRotate90Degrees += 4;
-            }
-
-            Bitmap rotatedBitmap = originalBitmap;
-            for (int i = 0; i < amountOfTimesToRotate90Degrees; i++)
-            {
-                rotatedBitmap = RotateBitmapBy90Degrees(rotatedBitmap, clockwise: false);
-            }
-
-            return rotatedBitmap;
-        }
-
-        private static Bitmap RotateBitmapBy90Degrees(Bitmap originalBitmap, bool clockwise)
-        {
-            // Create a new bitmap with swapped dimensions
-            Bitmap rotatedBitmap = new Bitmap(originalBitmap.Height, originalBitmap.Width);
-            using (Graphics g = Graphics.FromImage(rotatedBitmap))
-            {
-                // Set the rotation point to the center of the image
-                g.TranslateTransform((float)originalBitmap.Width / 2, (float)originalBitmap.Height / 2);
-                // Rotate the image by 90 degrees in the specified direction
-                g.RotateTransform(clockwise ? 90 : -90);
-                // Move the image back
-                g.TranslateTransform(-(float)originalBitmap.Height / 2, -(float)originalBitmap.Width / 2);
-                // Draw the original bitmap on the graphics object
-                g.DrawImage(originalBitmap, new Point(0, 0));
-            }
-            return rotatedBitmap;
         }
     }
 }
