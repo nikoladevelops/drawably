@@ -32,13 +32,15 @@
             amountShapesSelectedLabel = new Label();
             deleteSelectedBtn = new Button();
             clearAllSelectedBtn = new Button();
+            label2 = new Label();
+            label3 = new Label();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.ForeColor = Color.White;
-            label1.Location = new Point(3, 11);
+            label1.Location = new Point(3, 9);
             label1.Name = "label1";
             label1.Size = new Size(96, 15);
             label1.TabIndex = 0;
@@ -48,7 +50,7 @@
             // 
             amountShapesSelectedLabel.AutoSize = true;
             amountShapesSelectedLabel.ForeColor = Color.White;
-            amountShapesSelectedLabel.Location = new Point(98, 11);
+            amountShapesSelectedLabel.Location = new Point(93, 9);
             amountShapesSelectedLabel.Name = "amountShapesSelectedLabel";
             amountShapesSelectedLabel.Size = new Size(13, 15);
             amountShapesSelectedLabel.TabIndex = 1;
@@ -58,7 +60,7 @@
             // 
             deleteSelectedBtn.BackColor = Color.IndianRed;
             deleteSelectedBtn.FlatStyle = FlatStyle.Flat;
-            deleteSelectedBtn.Location = new Point(468, 3);
+            deleteSelectedBtn.Location = new Point(654, 2);
             deleteSelectedBtn.Name = "deleteSelectedBtn";
             deleteSelectedBtn.Size = new Size(105, 26);
             deleteSelectedBtn.TabIndex = 4;
@@ -70,7 +72,7 @@
             // 
             clearAllSelectedBtn.BackColor = Color.White;
             clearAllSelectedBtn.FlatStyle = FlatStyle.Flat;
-            clearAllSelectedBtn.Location = new Point(360, 3);
+            clearAllSelectedBtn.Location = new Point(546, 2);
             clearAllSelectedBtn.Name = "clearAllSelectedBtn";
             clearAllSelectedBtn.Size = new Size(102, 26);
             clearAllSelectedBtn.TabIndex = 5;
@@ -78,17 +80,39 @@
             clearAllSelectedBtn.UseVisualStyleBackColor = false;
             clearAllSelectedBtn.Click += clearAllSelectedBtn_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(136, 9);
+            label2.Name = "label2";
+            label2.Size = new Size(159, 15);
+            label2.TabIndex = 6;
+            label2.Text = "Left Mouse Btn: Select Shape";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(327, 9);
+            label3.Name = "label3";
+            label3.Size = new Size(180, 15);
+            label3.TabIndex = 7;
+            label3.Text = "Right Mouse Btn: Deselect Shape";
+            // 
             // SelectShapeOptionsControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
+            Controls.Add(label3);
+            Controls.Add(label2);
             Controls.Add(clearAllSelectedBtn);
             Controls.Add(deleteSelectedBtn);
             Controls.Add(amountShapesSelectedLabel);
             Controls.Add(label1);
             Name = "SelectShapeOptionsControl";
-            Size = new Size(615, 31);
+            Size = new Size(827, 31);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -99,5 +123,7 @@
         private Label amountShapesSelectedLabel;
         private Button deleteSelectedBtn;
         private Button clearAllSelectedBtn;
+        private Label label2;
+        private Label label3;
     }
 }
