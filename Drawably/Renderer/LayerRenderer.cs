@@ -50,7 +50,7 @@ namespace Drawably.Renderer
 
             foreach (LayerData data in Globals.LayersWindow.GetAllVisibleLayersData)
             {
-                bitmaps.Add(data.LayerImage);
+                bitmaps.Add(data.GetLayerImageWithAllShapesSpawnedOnTop());
             }
 
             Bitmap mergedLayers = BitmapHelper.MergeBitmaps(
