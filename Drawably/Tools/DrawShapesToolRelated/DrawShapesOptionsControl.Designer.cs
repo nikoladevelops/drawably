@@ -33,7 +33,6 @@
             circleShapeBtn = new Button();
             normalTriangleShapeBtn = new Button();
             rightTriangleShapeBtn = new Button();
-            rightArrowShapeBtn = new Button();
             contentFlowLayoutPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -44,7 +43,6 @@
             contentFlowLayoutPanel.Controls.Add(circleShapeBtn);
             contentFlowLayoutPanel.Controls.Add(normalTriangleShapeBtn);
             contentFlowLayoutPanel.Controls.Add(rightTriangleShapeBtn);
-            contentFlowLayoutPanel.Controls.Add(rightArrowShapeBtn);
             contentFlowLayoutPanel.Dock = DockStyle.Fill;
             contentFlowLayoutPanel.Location = new Point(0, 0);
             contentFlowLayoutPanel.Name = "contentFlowLayoutPanel";
@@ -103,19 +101,6 @@
             rightTriangleShapeBtn.TabIndex = 3;
             rightTriangleShapeBtn.UseVisualStyleBackColor = false;
             // 
-            // rightArrowShapeBtn
-            // 
-            rightArrowShapeBtn.BackColor = Color.Gray;
-            rightArrowShapeBtn.BackgroundImage = Properties.Resources.right_arrow_shape;
-            rightArrowShapeBtn.BackgroundImageLayout = ImageLayout.Zoom;
-            rightArrowShapeBtn.FlatAppearance.BorderSize = 0;
-            rightArrowShapeBtn.FlatStyle = FlatStyle.Flat;
-            rightArrowShapeBtn.Location = new Point(179, 3);
-            rightArrowShapeBtn.Name = "rightArrowShapeBtn";
-            rightArrowShapeBtn.Size = new Size(38, 23);
-            rightArrowShapeBtn.TabIndex = 4;
-            rightArrowShapeBtn.UseVisualStyleBackColor = false;
-            // 
             // DrawShapesOptionsControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -134,6 +119,5 @@
         private Button circleShapeBtn;
         private Button normalTriangleShapeBtn;
         private Button rightTriangleShapeBtn;
-        private Button rightArrowShapeBtn;
     }
 }

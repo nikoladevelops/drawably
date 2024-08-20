@@ -44,8 +44,7 @@ namespace Drawably.Tools.DrawShapesToolRelated
                 {rectangleShapeBtn, new RectangleShape()},
                 {normalTriangleShapeBtn, new NormalTriangleShape()},
                 {rightTriangleShapeBtn, new RightTriangleShape()},
-                {circleShapeBtn, new CircleShape()},
-                {rightArrowShapeBtn, new RightArrowShape()}
+                {circleShapeBtn, new CircleShape()}
             };
 
 
