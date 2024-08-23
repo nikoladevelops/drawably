@@ -39,10 +39,11 @@ namespace Drawably.Tools.DrawShapesToolRelated
         {
             for (int i = 0; i < box.Items.Count; i++)
             {
-                if (box.GetItemText(i) == box.Text)
+                // Using box.GetItemText() behaves differently and returns 0 at index 0 even if it doesn't exist for some reason, so Im using box.Items[i].ToString() instead.
+                var item = box.Items[i].ToString();
+                if (item == box.Text)
                 {
-                    // There is a weird bug where executing this method increases the index by 1 after finishing. To fix it I just subtract the index by 1 and get the correct behaviour.
-                    box.SelectedIndex = i-1;
+                    box.SelectedIndex = i;
                     return;
                 }
             }
@@ -66,7 +67,7 @@ namespace Drawably.Tools.DrawShapesToolRelated
         }
 
         /// <summary>
-        /// When the create shape button is clicked, ensure you make a copy of the shape, populate it with the correct properties and tell the Selected layer to take care of spawning it
+        /// When the create shape button is clicked, ensure you make a copy of the shape, populate it with the correct properties and tell the Selected layer to take care of spawning it.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -98,7 +99,7 @@ namespace Drawably.Tools.DrawShapesToolRelated
         }
 
         /// <summary>
-        /// Should be called whenever the window is being opened (a.k.a whenever a shape button is clicked, a new shape to draw should be provided)
+        /// Should be called whenever the window is being opened (a.k.a whenever a shape button is clicked, a new shape to draw should be provided).
         /// </summary>
         /// <param name="shapeName"></param>
         public void MakeVisible(Shape newShapeToDraw) 
