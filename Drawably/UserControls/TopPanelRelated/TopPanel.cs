@@ -88,6 +88,7 @@ namespace Drawably.UserControls.TopPanelRelated
             }
 
             Globals.CanvasContainer.ResizeCanvasSafely(width, height);
+            Globals.LayerRenderer.OnLayerChangesApplied();
         }
     }
 }
