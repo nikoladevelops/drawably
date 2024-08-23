@@ -93,7 +93,8 @@ namespace Drawably.UserControls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (isReadyToRender == false) 
+            // Only reason this if check exists is because of the designer throwing errors.
+            if (isReadyToRender == false)
             {
                 base.OnPaint(e);
                 return;
@@ -104,6 +105,10 @@ namespace Drawably.UserControls
             Globals.LayerRenderer.RenderAllLayers(e.Graphics, renderingArea, this.displayedImage);
         }
 
+        /// <summary>
+        /// Generates checkerboard pattern Bitmap.
+        /// </summary>
+        /// <returns></returns>
         public Bitmap GenerateCheckerboard()
         {
             int width = this.Width;

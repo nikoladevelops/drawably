@@ -35,19 +35,20 @@ namespace Drawably.UserControls.TopPanelRelated
         private void InitializeComponent()
         {
             customMenuStrip = new CustomMenuStrip();
-            testingggToolStripMenuItem = new ToolStripMenuItem();
-            dxfhdsafhToolStripMenuItem = new ToolStripMenuItem();
+            fileToolStripMenuItem = new ToolStripMenuItem();
             saveButton = new ToolStripMenuItem();
-            saveAsButton = new ToolStripMenuItem();
             mainControlsPanel = new TableLayoutPanel();
+            label2 = new Label();
+            widthTextBox = new TextBox();
+            label1 = new Label();
+            heightTextBox = new TextBox();
+            resizeCanvasBtn = new Button();
             mainToolsPanel = new MainToolsPanelRelated.MainToolsPanel();
             additionalPanel = new Panel();
-            tableLayoutPanel1 = new TableLayoutPanel();
             layersButton = new HoverButton();
             colorsButton = new HoverButton();
             customMenuStrip.SuspendLayout();
             mainControlsPanel.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // customMenuStrip
@@ -55,91 +56,124 @@ namespace Drawably.UserControls.TopPanelRelated
             customMenuStrip.BackColor = Color.Black;
             customMenuStrip.Dock = DockStyle.Fill;
             customMenuStrip.ForeColor = Color.White;
-            customMenuStrip.Items.AddRange(new ToolStripItem[] { testingggToolStripMenuItem });
+            customMenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             customMenuStrip.Location = new Point(0, 0);
             customMenuStrip.Name = "customMenuStrip";
-            customMenuStrip.Size = new Size(248, 35);
+            customMenuStrip.Size = new Size(271, 41);
             customMenuStrip.TabIndex = 15;
             customMenuStrip.Text = "customMenuStrip1";
             // 
-            // testingggToolStripMenuItem
+            // fileToolStripMenuItem
             // 
-            testingggToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { dxfhdsafhToolStripMenuItem, saveButton, saveAsButton });
-            testingggToolStripMenuItem.Name = "testingggToolStripMenuItem";
-            testingggToolStripMenuItem.Size = new Size(37, 31);
-            testingggToolStripMenuItem.Text = "File";
-            // 
-            // dxfhdsafhToolStripMenuItem
-            // 
-            dxfhdsafhToolStripMenuItem.ForeColor = Color.White;
-            dxfhdsafhToolStripMenuItem.Name = "dxfhdsafhToolStripMenuItem";
-            dxfhdsafhToolStripMenuItem.Size = new Size(114, 22);
-            dxfhdsafhToolStripMenuItem.Text = "New";
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveButton });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 37);
+            fileToolStripMenuItem.Text = "File";
             // 
             // saveButton
             // 
             saveButton.ForeColor = Color.White;
             saveButton.Name = "saveButton";
-            saveButton.Size = new Size(114, 22);
+            saveButton.Size = new Size(98, 22);
             saveButton.Text = "Save";
             saveButton.Click += saveButton_Click;
-            // 
-            // saveAsButton
-            // 
-            saveAsButton.ForeColor = Color.White;
-            saveAsButton.Name = "saveAsButton";
-            saveAsButton.Size = new Size(114, 22);
-            saveAsButton.Text = "Save As";
-            saveAsButton.Click += saveAsButton_Click;
             // 
             // mainControlsPanel
             // 
             mainControlsPanel.BackColor = Color.Black;
-            mainControlsPanel.ColumnCount = 2;
-            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40.31142F));
-            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 59.68858F));
+            mainControlsPanel.ColumnCount = 8;
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 71F));
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 71F));
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 71F));
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 71F));
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 151F));
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 101F));
+            mainControlsPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 8F));
             mainControlsPanel.Controls.Add(customMenuStrip, 0, 0);
-            mainControlsPanel.Controls.Add(mainToolsPanel, 1, 0);
+            mainControlsPanel.Controls.Add(label2, 1, 0);
+            mainControlsPanel.Controls.Add(widthTextBox, 2, 0);
+            mainControlsPanel.Controls.Add(label1, 3, 0);
+            mainControlsPanel.Controls.Add(heightTextBox, 4, 0);
+            mainControlsPanel.Controls.Add(resizeCanvasBtn, 5, 0);
+            mainControlsPanel.Controls.Add(mainToolsPanel, 6, 0);
             mainControlsPanel.Dock = DockStyle.Top;
             mainControlsPanel.Location = new Point(0, 0);
             mainControlsPanel.Name = "mainControlsPanel";
             mainControlsPanel.RowCount = 1;
-            mainControlsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            mainControlsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            mainControlsPanel.Size = new Size(616, 35);
+            mainControlsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            mainControlsPanel.Size = new Size(815, 41);
             mainControlsPanel.TabIndex = 18;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.None;
+            label2.AutoSize = true;
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(285, 13);
+            label2.Name = "label2";
+            label2.Size = new Size(42, 15);
+            label2.TabIndex = 22;
+            label2.Text = "Width:";
+            // 
+            // widthTextBox
+            // 
+            widthTextBox.Anchor = AnchorStyles.None;
+            widthTextBox.Location = new Point(345, 9);
+            widthTextBox.Name = "widthTextBox";
+            widthTextBox.Size = new Size(65, 23);
+            widthTextBox.TabIndex = 17;
+            widthTextBox.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.None;
+            label1.AutoSize = true;
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(425, 13);
+            label1.Name = "label1";
+            label1.Size = new Size(46, 15);
+            label1.TabIndex = 21;
+            label1.Text = "Height:";
+            // 
+            // heightTextBox
+            // 
+            heightTextBox.Anchor = AnchorStyles.None;
+            heightTextBox.Location = new Point(488, 9);
+            heightTextBox.Name = "heightTextBox";
+            heightTextBox.Size = new Size(62, 23);
+            heightTextBox.TabIndex = 18;
+            heightTextBox.TabStop = false;
+            // 
+            // resizeCanvasBtn
+            // 
+            resizeCanvasBtn.FlatStyle = FlatStyle.Flat;
+            resizeCanvasBtn.ForeColor = Color.White;
+            resizeCanvasBtn.Location = new Point(558, 3);
+            resizeCanvasBtn.Name = "resizeCanvasBtn";
+            resizeCanvasBtn.Size = new Size(145, 29);
+            resizeCanvasBtn.TabIndex = 20;
+            resizeCanvasBtn.TabStop = false;
+            resizeCanvasBtn.Text = "Resize Canvas";
+            resizeCanvasBtn.UseVisualStyleBackColor = true;
+            resizeCanvasBtn.Click += resizeCanvasBtn_Click;
             // 
             // mainToolsPanel
             // 
-            mainToolsPanel.Dock = DockStyle.Right;
-            mainToolsPanel.Location = new Point(523, 3);
+            mainToolsPanel.Location = new Point(709, 3);
             mainToolsPanel.Name = "mainToolsPanel";
-            mainToolsPanel.Size = new Size(90, 29);
-            mainToolsPanel.TabIndex = 16;
+            mainToolsPanel.Size = new Size(91, 29);
+            mainToolsPanel.TabIndex = 23;
             // 
             // additionalPanel
             // 
+            additionalPanel.AutoSize = true;
             additionalPanel.BackColor = Color.Black;
-            additionalPanel.BorderStyle = BorderStyle.FixedSingle;
-            additionalPanel.Dock = DockStyle.Fill;
-            additionalPanel.Location = new Point(0, 35);
+            additionalPanel.Dock = DockStyle.Bottom;
+            additionalPanel.Location = new Point(0, 76);
             additionalPanel.Name = "additionalPanel";
-            additionalPanel.Size = new Size(616, 36);
+            additionalPanel.Size = new Size(815, 0);
             additionalPanel.TabIndex = 19;
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel1.Controls.Add(layersButton, 2, 0);
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(200, 100);
-            tableLayoutPanel1.TabIndex = 0;
             // 
             // layersButton
             // 
@@ -151,12 +185,12 @@ namespace Drawably.UserControls.TopPanelRelated
             layersButton.FlatStyle = FlatStyle.Flat;
             layersButton.IsMouseEnterBorderColorEnabled = true;
             layersButton.IsMouseEnterColorEnabled = true;
-            layersButton.Location = new Point(135, 3);
+            layersButton.Location = new Point(102, 3);
             layersButton.MouseEnterBorderColor = Color.Blue;
             layersButton.MouseEnterColor = Color.FromArgb(139, 138, 194);
             layersButton.Name = "layersButton";
             layersButton.OriginalColorCached = Color.FromArgb(139, 138, 194);
-            layersButton.Size = new Size(62, 94);
+            layersButton.Size = new Size(95, 94);
             layersButton.TabIndex = 18;
             layersButton.UseVisualStyleBackColor = false;
             // 
@@ -181,29 +215,32 @@ namespace Drawably.UserControls.TopPanelRelated
             // 
             // TopPanel
             // 
+            BackColor = Color.Black;
             Controls.Add(additionalPanel);
             Controls.Add(mainControlsPanel);
             Name = "TopPanel";
-            Size = new Size(616, 71);
+            Size = new Size(815, 76);
             customMenuStrip.ResumeLayout(false);
             customMenuStrip.PerformLayout();
             mainControlsPanel.ResumeLayout(false);
             mainControlsPanel.PerformLayout();
-            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
         #endregion
 
         private TopPanelRelated.CustomMenuStrip customMenuStrip;
-        private ToolStripMenuItem testingggToolStripMenuItem;
-        private ToolStripMenuItem dxfhdsafhToolStripMenuItem;
+        private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem saveButton;
-        private ToolStripMenuItem saveAsButton;
         private Panel additionalPanel;
-        private TableLayoutPanel tableLayoutPanel1;
         private HoverButton layersButton;
         private HoverButton colorsButton;
-        public MainToolsPanelRelated.MainToolsPanel mainToolsPanel;
         public TableLayoutPanel mainControlsPanel;
+        private Button resizeCanvasBtn;
+        private TextBox heightTextBox;
+        private Label label2;
+        private TextBox widthTextBox;
+        private Label label1;
+        private MainToolsPanelRelated.MainToolsPanel mainToolsPanel;
     }
 }

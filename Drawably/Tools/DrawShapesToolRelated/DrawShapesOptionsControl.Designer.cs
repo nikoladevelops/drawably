@@ -44,7 +44,9 @@
             contentFlowLayoutPanel.Controls.Add(normalTriangleShapeBtn);
             contentFlowLayoutPanel.Controls.Add(rightTriangleShapeBtn);
             contentFlowLayoutPanel.Dock = DockStyle.Fill;
+            contentFlowLayoutPanel.ForeColor = Color.Black;
             contentFlowLayoutPanel.Location = new Point(0, 0);
+            contentFlowLayoutPanel.Margin = new Padding(0);
             contentFlowLayoutPanel.Name = "contentFlowLayoutPanel";
             contentFlowLayoutPanel.Size = new Size(415, 29);
             contentFlowLayoutPanel.TabIndex = 0;
@@ -105,7 +107,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Black;
             Controls.Add(contentFlowLayoutPanel);
+            Margin = new Padding(0);
             Name = "DrawShapesOptionsControl";
             Size = new Size(415, 29);
             contentFlowLayoutPanel.ResumeLayout(false);

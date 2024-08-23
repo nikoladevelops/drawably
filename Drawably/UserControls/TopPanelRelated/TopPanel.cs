@@ -26,7 +26,7 @@ namespace Drawably.UserControls.TopPanelRelated
         /// <summary>
         /// Ensures the top panel is ready to be used by the user.
         /// </summary>
-        public void SetUp() 
+        public void SetUp()
         {
             this.mainToolsPanel.SetUp();
         }
@@ -49,12 +49,6 @@ namespace Drawably.UserControls.TopPanelRelated
             ExportBitmapAsPNG(bmpToSaveToDisk);
         }
 
-        private void saveAsButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
         public void ExportBitmapAsPNG(Bitmap bitmapToExport)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
@@ -75,6 +69,25 @@ namespace Drawably.UserControls.TopPanelRelated
                     MessageBox.Show($"Error saving image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void resizeCanvasBtn_Click(object sender, EventArgs e)
+        {
+            int width = -1;
+            int height = -1;
+
+            // Just in case someone entered letters or a negative numbers in the textboxes.
+            bool isSuccessful = 
+                int.TryParse(this.widthTextBox.Text, out width) &&
+                int.TryParse(this.heightTextBox.Text, out height) &&
+                width > 0 && height > 0;
+
+            if (isSuccessful == false) 
+            {
+                return;
+            }
+
+            Globals.CanvasContainer.ResizeCanvasSafely(width, height);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Drawably.UserControls.CanvasRelated
         /// <summary>
         /// The amount by which the size of the canvas increases/decreases when zoom is applied.
         /// </summary>
-        private float zoomFactor = 1.4f;
+        private float zoomFactor;
 
         /// <summary>
         /// The smallest the canvas can be when zoomed in.
@@ -81,7 +81,6 @@ namespace Drawably.UserControls.CanvasRelated
             InitializeComponent();
 
             AutoScroll = true;
-            AutoScrollMinSize = new Size(2200, 2500);
         }
 
         /// <summary>
@@ -89,24 +88,31 @@ namespace Drawably.UserControls.CanvasRelated
         /// </summary>
         public void SetUp()
         {
+            ResizeCanvasSafely(500, 255);
+
+            ConnectMouseEvents();
+        }
+
+        /// <summary>
+        /// Resizes the canvas, while ensuring that any zooming/scrolling related logic is also reset.
+        /// </summary>
+        public void ResizeCanvasSafely(int width, int height) 
+        {
+            AutoScroll = false; // Fixes a bug - when the AutoScrollMinSize is set it will do certain additional calculations, these same calculations will not be done again if the method is called a second time, this is why I disable AutoScroll, so the method executes just as it did the first time.
+            AutoScrollMinSize = new Size(2000 + width, 2000+height);
+
             // Ensure canvas works and set its size
-            canvas.SetUp(400, 280);
-
-            // Center the canvas inside the CanvasContainer
-            int centerX = (AutoScrollMinSize.Width / 2) - this.canvas.Width/2;
-            int centerY = (AutoScrollMinSize.Height / 2) - this.canvas.Height/2;
-
-            this.canvas.Location = new Point(centerX, centerY);
-
-            // Store the original size of the canvas
-            originalSize = canvas.Size;
+            canvas.SetUp(width, height);
 
             // Set min/max zoom size
             minimumZoomSize = new Size(32, 32);
-            maximumZoomSize = new Size(2500, 2500);
+            maximumZoomSize = new Size(2000 + width, 2000 + width);
 
             canvas.MinimumSize = minimumZoomSize;
             canvas.MaximumSize = maximumZoomSize;
+
+            // Store the original size of the canvas
+            originalSize = canvas.Size;
 
             // Store the canvas width and height
             canvasWidth = canvas.Width;
@@ -116,7 +122,14 @@ namespace Drawably.UserControls.CanvasRelated
             cacheWidthCalc = 1;
             cacheHeightCalc = 1;
 
-            ConnectMouseEvents();
+            zoomFactor = 1.4f;
+
+            // Center the canvas inside the CanvasContainer
+            int centerX = (AutoScrollMinSize.Width / 2) - this.canvas.Width / 2;
+            int centerY = (AutoScrollMinSize.Height / 2) - this.canvas.Height / 2;
+
+            this.canvas.Location = new Point(centerX, centerY);
+
             ScrollToMiddle();
         }
 

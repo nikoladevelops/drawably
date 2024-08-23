@@ -54,7 +54,7 @@
             canvasContainer.AutoScroll = true;
             canvasContainer.AutoScrollMinSize = new Size(2200, 2500);
             canvasContainer.BackColor = Color.DarkGray;
-            canvasContainer.CanvasDisplayedImage = (Bitmap)resources.GetObject("canvasContainer.CanvasVisualizedImage");
+            canvasContainer.CanvasDisplayedImage = (Bitmap)resources.GetObject("canvasContainer.CanvasDisplayedImage");
             canvasContainer.Dock = DockStyle.Fill;
             canvasContainer.Location = new Point(0, 67);
             canvasContainer.Name = "canvasContainer";
@@ -85,6 +85,7 @@
             // toolsWindow
             // 
             toolsWindow.BackColor = SystemColors.ActiveCaption;
+            toolsWindow.CurrentTool = null;
             toolsWindow.Location = new Point(12, 73);
             toolsWindow.MenuText = "Tools";
             toolsWindow.Name = "toolsWindow";
