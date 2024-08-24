@@ -77,7 +77,7 @@ namespace Drawably.UserControls.TopPanelRelated
             int height = -1;
 
             // Just in case someone entered letters or a negative numbers in the textboxes.
-            bool isSuccessful = 
+            bool isSuccessful =
                 int.TryParse(this.widthTextBox.Text, out width) &&
                 int.TryParse(this.heightTextBox.Text, out height) &&
                 width > 0 && height > 0;
@@ -87,8 +87,15 @@ namespace Drawably.UserControls.TopPanelRelated
                 return;
             }
 
+            // In case the user was confused and tried to resize the canvas to the exact same size.
+            if (Globals.CanvasContainer.CanvasSize.Width == width &&
+                Globals.CanvasContainer.CanvasSize.Height == height) 
+            {
+                return;
+            }
+
             Globals.CanvasContainer.ResizeCanvasSafely(width, height);
-            Globals.LayerRenderer.OnLayerChangesApplied();
+            Globals.LayerRenderer.ResizeAllLayers(width, height);
         }
     }
 }

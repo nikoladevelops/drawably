@@ -1,4 +1,5 @@
 ﻿using Drawably.Tools.DrawShapesToolRelated.Shapes;
+using Drawably.UserControls.CanvasRelated;
 using Drawably.UserControls.Windows.Layers;
 using Drawably.Utility;
 using System;
@@ -31,6 +32,7 @@ namespace Drawably.Renderer
         /// </summary>
         public void OnLayerChangesApplied()
         {
+            //Globals.CanvasContainer.CanvasDisplayedImage.Dispose();
             Globals.CanvasContainer.CanvasDisplayedImage = GetAllLayersMergedBitmap();
             
             if (Globals.ToolsWindow.CurrentTool != null)
@@ -38,6 +40,29 @@ namespace Drawably.Renderer
                 Globals.ToolsWindow.CurrentTool.GetNewCanvasGraphics();
                 Globals.ToolsWindow.CurrentTool.GetNewSelectedLayerGraphics();
             }
+        }
+
+        /// <summary>
+        /// Resizes every single layer data's internal image so it matches the new canvas width and height.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void ResizeAllLayers(int width, int height) 
+        {
+            foreach (LayerData data in Globals.LayersWindow.GetAllLayersData)
+            {
+                Bitmap newBmp = new Bitmap(width, height);
+                using (Graphics g = Graphics.FromImage(newBmp))
+                {
+                    g.DrawImageUnscaled(data.LayerImage, new Rectangle(0, 0, width, height));
+                }
+
+                data.LayerImage.Dispose();
+
+                data.LayerImage = newBmp;
+            }
+
+            OnLayerChangesApplied();
         }
 
         /// <summary>

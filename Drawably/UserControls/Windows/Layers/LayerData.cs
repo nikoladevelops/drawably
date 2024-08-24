@@ -27,7 +27,7 @@ namespace Drawably.UserControls.Windows.Layers
         /// <summary>
         /// Holds the Bitmap where everything is drawn
         /// </summary>
-        public Bitmap LayerImage { get => layerImage; }
+        public Bitmap LayerImage { get => layerImage; set => this.layerImage = value; }
 
         /// <summary>
         /// Holds all shapes for the particular layer

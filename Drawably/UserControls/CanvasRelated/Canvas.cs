@@ -62,6 +62,11 @@ namespace Drawably.UserControls
         /// </summary>
         public void SetUp(int width, int height) 
         {
+            if (displayedImage != null) 
+            {
+                displayedImage.Dispose();
+            }
+
             // Important to note that the displayed image has to have the same width/height as the canvas otherwise there will be a mismatch between the mouse coordinates of the canvas and the graphics object retrieved from the image.
             displayedImage = new Bitmap(width, height);
             ResizeCanvas(width, height);

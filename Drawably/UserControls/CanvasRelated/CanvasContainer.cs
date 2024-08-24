@@ -72,6 +72,11 @@ namespace Drawably.UserControls.CanvasRelated
         public Graphics CanvasGraphics { get => Graphics.FromImage(this.canvas.DisplayedImage); }
 
         /// <summary>
+        /// Retrieves the current canvas's size.
+        /// </summary>
+        public Size CanvasSize { get; private set; }
+
+        /// <summary>
         /// Retrieves the currently displayed image by the canvas.
         /// </summary>
         public Bitmap CanvasDisplayedImage { get => this.canvas.DisplayedImage; set => this.canvas.DisplayedImage = value; }
@@ -79,8 +84,6 @@ namespace Drawably.UserControls.CanvasRelated
         public CanvasContainer()
         {
             InitializeComponent();
-
-            AutoScroll = true;
         }
 
         /// <summary>
@@ -98,6 +101,8 @@ namespace Drawably.UserControls.CanvasRelated
         /// </summary>
         public void ResizeCanvasSafely(int width, int height) 
         {
+            CanvasSize = new Size(width, height);
+
             AutoScroll = false; // Fixes a bug - when the AutoScrollMinSize is set it will do certain additional calculations, these same calculations will not be done again if the method is called a second time, this is why I disable AutoScroll, so the method executes just as it did the first time.
             AutoScrollMinSize = new Size(2000 + width, 2000+height);
 

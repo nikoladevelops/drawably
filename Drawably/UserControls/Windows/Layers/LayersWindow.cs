@@ -54,6 +54,24 @@ namespace Drawably.UserControls.Windows.Layers
         }
 
         /// <summary>
+        /// Retrieves every single layer's data. It is ordered by Z index.
+        /// </summary>
+        public IEnumerable<LayerData> GetAllLayersData
+        {
+            get
+            {
+                List<LayerData> allLayersData = new List<LayerData>();
+                foreach (LayerLabel lbl in this.allLayersPanel.Controls) // all labels are already ordered in the panel based on Z index
+                {
+                    LayerData layerData = this.layerDataHelper.GetLayerData(lbl);
+                    allLayersData.Add(layerData);
+                }
+
+                return allLayersData;
+            }
+        }
+
+        /// <summary>
         /// Ensures the window is ready to be used by the user.
         /// </summary>
         public void SetUp() 
