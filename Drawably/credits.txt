@@ -1,0 +1,27 @@
+Credits for the free icons used:
+
+Main Menu
+<a href="https://www.flaticon.com/free-icons/color" title="color icons">Color icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/hammer" title="hammer icons">Hammer icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/layers" title="layers icons">Layers icons created by Freepik - Flaticon</a>
+
+Layers Window
+<a href="https://www.flaticon.com/free-icons/insert" title="insert icons">Insert icons created by HideMaru - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/overlay" title="overlay icons">Overlay icons created by HideMaru - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/layers" title="layers icons">Layers icons created by Rahul Kaklotar - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/up-arrow" title="up arrow icons">Up arrow icons created by kawalanicon - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/down-arrow" title="down arrow icons">Down arrow icons created by kawalanicon - Flaticon</a>
+
+Tools Window
+<a href="https://www.flaticon.com/free-icons/cursor" title="cursor icons">Cursor icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/artwork" title="artwork icons">Artwork icons created by berkahicon - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/paint-brush" title="paint brush icons">Paint brush icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/pencil" title="pencil icons">Pencil icons created by Icongeek26 - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/zoom-in" title="zoom in icons">Zoom in icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/zoom-out" title="zoom out icons">Zoom out icons created by Freepik - Flaticon</a>
+
+Shapes
+<a href="https://www.flaticon.com/free-icons/rectangle" title="rectangle icons">Rectangle icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/circle" title="circle icons">Circle icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/triangle" title="triangle icons">Triangle icons created by Roundicons Premium - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/right-triangle" title="Right triangle icons">Right triangle icons created by Tanah Basah - Flaticon</a>
